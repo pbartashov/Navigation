@@ -34,14 +34,30 @@ final class ProfileHeaderView: UIView {
         let label = UILabel()
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.tintColor = .gray
+        label.textColor = .gray
 
         return label
     }()
 
-    let buttonShowStatus: UIButton = {
+    let statusTextField: UITextField = {
+        let textField = UITextField()
+        textField.font = .systemFont(ofSize: 15, weight: .regular)
+        textField.textColor = .black
+        textField.backgroundColor = .white
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.leftViewMode = .always
+
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.black.cgColor
+        textField.layer.cornerRadius = 12
+        textField.layer.masksToBounds = true
+
+        return textField
+    }()
+
+    let buttonSetStatus: UIButton = {
         let button = UIButton()
-        button.setTitle("Show status", for: .normal)
+        button.setTitle("Set status", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .systemBlue
         button.layer.cornerRadius = 14
@@ -70,7 +86,8 @@ final class ProfileHeaderView: UIView {
         addSubview(image)
         addSubview(name)
         addSubview(status)
-        addSubview(buttonShowStatus)
+        addSubview(statusTextField)
+        addSubview(buttonSetStatus)
 
         setViewFrames()
     }
@@ -87,31 +104,30 @@ final class ProfileHeaderView: UIView {
         let container = CGRect(origin: CGPoint(x: safeAreaInsets.left + 16,
                                                y: safeAreaInsets.top + 16),
                                size: CGSize(width: safeArea.width - 16 - 16,
-                                            height: 182) )
+                                            height: 27 + 22 + 31 + 18 + 8 + 16 + 40 + 50))
 
         image.frame.origin = container.origin
 
         let labelWidth = container.width - image.frame.width - 16
 
-        name.frame = CGRect(x: container.minX + image.frame.width + 16,
+        name.frame = CGRect(x: image.frame.maxX + 16,
                             y: safeAreaInsets.top + 27,
                             width: labelWidth,
                             height: 22)
 
-        status.frame = CGRect(x: container.minX + image.frame.width + 16,
+        status.frame = CGRect(x: image.frame.maxX + 16,
                               y: name.frame.maxY + 31,
                               width: labelWidth,
                               height: 18)
 
-        buttonShowStatus.frame = CGRect(x: container.minX,
-                                        y:  container.minY + image.frame.height + 16,
+        statusTextField.frame = CGRect(x: image.frame.maxX + 16,
+                                       y: status.frame.maxY + 8,
+                                       width: labelWidth,
+                                       height: 40)
+
+        buttonSetStatus.frame = CGRect(x: container.minX,
+                                        y: statusTextField.frame.maxY + 16,
                                         width: container.width,
                                         height: 50)
-    }
-
-    override func safeAreaInsetsDidChange() {
-        super.safeAreaInsetsDidChange()
-
-        setViewFrames()
     }
 }
