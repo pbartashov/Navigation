@@ -58,16 +58,16 @@ extension SceneDelegate {
     func CreateRootViewController() -> UIViewController {
 
         let feedViewController = FeedViewController()
-        feedViewController.tabBarItem = UITabBarItem(title: "Лента",
-                                                     image: UIImage(systemName: "message"),
+        feedViewController.tabBarItem = UITabBarItem(title: "Feed",
+                                                     image: UIImage(systemName: "house.fill"),
                                                      tag: 0)
         feedViewController.view.backgroundColor = .systemBackground
 
         let profileViewController = ProfileViewController()
-        profileViewController.tabBarItem = UITabBarItem(title: "Профиль",
-                                                        image: UIImage(systemName: "person.circle.fill"),
+        profileViewController.tabBarItem = UITabBarItem(title: "Profile",
+                                                        image: UIImage(systemName: "person.fill"),
                                                         tag: 1)
-        profileViewController.view.backgroundColor = .systemBackground
+        profileViewController.view.backgroundColor = .lightGray
 
         let tabBarController = UITabBarController()
 
@@ -75,6 +75,8 @@ extension SceneDelegate {
             [UINavigationController(rootViewController: feedViewController),
              UINavigationController(rootViewController: profileViewController)],
                                     animated: true)
+
+        tabBarController.selectedIndex = 1
 
         return tabBarController
     }

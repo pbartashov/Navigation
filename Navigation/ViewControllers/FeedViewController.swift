@@ -9,16 +9,20 @@ import UIKit
 
 final class FeedViewController: UIViewController {
 
+    lazy private var buttonShowPost: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+        button.tintColor = .black
+        button.setTitle("Show post", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action:#selector(self.buttonTapped), for: .touchUpInside)
+        button.center = self.view.center
+        return button
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
-        button.center = view.center
-        button.tintColor = .black
-        button.setTitle("Показать пост", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action:#selector(self.buttonTapped), for: .touchUpInside)
-        view.addSubview(button)
+        view.addSubview(buttonShowPost)
     }
 
     @objc

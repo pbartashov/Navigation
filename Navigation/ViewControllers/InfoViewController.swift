@@ -9,18 +9,22 @@ import UIKit
 
 final class InfoViewController: UIViewController {
 
+    lazy private var buttonShowQuestion: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+        button.center = self.view.center
+        button.tintColor = .black
+        button.setTitle("Показать вопрос", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action:#selector(self.buttonTapped), for: .touchUpInside)
+        return button
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .systemOrange
 
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
-        button.center = view.center
-        button.tintColor = .black
-        button.setTitle("Показать вопрос", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action:#selector(self.buttonTapped), for: .touchUpInside)
-        view.addSubview(button)
+        view.addSubview(buttonShowQuestion)
     }
 
     @objc

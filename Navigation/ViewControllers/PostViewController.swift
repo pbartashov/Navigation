@@ -14,7 +14,7 @@ final class PostViewController: UIViewController {
 
         view.backgroundColor = .systemYellow
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Инфо",
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "info.circle"),
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(infoButtonTapped))
