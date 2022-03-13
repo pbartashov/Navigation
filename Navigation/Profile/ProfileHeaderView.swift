@@ -9,11 +9,11 @@ import UIKit
 
 final class ProfileHeaderView: UIView {
 
-    private let image: UIImageView = {
-        let image = UIImageView(frame: CGRect(x: 16,
-                                              y: 16,
-                                              width: 100,
-                                              height: 100))
+    private let avatarImageView: UIImageView = {
+        let image = UIImageView(frame: CGRect(x: K.padding,
+                                              y: K.padding,
+                                              width: K.avatarImageSize,
+                                              height: K.avatarImageSize))
         image.layer.borderWidth = 3
         image.layer.cornerRadius = image.frame.width / 2
         image.layer.masksToBounds = true
@@ -21,7 +21,7 @@ final class ProfileHeaderView: UIView {
         return image
     }()
 
-    private let name: UILabel = {
+    private let fullNameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 18, weight: .bold)
@@ -30,7 +30,7 @@ final class ProfileHeaderView: UIView {
         return label
     }()
 
-    private let status: UILabel = {
+    private let statusLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 14, weight: .regular)
@@ -55,19 +55,8 @@ final class ProfileHeaderView: UIView {
         return textField
     }()
 
-    let buttonSetStatus: UIButton = {
-        let button = UIButton()
-        button.setTitle("Set status", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemBlue
-        button.layer.cornerRadius = 14
-
-        button.layer.shadowOffset = .init(width: 4, height: 4)
-        button.layer.shadowRadius = 4
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.7
-
-        return button
+    let setStatusButton: UIButton = {
+        createButton(withTitle: "Set status")
     }()
        
     override init(frame: CGRect) {
@@ -83,51 +72,49 @@ final class ProfileHeaderView: UIView {
     }
 
     func Initialize() {
-        addSubview(image)
-        addSubview(name)
-        addSubview(status)
-        addSubview(statusTextField)
-        addSubview(buttonSetStatus)
+        [avatarImageView,
+        fullNameLabel,
+        statusLabel,
+        statusTextField,
+        setStatusButton].forEach {
+            self.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
 
-        setViewFrames()
+        setupLayouts()
     }
 
     func setup(with profile: Profile) {
-        image.image = profile.image
-        name.text = profile.name
-        status.text = profile.status
+        avatarImageView.image = profile.image
+        fullNameLabel.text = profile.name
+        statusLabel.text = profile.status
     }
 
-    func setViewFrames() {
+    func setupLayouts() {
 
-        let safeArea = frame.inset(by: safeAreaInsets)
-        let container = CGRect(origin: CGPoint(x: safeAreaInsets.left + 16,
-                                               y: safeAreaInsets.top + 16),
-                               size: CGSize(width: safeArea.width - 16 - 16,
-                                            height: 27 + 22 + 31 + 18 + 8 + 16 + 40 + 50))
+        NSLayoutConstraint.activate([
+            avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: K.padding),
+            avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: K.padding),
+            avatarImageView.widthAnchor.constraint(equalToConstant: K.avatarImageSize),
+            avatarImageView.heightAnchor.constraint(equalToConstant: K.avatarImageSize),
 
-        image.frame.origin = container.origin
+            fullNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 27),
+            fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: K.padding),
+            fullNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -K.padding),
 
-        let labelWidth = container.width - image.frame.width - 16
+            statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: K.padding),
+            statusLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -K.padding),
+            statusLabel.bottomAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: -18),
 
-        name.frame = CGRect(x: image.frame.maxX + 16,
-                            y: safeAreaInsets.top + 27,
-                            width: labelWidth,
-                            height: 22)
+            statusTextField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: K.padding / 2),
+            statusTextField.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: K.padding),
+            statusTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -K.padding),
+            statusTextField.heightAnchor.constraint(equalToConstant: 40),
 
-        status.frame = CGRect(x: image.frame.maxX + 16,
-                              y: name.frame.maxY + 31,
-                              width: labelWidth,
-                              height: 18)
-
-        statusTextField.frame = CGRect(x: image.frame.maxX + 16,
-                                       y: status.frame.maxY + 8,
-                                       width: labelWidth,
-                                       height: 40)
-
-        buttonSetStatus.frame = CGRect(x: container.minX,
-                                        y: statusTextField.frame.maxY + 16,
-                                        width: container.width,
-                                        height: 50)
+            setStatusButton.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: K.padding),
+            setStatusButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: K.padding),
+            setStatusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -K.padding),
+            setStatusButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
 }
