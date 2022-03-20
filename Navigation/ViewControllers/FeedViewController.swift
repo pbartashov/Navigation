@@ -36,6 +36,8 @@ final class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = .systemBackground
+
         stackView.addArrangedSubview(showPost1Button)
         stackView.addArrangedSubview(showPost2Button)
 

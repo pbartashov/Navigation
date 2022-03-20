@@ -44,8 +44,12 @@ final class ProfileHeaderView: UIView {
         textField.font = .systemFont(ofSize: 15, weight: .regular)
         textField.textColor = .black
         textField.backgroundColor = .white
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.leftView = paddingView
         textField.leftViewMode = .always
+        textField.rightView = paddingView
+        textField.rightViewMode = .always
 
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.black.cgColor
