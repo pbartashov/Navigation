@@ -61,19 +61,18 @@ extension SceneDelegate {
         feedViewController.tabBarItem = UITabBarItem(title: "Feed",
                                                      image: UIImage(systemName: "house.fill"),
                                                      tag: 0)
-        feedViewController.view.backgroundColor = .systemBackground
 
-        let profileViewController = ProfileViewController()
-        profileViewController.tabBarItem = UITabBarItem(title: "Profile",
+        let logInViewController = LogInViewController()
+        logInViewController.tabBarItem = UITabBarItem(title: "Profile",
                                                         image: UIImage(systemName: "person.fill"),
                                                         tag: 1)
-        profileViewController.view.backgroundColor = .lightGray
-
+   
         let tabBarController = UITabBarController()
+        tabBarController.tabBar.backgroundColor = .systemGray6
 
         tabBarController.setViewControllers(
             [UINavigationController(rootViewController: feedViewController),
-             UINavigationController(rootViewController: profileViewController)],
+             UINavigationController(rootViewController: logInViewController)],
                                     animated: true)
 
         tabBarController.selectedIndex = 1

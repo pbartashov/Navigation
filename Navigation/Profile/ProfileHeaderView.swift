@@ -10,10 +10,10 @@ import UIKit
 final class ProfileHeaderView: UIView {
 
     private let avatarImageView: UIImageView = {
-        let image = UIImageView(frame: CGRect(x: K.padding,
-                                              y: K.padding,
-                                              width: K.avatarImageSize,
-                                              height: K.avatarImageSize))
+        let image = UIImageView(frame: CGRect(x: Constants.padding,
+                                              y: Constants.padding,
+                                              width: Constants.avatarImageSize,
+                                              height: Constants.avatarImageSize))
         image.layer.borderWidth = 3
         image.layer.cornerRadius = image.frame.width / 2
         image.layer.masksToBounds = true
@@ -44,8 +44,12 @@ final class ProfileHeaderView: UIView {
         textField.font = .systemFont(ofSize: 15, weight: .regular)
         textField.textColor = .black
         textField.backgroundColor = .white
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.leftView = paddingView
         textField.leftViewMode = .always
+        textField.rightView = paddingView
+        textField.rightViewMode = .always
 
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.black.cgColor
@@ -62,16 +66,15 @@ final class ProfileHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        Initialize()
+        initialize()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
 
-        Initialize()
     }
 
-    func Initialize() {
+    func initialize() {
         [avatarImageView,
         fullNameLabel,
         statusLabel,
@@ -93,27 +96,27 @@ final class ProfileHeaderView: UIView {
     func setupLayouts() {
 
         NSLayoutConstraint.activate([
-            avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: K.padding),
-            avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: K.padding),
-            avatarImageView.widthAnchor.constraint(equalToConstant: K.avatarImageSize),
-            avatarImageView.heightAnchor.constraint(equalToConstant: K.avatarImageSize),
+            avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.padding),
+            avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
+            avatarImageView.widthAnchor.constraint(equalToConstant: Constants.avatarImageSize),
+            avatarImageView.heightAnchor.constraint(equalToConstant: Constants.avatarImageSize),
 
             fullNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 27),
-            fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: K.padding),
-            fullNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -K.padding),
+            fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: Constants.padding),
+            fullNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
 
-            statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: K.padding),
-            statusLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -K.padding),
+            statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: Constants.padding),
+            statusLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
             statusLabel.bottomAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: -18),
 
-            statusTextField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: K.padding / 2),
-            statusTextField.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: K.padding),
-            statusTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -K.padding),
+            statusTextField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: Constants.padding / 2),
+            statusTextField.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: Constants.padding),
+            statusTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
             statusTextField.heightAnchor.constraint(equalToConstant: 40),
 
-            setStatusButton.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: K.padding),
-            setStatusButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: K.padding),
-            setStatusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -K.padding),
+            setStatusButton.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: Constants.padding),
+            setStatusButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
+            setStatusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
             setStatusButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }

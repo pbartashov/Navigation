@@ -7,7 +7,7 @@
 
 import UIKit
 
- enum K {
+ enum Constants {
     static let avatarImageSize: CGFloat = 100
     static let padding: CGFloat = 16
 }
