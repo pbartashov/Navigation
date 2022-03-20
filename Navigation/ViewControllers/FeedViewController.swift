@@ -50,15 +50,19 @@ final class FeedViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: K.padding),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -K.padding),
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Constants.padding),
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.padding),
             stackView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
         ])
     }
 
     @objc
     func buttonTapped(sender: UIButton) {
-        let post = Post(title: sender.currentTitle ?? "New post")
+        let post = Post(author: sender.currentTitle ?? "New post",
+                        description: "",
+                        image: "",
+                        likes: 0,
+                        views: 0)
         let postViewController = PostViewController()
         postViewController.setup(with: post)
         navigationController?.pushViewController(postViewController, animated: true)

@@ -53,16 +53,14 @@ final class LogInView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        Initialize()
+        initialize()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-
-        Initialize()
     }
 
-    func Initialize() {
+    private func initialize() {
 
         [logoImageView,
         loginTextField,
@@ -75,29 +73,29 @@ final class LogInView: UIView {
         setupLayouts()
     }
 
-    func setupLayouts() {
+    private func setupLayouts() {
         NSLayoutConstraint.activate([
             logoImageView.topAnchor.constraint(equalTo: topAnchor, constant: 120),
             logoImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            logoImageView.widthAnchor.constraint(equalToConstant: K.avatarImageSize),
-            logoImageView.heightAnchor.constraint(equalToConstant: K.avatarImageSize),
+            logoImageView.widthAnchor.constraint(equalToConstant: Constants.avatarImageSize),
+            logoImageView.heightAnchor.constraint(equalToConstant: Constants.avatarImageSize),
 
             loginTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 120),
-            loginTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: K.padding),
-            loginTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -K.padding),
+            loginTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
+            loginTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
             loginTextField.heightAnchor.constraint(equalToConstant: 50),
 
             passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor),
-            passwordTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: K.padding),
-            passwordTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -K.padding),
+            passwordTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
+            passwordTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
             passwordTextField.heightAnchor.constraint(equalToConstant: 50),
 
-            logInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: K.padding),
-            logInButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: K.padding),
-            logInButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -K.padding),
+            logInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: Constants.padding),
+            logInButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
+            logInButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
             logInButton.heightAnchor.constraint(equalToConstant: 50),
 
-            bottomAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: K.padding)
+            bottomAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: Constants.padding)
         ])
     }
 

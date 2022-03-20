@@ -21,7 +21,7 @@ final class PostViewController: UIViewController {
     }
 
     func setup(with post:Post) {
-        title = post.title
+        title = post.author
     }
 
     @objc

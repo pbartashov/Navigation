@@ -93,7 +93,7 @@ final class LogInViewController: UIViewController {
             scrollView.contentInset = contentInset
             scrollView.verticalScrollIndicatorInsets = contentInset
 
-            scrollView.scrollRectToVisible(logInView.logInButton.frame.offsetBy(dx: 0, dy: K.padding), animated: true)
+            scrollView.scrollRectToVisible(logInView.logInButton.frame.offsetBy(dx: 0, dy: Constants.padding), animated: true)
         }
     }
 
