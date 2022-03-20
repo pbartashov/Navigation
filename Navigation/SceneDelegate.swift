@@ -11,12 +11,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = CreateRootViewController()
+        window.makeKeyAndVisible()
+        self.window = window
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -46,7 +50,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
+}
 
 
+extension SceneDelegate {
+
+    func CreateRootViewController() -> UIViewController {
+
+        let feedViewController = FeedViewController()
+        feedViewController.tabBarItem = UITabBarItem(title: "Feed",
+                                                     image: UIImage(systemName: "house.fill"),
+                                                     tag: 0)
+        feedViewController.view.backgroundColor = .systemBackground
+
+        let profileViewController = ProfileViewController()
+        profileViewController.tabBarItem = UITabBarItem(title: "Profile",
+                                                        image: UIImage(systemName: "person.fill"),
+                                                        tag: 1)
+        profileViewController.view.backgroundColor = .lightGray
+
+        let tabBarController = UITabBarController()
+
+        tabBarController.setViewControllers(
+            [UINavigationController(rootViewController: feedViewController),
+             UINavigationController(rootViewController: profileViewController)],
+                                    animated: true)
+
+        tabBarController.selectedIndex = 1
+
+        return tabBarController
+    }
 }
 
