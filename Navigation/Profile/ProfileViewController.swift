@@ -9,79 +9,88 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
 
+    private let posts: [Post] = Post.demoPosts
+
     private var profile = Profile(name: "Octopus",
-                          image: (UIImage(named: "ProfileImage") ?? UIImage(systemName: "person"))!,
-                          status: "Hardly coding")
+                                  image: (UIImage(named: "profileImage") ?? UIImage(systemName: "person"))!,
+                                  status: "Hardly coding")
+
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+
+        tableView.register(PostTableViewCell.self,
+                           forCellReuseIdentifier: PostTableViewCell.identifier)
+
+        tableView.dataSource = self
+        tableView.delegate = self
+
+        return tableView
+    }()
 
     lazy private var profileHeaderView: ProfileHeaderView = {
 
         let profileHeaderView = ProfileHeaderView()
+        profileHeaderView.setup(with: profile)
 
         profileHeaderView.setStatusButton.addTarget(self,
-                                                     action:#selector(self.setStatusButtonClicked),
-                                                     for: .touchUpInside)
+                                                    action:#selector(self.setStatusButtonClicked),
+                                                    for: .touchUpInside)
 
-        profileHeaderView.statusTextField.addTarget(self,
-                                                    action: #selector(self.statusTextDidChanged(_:)),
-                                                    for: .editingChanged)
         return profileHeaderView
     }()
 
-    lazy private var setTitleButton: UIButton = {
-        let button = createButton(withTitle: "Set title")
-        button.addTarget(self,
-                         action: #selector(self.setTitleButtonClicked),
-                         for: .touchUpInside)
-        return button
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemGray6
 
-        title = "Profile"
-
-        view.addSubview(profileHeaderView)
-        view.addSubview(setTitleButton)
+        view.addSubview(tableView)
 
         setupLayout()
-
-        profileHeaderView.setup(with: profile)
     }
 
     func setupLayout() {
-        profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        setTitleButton.translatesAutoresizingMaskIntoConstraints = false
+        tableView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            profileHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            profileHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            profileHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            profileHeaderView.heightAnchor.constraint(equalToConstant: 220),
-
-            setTitleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            setTitleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            setTitleButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
     @objc
     func setStatusButtonClicked() {
-        profileHeaderView.setup(with: profile)
-    }
-
-    @objc
-    func statusTextDidChanged(_ textField: UITextField) {
-        if let text = textField.text {
-            profile.status = text
-        }
-    }
-
-    @objc
-    func setTitleButtonClicked() {
         if let text = profileHeaderView.statusTextField.text {
-            title = text
+            profile.status = text
+            profileHeaderView.setup(with: profile)
         }
     }
+}
+
+// MARK: - UITableViewDataSource Methods
+extension ProfileViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        posts.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
+                                                 for: indexPath)
+            as! PostTableViewCell
+
+        cell.setup(with: posts[indexPath.row])
+
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        profileHeaderView
+    }
+}
+
+// MARK: - UITableViewDelegate Methods
+extension ProfileViewController: UITableViewDelegate {
+
 }

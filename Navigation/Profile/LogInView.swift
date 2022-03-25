@@ -60,8 +60,7 @@ final class LogInView: UIView {
         super.init(coder: coder)
     }
 
-    func initialize() {
-
+    private func initialize() {
         [logoImageView,
         loginTextField,
         passwordTextField,
@@ -73,7 +72,7 @@ final class LogInView: UIView {
         setupLayouts()
     }
 
-    func setupLayouts() {
+    private func setupLayouts() {
         NSLayoutConstraint.activate([
             logoImageView.topAnchor.constraint(equalTo: topAnchor, constant: 120),
             logoImageView.centerXAnchor.constraint(equalTo: centerXAnchor),

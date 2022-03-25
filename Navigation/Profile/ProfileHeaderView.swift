@@ -44,6 +44,7 @@ final class ProfileHeaderView: UIView {
         textField.font = .systemFont(ofSize: 15, weight: .regular)
         textField.textColor = .black
         textField.backgroundColor = .white
+        textField.placeholder = "Set your status.."
 
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
         textField.leftView = paddingView
@@ -71,10 +72,11 @@ final class ProfileHeaderView: UIView {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-
     }
 
-    func initialize() {
+    private func initialize() {
+        backgroundColor = .systemGray6
+
         [avatarImageView,
         fullNameLabel,
         statusLabel,
@@ -93,7 +95,7 @@ final class ProfileHeaderView: UIView {
         statusLabel.text = profile.status
     }
 
-    func setupLayouts() {
+    private func setupLayouts() {
 
         NSLayoutConstraint.activate([
             avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.padding),
@@ -117,7 +119,9 @@ final class ProfileHeaderView: UIView {
             setStatusButton.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: Constants.padding),
             setStatusButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
             setStatusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
-            setStatusButton.heightAnchor.constraint(equalToConstant: 50)
+            setStatusButton.heightAnchor.constraint(equalToConstant: 50),
+
+            bottomAnchor.constraint(equalTo: setStatusButton.bottomAnchor, constant: Constants.padding)
         ])
     }
 }
