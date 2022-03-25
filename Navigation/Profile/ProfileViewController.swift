@@ -39,6 +39,8 @@ final class ProfileViewController: UIViewController {
         return profileHeaderView
     }()
 
+    lazy private var photosTableViewCell = PhotosTableViewCell()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -47,6 +49,11 @@ final class ProfileViewController: UIViewController {
         view.addSubview(tableView)
 
         setupLayout()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        let photos = Photos.randomPhotos(ofCount: photosTableViewCell.photosCount)
+        photosTableViewCell.setup(with: photos)
     }
 
     func setupLayout() {
@@ -69,13 +76,21 @@ final class ProfileViewController: UIViewController {
     }
 }
 
-// MARK: - UITableViewDataSource Methods
+// MARK: - UITableViewDataSource methods
 extension ProfileViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        2
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        posts.count
+        section == 0 ? 1 : posts.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 0 {
+            return photosTableViewCell
+        }
+
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
                                                  for: indexPath)
             as! PostTableViewCell
@@ -86,11 +101,18 @@ extension ProfileViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        profileHeaderView
+        section == 0 ? profileHeaderView : nil
     }
 }
 
-// MARK: - UITableViewDelegate Methods
+// MARK: - UITableViewDelegate methods
 extension ProfileViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath == IndexPath(row: 0, section: 0) {
+            tableView.deselectRow(at: indexPath, animated: true)
 
+            let photosViewController = PhotosViewController()
+            navigationController?.pushViewController(photosViewController, animated: true)
+        }
+    }
 }

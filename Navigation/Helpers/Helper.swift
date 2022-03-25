@@ -8,7 +8,6 @@
 import UIKit
 
 func createButton(withTitle title: String) -> UIButton {
-
     let button = UIButton()
     button.setTitle(title, for: .normal)
     button.setTitleColor(.white, for: .normal)
@@ -24,10 +23,12 @@ func createButton(withTitle title: String) -> UIButton {
     return button
 }
 
-extension UIImage {
-    func withAlpha(_ a: CGFloat) -> UIImage {
-        return UIGraphicsImageRenderer(size: size, format: imageRendererFormat).image { (_) in
-            draw(in: CGRect(origin: .zero, size: size), blendMode: .normal, alpha: a)
-        }
+//https://stackoverflow.com/questions/49614659/generate-list-of-unique-random-numbers-in-swift-from-range
+func getUniqueRandomNumbers(min: Int, max: Int, count: Int) -> [Int] {
+    var set = Set<Int>()
+    while set.count < count {
+        set.insert(Int.random(in: min...max))
     }
+    
+    return Array(set)
 }

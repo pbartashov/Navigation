@@ -8,9 +8,6 @@
 import UIKit
 
 class PostTableViewCell: UITableViewCell {
-    static var identifier: String {
-        String(describing: PostTableViewCell.self)
-    }
 
     private let authorLabel: UILabel = {
         let label = UILabel()
