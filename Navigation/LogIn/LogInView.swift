@@ -61,7 +61,6 @@ final class LogInView: UIView {
     }
 
     private func initialize() {
-
         [logoImageView,
         loginTextField,
         passwordTextField,
