@@ -9,7 +9,7 @@ import UIKit
 
 final class ProfileHeaderView: UIView {
 
-    private let avatarImageView: UIImageView = {
+    let avatarImageView: UIImageView = {
         let image = UIImageView(frame: CGRect(x: Constants.padding,
                                               y: Constants.padding,
                                               width: Constants.avatarImageSize,
