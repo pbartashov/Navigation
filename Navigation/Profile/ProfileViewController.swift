@@ -211,14 +211,14 @@ extension ProfileViewController: UITableViewDataSource {
 
         return cell
     }
-
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        section == 0 ? profileHeaderView : nil
-    }
 }
 
 // MARK: - UITableViewDelegate methods
 extension ProfileViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        section == 0 ? profileHeaderView : nil
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath == IndexPath(row: 0, section: 0) {
             tableView.deselectRow(at: indexPath, animated: true)
