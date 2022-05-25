@@ -52,7 +52,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 }
 
-
 extension SceneDelegate {
 
     func CreateRootViewController() -> UIViewController {
