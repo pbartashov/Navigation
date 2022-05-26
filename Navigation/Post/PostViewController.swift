@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import StorageService
 
 final class PostViewController: UIViewController {
 
@@ -20,7 +21,7 @@ final class PostViewController: UIViewController {
                                                             action: #selector(infoButtonTapped))
     }
 
-    func setup(with post:Post) {
+    func setup(with post: Post) {
         title = post.author
     }
 
