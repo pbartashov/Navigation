@@ -5,14 +5,22 @@
 //  Created by Павел Барташов on 06.03.2022.
 //
 
-struct Post {
-    let author: String
-    let description: String
-    let image: String
-    let likes: Int
-    let views: Int
+public struct Post {
+    public let author: String
+    public let description: String
+    public let image: String
+    public let likes: Int
+    public let views: Int
 
-    static var demoPosts: [Post] {
+    public init(author: String, description: String, image: String, likes: Int, views: Int) {
+        self.author = author
+        self.description = description
+        self.image = image
+        self.likes = likes
+        self.views = views
+    }
+
+    public static var demoPosts: [Post] {
         return [Post(author: "HeadHunter",
                      description: "Сублимация попыток объяснить друзьям чем отличаются классы от протоколов и почему без организации целого концерта здесь никак не обойтись.",
                      image: "postImage-1",

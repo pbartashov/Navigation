@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import StorageService
 
 final class ProfileViewController: UIViewController {
 
@@ -31,6 +32,12 @@ final class ProfileViewController: UIViewController {
 
         tableView.dataSource = self
         tableView.delegate = self
+
+#if DEBUG
+        tableView.backgroundColor = .systemTeal
+#else
+        tableView.backgroundColor = .systemOrange
+#endif
 
         return tableView
     }()
