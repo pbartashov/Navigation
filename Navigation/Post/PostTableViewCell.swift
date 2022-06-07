@@ -8,7 +8,7 @@
 import UIKit
 import StorageService
 
-class PostTableViewCell: UITableViewCell {
+final class PostTableViewCell: UITableViewCell {
 
     private let authorLabel: UILabel = {
         let label = UILabel()

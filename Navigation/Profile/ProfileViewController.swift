@@ -67,7 +67,7 @@ final class ProfileViewController: UIViewController {
 
         view.backgroundColor = .systemGray6
 
-        view.addSubviewsToAutoLayout(tableView)
+        view.addSubview(tableView)
 
         setupLayout()
     }
@@ -78,12 +78,9 @@ final class ProfileViewController: UIViewController {
     }
 
     private func setupLayout() {
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        tableView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 
     @objc
@@ -107,7 +104,7 @@ final class ProfileViewController: UIViewController {
         UIView.animate(withDuration: 0.5) { [self] in
             coverView?.alpha = 0.5
             avatar.layer.cornerRadius = 0
-            moveAndScaleAvatarToCenterWith()
+            moveAndScaleAvatarToCenter()
         } completion: { _ in
             UIView.animate(withDuration: 0.3) { [self] in
                 closeAvatarPresentationButton?.alpha = 1
@@ -117,11 +114,11 @@ final class ProfileViewController: UIViewController {
 
     override func viewSafeAreaInsetsDidChange() {
         if isAvatarPresenting {
-            moveAndScaleAvatarToCenterWith()
+            moveAndScaleAvatarToCenter()
         }
     }
 
-    private func moveAndScaleAvatarToCenterWith() {
+    private func moveAndScaleAvatarToCenter() {
         let layoutFrame = view.safeAreaLayoutGuide.layoutFrame
         let avatar = profileHeaderView.avatarImageView
         let scale = min(layoutFrame.size.width, layoutFrame.size.height) / avatar.bounds.width
