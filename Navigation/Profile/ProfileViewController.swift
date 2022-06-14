@@ -7,6 +7,7 @@
 
 import UIKit
 import StorageService
+import iOSIntPackage
 
 final class ProfileViewController: UIViewController {
 
@@ -62,12 +63,42 @@ final class ProfileViewController: UIViewController {
 
     private lazy var photosTableViewCell = PhotosTableViewCell()
 
+    private var currentColorFilter: ColorFilter? {
+        didSet {
+            for (i, post) in posts.enumerated() {
+                let indexPath = IndexPath(row: i, section: 1)
+
+                if let cell = tableView.cellForRow(at: indexPath) as? PostTableViewCell {
+                    cell.setup(with: post, filter: currentColorFilter)
+                }
+            }
+        }
+    }
+
+    private lazy var colorFilterSelecor: UISegmentedControl = {
+        let off = UIAction(title: "Выкл") { _ in self.currentColorFilter = nil }
+        let chrome = UIAction(title: "Нуар") { _ in self.currentColorFilter = .noir }
+        let motionBlur = UIAction(title: "Размытие") { _ in
+            self.currentColorFilter = .motionBlur(radius: 10)
+        }
+        let fade = UIAction(title: "Инверсия") { _ in self.currentColorFilter = .colorInvert }
+
+        let control = UISegmentedControl(items: [off,
+                                                 chrome,
+                                                 motionBlur,
+                                                 fade])
+        control.selectedSegmentIndex = 0
+
+        return control
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .systemGray6
 
-        view.addSubviewsToAutoLayout(tableView)
+        view.addSubview(colorFilterSelecor)
+        view.addSubview(tableView)
 
         setupLayout()
     }
@@ -78,12 +109,14 @@ final class ProfileViewController: UIViewController {
     }
 
     private func setupLayout() {
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        colorFilterSelecor.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+        }
+
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(colorFilterSelecor.snp.bottom)
+            make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 
     @objc
@@ -107,7 +140,7 @@ final class ProfileViewController: UIViewController {
         UIView.animate(withDuration: 0.5) { [self] in
             coverView?.alpha = 0.5
             avatar.layer.cornerRadius = 0
-            moveAndScaleAvatarToCenterWith()
+            moveAndScaleAvatarToCenter()
         } completion: { _ in
             UIView.animate(withDuration: 0.3) { [self] in
                 closeAvatarPresentationButton?.alpha = 1
@@ -117,11 +150,11 @@ final class ProfileViewController: UIViewController {
 
     override func viewSafeAreaInsetsDidChange() {
         if isAvatarPresenting {
-            moveAndScaleAvatarToCenterWith()
+            moveAndScaleAvatarToCenter()
         }
     }
 
-    private func moveAndScaleAvatarToCenterWith() {
+    private func moveAndScaleAvatarToCenter() {
         let layoutFrame = view.safeAreaLayoutGuide.layoutFrame
         let avatar = profileHeaderView.avatarImageView
         let scale = min(layoutFrame.size.width, layoutFrame.size.height) / avatar.bounds.width
@@ -149,18 +182,17 @@ final class ProfileViewController: UIViewController {
                          action: #selector(closeAvatarPresentation),
                          for: .touchUpInside)
 
-        view.addSubviewsToAutoLayout(button)
-        profileHeaderView.addSubviewsToAutoLayout(cover)
+        view.addSubview(button)
+        profileHeaderView.addSubview(cover)
 
-        NSLayoutConstraint.activate([
-            cover.topAnchor.constraint(equalTo: view.topAnchor),
-            cover.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            cover.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            cover.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        cover.snp.makeConstraints { make in
+            make.edges.equalTo(view)
+        }
 
-            button.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.padding),
-             button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.padding)
-        ])
+        button.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(Constants.padding)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).offset(-Constants.padding)
+        }
 
         self.coverView = cover
         self.closeAvatarPresentationButton = button
@@ -212,9 +244,9 @@ extension ProfileViewController: UITableViewDataSource {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
                                                  for: indexPath)
-            as! PostTableViewCell
+        as! PostTableViewCell
 
-        cell.setup(with: posts[indexPath.row])
+        cell.setup(with: posts[indexPath.row], filter: currentColorFilter)
 
         return cell
     }
