@@ -104,7 +104,16 @@ final class LogInViewController: UIViewController {
 
     @objc
     func logInButtonClicked() {
-        let profileViewController = ProfileViewController()
+#if DEBUG
+        let userService = TestUserService()
+#else
+        let user = User(name: "Octopus",
+                        avatar: (UIImage(named: "profileImage") ?? UIImage(systemName: "person"))!,
+                        status: "Hardly coding")
+        let userService = CurrentUserService(currentUser: user)
+#endif
+        let profileViewController = ProfileViewController(userService: userService, userName: logInView.login)
+        
         navigationController?.pushViewController(profileViewController, animated: true)
     }
 }

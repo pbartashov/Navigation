@@ -88,10 +88,10 @@ final class ProfileHeaderView: UIView {
         setupLayouts()
     }
 
-    func setup(with profile: Profile) {
-        avatarImageView.image = profile.image
-        fullNameLabel.text = profile.name
-        statusLabel.text = profile.status
+    func setup(with user: User) {
+        avatarImageView.image = user.avatar
+        fullNameLabel.text = user.name
+        statusLabel.text = user.status
     }
 
     private func setupLayouts() {
