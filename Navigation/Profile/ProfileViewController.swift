@@ -13,9 +13,11 @@ final class ProfileViewController: UIViewController {
 
     private let posts: [Post] = Post.demoPosts
 
-    private var profile = Profile(name: "Octopus",
-                                  image: (UIImage(named: "profileImage") ?? UIImage(systemName: "person"))!,
-                                  status: "Hardly coding")
+    private let userService: UserService
+    private let userName: String
+    private var user: User? {
+        userService.getUser(byName: userName)
+    }
 
     private weak var coverView: UIView?
     private weak var closeAvatarPresentationButton: UIButton?
@@ -46,7 +48,10 @@ final class ProfileViewController: UIViewController {
     private lazy var profileHeaderView: ProfileHeaderView = {
 
         let profileHeaderView = ProfileHeaderView()
-        profileHeaderView.setup(with: profile)
+
+        if let user = user {
+            profileHeaderView.setup(with: user)
+        }
 
         profileHeaderView.setStatusButton.addTarget(self,
                                                     action:#selector(setStatusButtonClicked),
@@ -92,6 +97,17 @@ final class ProfileViewController: UIViewController {
         return control
     }()
 
+    init(userService: UserService, userName: String) {
+        self.userService = userService
+        self.userName = userName
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -121,9 +137,10 @@ final class ProfileViewController: UIViewController {
 
     @objc
     private func setStatusButtonClicked() {
-        if let text = profileHeaderView.statusTextField.text {
-            profile.status = text
-            profileHeaderView.setup(with: profile)
+        if let text = profileHeaderView.statusTextField.text,
+           let user = user {
+            user.status = text
+            profileHeaderView.setup(with: user)
         }
     }
 
