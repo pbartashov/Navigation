@@ -50,6 +50,10 @@ final class LogInView: UIView {
         return button
     }()
 
+    var login: String {
+        loginTextField.text ?? ""
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
