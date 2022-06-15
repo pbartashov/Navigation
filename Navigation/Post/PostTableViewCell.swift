@@ -7,8 +7,9 @@
 
 import UIKit
 import StorageService
+import iOSIntPackage
 
-class PostTableViewCell: UITableViewCell {
+final class PostTableViewCell: UITableViewCell {
 
     private let authorLabel: UILabel = {
         let label = UILabel()
@@ -80,7 +81,7 @@ class PostTableViewCell: UITableViewCell {
     }
 
     private func initialize() {
-       [authorLabel,
+        [authorLabel,
          postImageView,
          descriptionLabel,
          likesAndViewsStack].forEach {
@@ -114,12 +115,32 @@ class PostTableViewCell: UITableViewCell {
         ])
     }
 
-    func setup(with post: Post) {
+    func setup(with post: Post, filter: ColorFilter?) {
         authorLabel.text = post.author
         descriptionLabel.text = post.description
-        postImageView.image = UIImage(named: post.image)
-//        postImageView.sizeToFit()
         likesLabel.text = "Likes: \(post.likes)"
         viewsLabel.text = "Views: \(post.views)"
+
+        guard let image = UIImage(named: post.image) else {
+            postImageView.image = nil
+            return
+        }
+
+        guard let filter = filter else {
+            postImageView.image = image
+            return
+        }
+
+        Task {
+            postImageView.image = await Task.detached {
+                await withCheckedContinuation { continuation in
+                    ImageProcessor()
+                        .processImage(sourceImage: image, filter: filter) { processed in
+                            continuation.resume(returning: processed)
+                    }
+                }
+            }
+            .value
+        }
     }
 }

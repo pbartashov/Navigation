@@ -5,7 +5,7 @@
 //  Created by Павел Барташов on 10.03.2022.
 //
 
-import UIKit
+import SnapKit
 
 final class ProfileHeaderView: UIView {
 
@@ -83,7 +83,6 @@ final class ProfileHeaderView: UIView {
         statusTextField,
         setStatusButton].forEach {
             self.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
         setupLayouts()
@@ -96,32 +95,36 @@ final class ProfileHeaderView: UIView {
     }
 
     private func setupLayouts() {
+        avatarImageView.snp.makeConstraints { make in
+            make.top.leading.equalToSuperview().offset(Constants.padding)
+            make.width.height.equalTo(Constants.avatarImageSize)
+        }
 
-        NSLayoutConstraint.activate([
-            avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.padding),
-            avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
-            avatarImageView.widthAnchor.constraint(equalToConstant: Constants.avatarImageSize),
-            avatarImageView.heightAnchor.constraint(equalToConstant: Constants.avatarImageSize),
+        fullNameLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(27)
+            make.leading.equalTo(avatarImageView.snp.trailing).offset(Constants.padding)
+            make.trailing.equalToSuperview().offset(-Constants.padding)
+        }
 
-            fullNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 27),
-            fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: Constants.padding),
-            fullNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
+        statusLabel.snp.makeConstraints { make in
+            make.leading.equalTo(avatarImageView.snp.trailing).offset(Constants.padding)
+            make.trailing.equalToSuperview().offset(-Constants.padding)
+            make.bottom.equalTo(avatarImageView.snp.bottom).offset(-18)
+        }
 
-            statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: Constants.padding),
-            statusLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
-            statusLabel.bottomAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: -18),
+        statusTextField.snp.makeConstraints { make in
+            make.top.equalTo(statusLabel.snp.bottom).offset(Constants.padding / 2)
+            make.leading.equalTo(avatarImageView.snp.trailing).offset(Constants.padding)
+            make.trailing.equalToSuperview().offset(-Constants.padding)
+            make.height.equalTo(40)
+        }
 
-            statusTextField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: Constants.padding / 2),
-            statusTextField.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: Constants.padding),
-            statusTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
-            statusTextField.heightAnchor.constraint(equalToConstant: 40),
-
-            setStatusButton.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: Constants.padding),
-            setStatusButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
-            setStatusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
-            setStatusButton.heightAnchor.constraint(equalToConstant: 50),
-
-            bottomAnchor.constraint(equalTo: setStatusButton.bottomAnchor, constant: Constants.padding)
-        ])
+        setStatusButton.snp.makeConstraints { make in
+            make.top.equalTo(statusTextField.snp.bottom).offset(Constants.padding)
+            make.leading.equalToSuperview().offset(Constants.padding)
+            make.trailing.equalToSuperview().offset(-Constants.padding)
+            make.height.equalTo(50)
+            make.bottom.equalToSuperview().offset(-Constants.padding)
+        }
     }
 }
