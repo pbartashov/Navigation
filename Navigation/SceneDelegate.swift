@@ -11,6 +11,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    private let loginInspector = LoginInspector()
+
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -61,8 +63,9 @@ extension SceneDelegate {
                                                      image: UIImage(systemName: "house.fill"),
                                                      tag: 0)
 
-        let logInViewController = LogInViewController()
-        logInViewController.tabBarItem = UITabBarItem(title: "Profile",
+        let loginViewController = LoginViewController()
+        loginViewController.delegate = loginInspector
+        loginViewController.tabBarItem = UITabBarItem(title: "Profile",
                                                         image: UIImage(systemName: "person.fill"),
                                                         tag: 1)
    
@@ -71,7 +74,7 @@ extension SceneDelegate {
 
         tabBarController.setViewControllers(
             [UINavigationController(rootViewController: feedViewController),
-             UINavigationController(rootViewController: logInViewController)],
+             UINavigationController(rootViewController: loginViewController)],
                                     animated: true)
 
         tabBarController.selectedIndex = 1
