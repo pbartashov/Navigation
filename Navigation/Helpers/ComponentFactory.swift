@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ComponentFactory {
+struct ComponentFactory {
     static func createButton(withTitle title: String) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
@@ -22,6 +22,32 @@ final class ComponentFactory {
         button.layer.shadowOpacity = 0.7
 
         return button
+    }
+
+    static func createRootViewController(with delegate: LoginViewControllerDelegate) -> UIViewController {
+
+        let feedViewController = FeedViewController()
+        feedViewController.tabBarItem = UITabBarItem(title: "Feed",
+                                                     image: UIImage(systemName: "house.fill"),
+                                                     tag: 0)
+
+        let loginViewController = LoginViewController()
+        loginViewController.delegate = delegate
+        loginViewController.tabBarItem = UITabBarItem(title: "Profile",
+                                                      image: UIImage(systemName: "person.fill"),
+                                                      tag: 1)
+
+        let tabBarController = UITabBarController()
+        tabBarController.tabBar.backgroundColor = .systemGray6
+
+        tabBarController.setViewControllers(
+            [UINavigationController(rootViewController: feedViewController),
+             UINavigationController(rootViewController: loginViewController)],
+            animated: true)
+
+        tabBarController.selectedIndex = 1
+
+        return tabBarController
     }
 }
 
