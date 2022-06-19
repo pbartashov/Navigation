@@ -61,7 +61,7 @@ final class ProfileHeaderView: UIView {
     }()
 
     let setStatusButton: UIButton = {
-        createButton(withTitle: "Set status")
+        ComponentFactory.createButton(withTitle: "Set status")
     }()
        
     override init(frame: CGRect) {

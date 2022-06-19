@@ -217,19 +217,19 @@ final class ProfileViewController: UIViewController {
 
     @objc
     private func closeAvatarPresentation() {
-        let duraration = 0.8
+        let duration = 0.8
         let avatar = profileHeaderView.avatarImageView
 
-        UIView.animateKeyframes(withDuration: duraration, delay: 0.0,
+        UIView.animateKeyframes(withDuration: duration, delay: 0.0,
                                 animations: {
             UIView.addKeyframe(withRelativeStartTime: 0.0,
-                               relativeDuration: 0.3 / duraration) {
+                               relativeDuration: 0.3 / duration) {
 
                 self.closeAvatarPresentationButton?.alpha = 0.0
             }
 
-            UIView.addKeyframe(withRelativeStartTime: 0.3 / duraration,
-                               relativeDuration: 0.5 / duraration ) {
+            UIView.addKeyframe(withRelativeStartTime: 0.3 / duration,
+                               relativeDuration: 0.5 / duration ) {
                 self.coverView?.alpha = 0.0
                 avatar.transform = .identity
                 avatar.layer.cornerRadius = avatar.bounds.width / 2
