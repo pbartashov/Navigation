@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = ComponentFactory.createRootViewController(with: loginInspector)
+        window.rootViewController = ViewControllerFactory.create.rootViewController(with: loginInspector)
         window.makeKeyAndVisible()
         self.window = window
     }

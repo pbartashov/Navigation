@@ -1,30 +1,16 @@
 //
-//  ComponentFactory.swift
+//  ViewControllerFactory.swift
 //  Navigation
 //
-//  Created by Павел Барташов on 15.06.2022.
+//  Created by Павел Барташов on 18.06.2022.
 //
 
 import UIKit
 
-struct ComponentFactory {
-    static func createButton(withTitle title: String) -> UIButton {
-        let button = UIButton()
-        button.setTitle(title, for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemBlue
+struct ViewControllerFactory {
+    static var create = ViewControllerFactory()
 
-        button.layer.cornerRadius = 14
-
-        button.layer.shadowOffset = .init(width: 4, height: 4)
-        button.layer.shadowRadius = 4
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.7
-
-        return button
-    }
-
-    static func createRootViewController(with delegate: LoginViewControllerDelegate) -> UIViewController {
+    func rootViewController(with delegate: LoginViewControllerDelegate) -> UIViewController {
 
         let feedViewController = FeedViewController()
         feedViewController.tabBarItem = UITabBarItem(title: "Feed",
@@ -49,6 +35,16 @@ struct ComponentFactory {
 
         return tabBarController
     }
+
+    func profileViewController(for userName: String) -> UIViewController {
+#if DEBUG
+        let userService = TestUserService()
+#else
+        let user = User(name: "Octopus",
+                        avatar: (UIImage(named: "profileImage") ?? UIImage(systemName: "person"))!,
+                        status: "Hardly coding")
+        let userService = CurrentUserService(currentUser: user)
+#endif
+        return ProfileViewController(userService: userService, userName: userName)
+    }
 }
-
-

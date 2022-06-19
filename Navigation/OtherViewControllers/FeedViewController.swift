@@ -21,14 +21,14 @@ final class FeedViewController: UIViewController {
     }()
 
     lazy private var showPost1Button: UIButton = {
-        let button = ComponentFactory.createButton(withTitle: "Post 1")
+        let button = ViewFactory.create.button(withTitle: "Post 1")
         button.addTarget(self, action:#selector(self.buttonTapped), for: .touchUpInside)
 
         return button
     }()
 
     lazy private var showPost2Button: UIButton = {
-        let button = ComponentFactory.createButton(withTitle: "Post 2")
+        let button = ViewFactory.create.button(withTitle: "Post 2")
         button.addTarget(self, action:#selector(self.buttonTapped), for: .touchUpInside)
 
         return button
