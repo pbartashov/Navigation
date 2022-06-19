@@ -11,6 +11,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    private let loginInspector = LoginFactoryImp().createLoginInsoector()
+
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -18,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = CreateRootViewController()
+        window.rootViewController = ViewControllerFactory.create.rootViewController(with: loginInspector)
         window.makeKeyAndVisible()
         self.window = window
     }
@@ -51,32 +53,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 }
-
-extension SceneDelegate {
-
-    func CreateRootViewController() -> UIViewController {
-
-        let feedViewController = FeedViewController()
-        feedViewController.tabBarItem = UITabBarItem(title: "Feed",
-                                                     image: UIImage(systemName: "house.fill"),
-                                                     tag: 0)
-
-        let logInViewController = LogInViewController()
-        logInViewController.tabBarItem = UITabBarItem(title: "Profile",
-                                                        image: UIImage(systemName: "person.fill"),
-                                                        tag: 1)
-   
-        let tabBarController = UITabBarController()
-        tabBarController.tabBar.backgroundColor = .systemGray6
-
-        tabBarController.setViewControllers(
-            [UINavigationController(rootViewController: feedViewController),
-             UINavigationController(rootViewController: logInViewController)],
-                                    animated: true)
-
-        tabBarController.selectedIndex = 1
-
-        return tabBarController
-    }
-}
-

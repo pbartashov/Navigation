@@ -7,17 +7,19 @@
 
 import UIKit
 
-final class LogInViewController: UIViewController {
+final class LoginViewController: UIViewController {
 
-    lazy private var logInView: LogInView = {
-        let logInView = LogInView()
-        logInView.logInButton.addTarget(self,
-                                        action:#selector(self.logInButtonClicked),
+    lazy private var loginView: LoginView = {
+        let loginView = LoginView()
+        loginView.loginButton.addTarget(self,
+                                        action:#selector(self.loginButtonClicked),
                                         for: .touchUpInside)
-        return logInView
+        return loginView
     }()
 
     private var scrollView = UIScrollView()
+
+    weak var delegate: LoginViewControllerDelegate?  
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +28,7 @@ final class LogInViewController: UIViewController {
         
         navigationController?.navigationBar.isHidden = true
 
-        scrollView.addSubview(logInView)
+        scrollView.addSubview(loginView)
         view.addSubview(scrollView)
 
         setupLayout()
@@ -65,21 +67,14 @@ final class LogInViewController: UIViewController {
     }
 
     func setupLayout() {
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        logInView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
 
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-
-            logInView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            logInView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            logInView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            logInView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            logInView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
-        ])
+        loginView.snp.makeConstraints { make in
+            make.edges.equalTo(scrollView)
+            make.width.equalTo(scrollView)
+        }
     }
 
     @objc private func kbdShow(notification: NSNotification) {
@@ -93,7 +88,7 @@ final class LogInViewController: UIViewController {
             scrollView.contentInset = contentInset
             scrollView.verticalScrollIndicatorInsets = contentInset
 
-            scrollView.scrollRectToVisible(logInView.logInButton.frame.offsetBy(dx: 0, dy: Constants.padding), animated: true)
+            scrollView.scrollRectToVisible(loginView.loginButton.frame.offsetBy(dx: 0, dy: Constants.padding), animated: true)
         }
     }
 
@@ -103,17 +98,20 @@ final class LogInViewController: UIViewController {
     }
 
     @objc
-    func logInButtonClicked() {
-#if DEBUG
-        let userService = TestUserService()
-#else
-        let user = User(name: "Octopus",
-                        avatar: (UIImage(named: "profileImage") ?? UIImage(systemName: "person"))!,
-                        status: "Hardly coding")
-        let userService = CurrentUserService(currentUser: user)
-#endif
-        let profileViewController = ProfileViewController(userService: userService, userName: logInView.login)
-        
-        navigationController?.pushViewController(profileViewController, animated: true)
+    func loginButtonClicked() {
+        guard let delegate = delegate else { return }
+
+        if delegate.authPassedFor(login: loginView.login, password: loginView.password) {
+            let profileViewController = ViewControllerFactory.create.profileViewController(for: loginView.login)
+
+            navigationController?.pushViewController(profileViewController, animated: true)
+        } else {
+            loginView.loginButton.transform = CGAffineTransform(translationX: 10, y: 0)
+            UIView.animate(withDuration: 0.5, delay: 0,
+                           usingSpringWithDamping: 0.1, initialSpringVelocity: 0.1,
+                           options: [], animations: {
+                self.loginView.loginButton.transform = .identity
+            }, completion: nil )
+        }
     }
 }
