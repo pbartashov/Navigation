@@ -7,8 +7,10 @@
 
 import UIKit
 
-final class ComponentFactory {
-    static func createButton(withTitle title: String) -> UIButton {
+struct ViewFactory {
+    static var create = ViewFactory()
+
+    func button(withTitle title: String) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
         button.setTitleColor(.white, for: .normal)

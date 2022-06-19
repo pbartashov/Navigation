@@ -99,20 +99,10 @@ final class LoginViewController: UIViewController {
 
     @objc
     func loginButtonClicked() {
-        guard let delegate = delegate else {
-            return
-        }
+        guard let delegate = delegate else { return }
 
         if delegate.authPassedFor(login: loginView.login, password: loginView.password) {
-#if DEBUG
-            let userService = TestUserService()
-#else
-            let user = User(name: "Octopus",
-                            avatar: (UIImage(named: "profileImage") ?? UIImage(systemName: "person"))!,
-                            status: "Hardly coding")
-            let userService = CurrentUserService(currentUser: user)
-#endif
-            let profileViewController = ProfileViewController(userService: userService, userName: loginView.login)
+            let profileViewController = ViewControllerFactory.create.profileViewController(for: loginView.login)
 
             navigationController?.pushViewController(profileViewController, animated: true)
         } else {
