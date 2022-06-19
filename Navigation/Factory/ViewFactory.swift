@@ -25,6 +25,29 @@ struct ViewFactory {
 
         return button
     }
+
+    func textField() -> UITextField {
+        let textField = UITextField()
+
+        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.layer.borderWidth = 0.5
+        textField.layer.cornerRadius = 10
+        textField.layer.masksToBounds = true
+
+        textField.backgroundColor = .systemGray6
+        textField.textColor = .black
+        textField.font = .systemFont(ofSize: 16, weight: .regular)
+        textField.tintColor = .tintColor
+        textField.autocapitalizationType = .none
+
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.leftView = paddingView
+        textField.leftViewMode = .always
+        textField.rightView = paddingView
+        textField.rightViewMode = .always
+
+        return textField
+    }
 }
 
 

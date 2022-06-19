@@ -10,7 +10,7 @@ import StorageService
 import iOSIntPackage
 
 final class PostTableViewCell: UITableViewCell {
-
+    //MARK: - Views
     private let authorLabel: UILabel = {
         let label = UILabel()
 
@@ -39,7 +39,6 @@ final class PostTableViewCell: UITableViewCell {
 
         return label
     }()
-
 
     private let likesLabel: UILabel = {
         let label = UILabel()
@@ -70,6 +69,7 @@ final class PostTableViewCell: UITableViewCell {
         return stack
     }()
 
+    //MARK: - LifeCicle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -79,7 +79,8 @@ final class PostTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-
+    
+    //MARK: - Metods
     private func initialize() {
         [authorLabel,
          postImageView,
@@ -92,6 +93,7 @@ final class PostTableViewCell: UITableViewCell {
         setupLayouts()
     }
 
+    //MARK: - Metods
     private func setupLayouts() {
         NSLayoutConstraint.activate([
             authorLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.padding),

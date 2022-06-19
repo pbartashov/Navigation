@@ -8,11 +8,20 @@
 import UIKit
 
 final class LoginView: UIView {
-
+    //MARK: - Properties
     private let logoImageView = UIImageView(image: UIImage(named: "logo"))
 
+    var login: String {
+        loginTextField.text ?? ""
+    }
+
+    var password: String {
+        passwordTextField.text ?? ""
+    }
+    
+    //MARK: - Views
     lazy private var loginTextField: UITextField = {
-        let textField = createTextField()
+        let textField = ViewFactory.create.textField()
 
         textField.placeholder = "Email or phone"
         textField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -21,7 +30,7 @@ final class LoginView: UIView {
     }()
 
     lazy private var passwordTextField: UITextField = {
-        let textField = createTextField()
+        let textField = ViewFactory.create.textField()
 
         textField.placeholder = "Password"
         textField.isSecureTextEntry = true
@@ -50,14 +59,7 @@ final class LoginView: UIView {
         return button
     }()
 
-    var login: String {
-        loginTextField.text ?? ""
-    }
-
-    var password: String {
-        passwordTextField.text ?? ""
-    }
-
+    //MARK: - LifeCicle
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -68,6 +70,7 @@ final class LoginView: UIView {
         super.init(coder: coder)
     }
 
+    //MARK: - Metods
     private func initialize() {
         [logoImageView,
         loginTextField,
@@ -104,28 +107,5 @@ final class LoginView: UIView {
 
             bottomAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: Constants.padding)
         ])
-    }
-
-    private func createTextField() -> UITextField {
-        let textField = UITextField()
-
-        textField.layer.borderColor = UIColor.lightGray.cgColor
-        textField.layer.borderWidth = 0.5
-        textField.layer.cornerRadius = 10
-        textField.layer.masksToBounds = true
-
-        textField.backgroundColor = .systemGray6
-        textField.textColor = .black
-        textField.font = .systemFont(ofSize: 16, weight: .regular)
-        textField.tintColor = .tintColor
-        textField.autocapitalizationType = .none
-
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
-        textField.leftView = paddingView
-        textField.leftViewMode = .always
-        textField.rightView = paddingView
-        textField.rightViewMode = .always
-
-        return textField
     }
 }

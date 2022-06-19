@@ -8,7 +8,10 @@
 import UIKit
 
 final class LoginViewController: UIViewController {
+    //MARK: - Properties
+    weak var delegate: LoginViewControllerDelegate?
 
+    //MARK: - Views
     lazy private var loginView: LoginView = {
         let loginView = LoginView()
         loginView.loginButton.addTarget(self,
@@ -19,8 +22,7 @@ final class LoginViewController: UIViewController {
 
     private var scrollView = UIScrollView()
 
-    weak var delegate: LoginViewControllerDelegate?  
-
+    //MARK: - LifeCicle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -66,6 +68,7 @@ final class LoginViewController: UIViewController {
                           object: nil)
     }
 
+    //MARK: - Metods
     func setupLayout() {
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)

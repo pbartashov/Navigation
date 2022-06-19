@@ -8,13 +8,14 @@
 import UIKit
 
 struct Photos {
-
+    //MARK: - Properties
     static let totalPhotosCount = 20
 
     static var allPhotos: [UIImage] {
         getPhotos(withIndexes: [Int](1...totalPhotosCount))
     }
 
+    //MARK: - Metods
     static func randomPhotos(ofCount count: Int) -> [UIImage] {
         let randomIndexes = getUniqueRandomNumbers(min: 1, max: totalPhotosCount, count: count)
         return getPhotos(withIndexes: randomIndexes)
@@ -31,5 +32,4 @@ struct Photos {
 
         return photos
     }
-
 }

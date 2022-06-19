@@ -8,7 +8,7 @@
 import UIKit
 
 final class InfoViewController: UIViewController {
-
+    //MARK: - Properties
     lazy private var buttonShowQuestion: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
         button.center = self.view.center
@@ -19,6 +19,7 @@ final class InfoViewController: UIViewController {
         return button
     }()
 
+    //MARK: - LifeCicle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,6 +28,7 @@ final class InfoViewController: UIViewController {
         view.addSubview(buttonShowQuestion)
     }
 
+    //MARK: - Metods
     @objc
     func buttonTapped() {
 

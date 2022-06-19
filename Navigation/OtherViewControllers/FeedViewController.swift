@@ -9,7 +9,7 @@ import UIKit
 import StorageService
 
 final class FeedViewController: UIViewController {
-
+    //MARK: - Properties
     private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -34,6 +34,7 @@ final class FeedViewController: UIViewController {
         return button
     }()
 
+    //MARK: - LifeCicle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -47,6 +48,7 @@ final class FeedViewController: UIViewController {
         setupLayout()
     }
 
+    //MARK: - Metods
     func setupLayout() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
 

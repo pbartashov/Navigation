@@ -8,7 +8,7 @@
 import UIKit
 
 final class PhotosCollectionViewCell: UICollectionViewCell {
-
+    //MARK: - Views
     lazy private  var imageView: UIImageView = {
         let imageView = UIImageView()
 
@@ -18,6 +18,7 @@ final class PhotosCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
 
+    //MARK: - LifeCicle
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -30,6 +31,7 @@ final class PhotosCollectionViewCell: UICollectionViewCell {
         super.init(coder: coder)
     }
 
+    //MARK: - Metods
     private func setupLayouts() {
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),

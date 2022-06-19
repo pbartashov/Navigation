@@ -8,7 +8,7 @@
 import SnapKit
 
 final class ProfileHeaderView: UIView {
-
+    //MARK: - Views
     let avatarImageView: UIImageView = {
         let image = UIImageView(frame: CGRect(x: Constants.padding,
                                               y: Constants.padding,
@@ -63,7 +63,8 @@ final class ProfileHeaderView: UIView {
     let setStatusButton: UIButton = {
         ViewFactory.create.button(withTitle: "Set status")
     }()
-       
+
+    //MARK: - LifeCicle
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -74,6 +75,7 @@ final class ProfileHeaderView: UIView {
         super.init(coder: coder)
     }
 
+    //MARK: - Metods
     private func initialize() {
         backgroundColor = .systemGray6
 

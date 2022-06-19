@@ -8,16 +8,12 @@
 import UIKit
 
 final class PhotosViewController: UIViewController {
-
+    //MARK: - Properties
     private let photos: [UIImage] = Photos.allPhotos
 
+    //MARK: - Views
     private lazy var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
-//        Для нашей задачи можно использовать эти свойства, либо методы делегата UICollectionViewDelegateFlowLayout
-//        collectionViewLayout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-//        collectionViewLayout.minimumInteritemSpacing = 8
-//        collectionViewLayout.minimumLineSpacing = 8
-
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: collectionViewLayout)
 
@@ -31,6 +27,7 @@ final class PhotosViewController: UIViewController {
         return collectionView
     }()
 
+    //MARK: - LifeCicle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,6 +48,7 @@ final class PhotosViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
     }
 
+    //MARK: - Metods
     func setupLayout() {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

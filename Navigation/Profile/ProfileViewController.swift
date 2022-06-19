@@ -10,7 +10,7 @@ import StorageService
 import iOSIntPackage
 
 final class ProfileViewController: UIViewController {
-
+    //MARK: - Properties
     private let posts: [Post] = Post.demoPosts
 
     private let userService: UserService
@@ -19,13 +19,27 @@ final class ProfileViewController: UIViewController {
         userService.getUser(byName: userName)
     }
 
-    private weak var coverView: UIView?
-    private weak var closeAvatarPresentationButton: UIButton?
     private var isAvatarPresenting: Bool = false {
         didSet {
             tableView.isUserInteractionEnabled = !isAvatarPresenting
         }
     }
+
+    private var currentColorFilter: ColorFilter? {
+        didSet {
+            for (i, post) in posts.enumerated() {
+                let indexPath = IndexPath(row: i, section: 1)
+
+                if let cell = tableView.cellForRow(at: indexPath) as? PostTableViewCell {
+                    cell.setup(with: post, filter: currentColorFilter)
+                }
+            }
+        }
+    }
+
+    //MARK: - Views
+    private weak var coverView: UIView?
+    private weak var closeAvatarPresentationButton: UIButton?
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -68,18 +82,6 @@ final class ProfileViewController: UIViewController {
 
     private lazy var photosTableViewCell = PhotosTableViewCell()
 
-    private var currentColorFilter: ColorFilter? {
-        didSet {
-            for (i, post) in posts.enumerated() {
-                let indexPath = IndexPath(row: i, section: 1)
-
-                if let cell = tableView.cellForRow(at: indexPath) as? PostTableViewCell {
-                    cell.setup(with: post, filter: currentColorFilter)
-                }
-            }
-        }
-    }
-
     private lazy var colorFilterSelecor: UISegmentedControl = {
         let off = UIAction(title: "Выкл") { _ in self.currentColorFilter = nil }
         let chrome = UIAction(title: "Нуар") { _ in self.currentColorFilter = .noir }
@@ -97,6 +99,7 @@ final class ProfileViewController: UIViewController {
         return control
     }()
 
+    //MARK: - LifeCicle
     init(userService: UserService, userName: String) {
         self.userService = userService
         self.userName = userName
@@ -124,6 +127,13 @@ final class ProfileViewController: UIViewController {
         photosTableViewCell.setup(with: photos)
     }
 
+    override func viewSafeAreaInsetsDidChange() {
+        if isAvatarPresenting {
+            moveAndScaleAvatarToCenter()
+        }
+    }
+
+    //MARK: - Metods
     private func setupLayout() {
         colorFilterSelecor.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
@@ -162,12 +172,6 @@ final class ProfileViewController: UIViewController {
             UIView.animate(withDuration: 0.3) { [self] in
                 closeAvatarPresentationButton?.alpha = 1
             }
-        }
-    }
-
-    override func viewSafeAreaInsetsDidChange() {
-        if isAvatarPresenting {
-            moveAndScaleAvatarToCenter()
         }
     }
 
