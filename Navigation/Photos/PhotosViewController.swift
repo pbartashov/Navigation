@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import iOSIntPackage
 
 final class PhotosViewController: UIViewController {
     //MARK: - Properties
-    private let photos: [UIImage] = Photos.allPhotos
+    private var photos: [UIImage] = []
+    private let imagePublisherFacade = ImagePublisherFacade()
 
     //MARK: - Views
     private lazy var collectionView: UICollectionView = {
@@ -34,18 +36,23 @@ final class PhotosViewController: UIViewController {
         title = "Photo Gallery"
 
         view.backgroundColor = .systemGray6
-
         view.addSubviewsToAutoLayout(collectionView)
 
         setupLayout()
-    }
+ }
 
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
+
+        imagePublisherFacade.subscribe(self)
+        imagePublisherFacade.addImagesWithTimer(time: 0.3, repeat: 15, userImages: Photos.allPhotos)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
+
+        imagePublisherFacade.removeSubscription(for: self)
+        imagePublisherFacade.rechargeImageLibrary()
     }
 
     //MARK: - Metods
@@ -115,3 +122,10 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - ImageLibrarySubscriber methods
+extension PhotosViewController: ImageLibrarySubscriber {
+    func receive(images: [UIImage]) {
+        photos = images
+        collectionView.reloadData()
+    }
+}
