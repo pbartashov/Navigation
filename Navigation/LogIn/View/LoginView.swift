@@ -64,6 +64,10 @@ final class LoginView: UIView {
         super.init(frame: frame)
 
         initialize()
+
+        //DEBUGG
+        loginTextField.text = "Octopus"
+        passwordTextField.text = "123"
     }
 
     required init?(coder: NSCoder) {
