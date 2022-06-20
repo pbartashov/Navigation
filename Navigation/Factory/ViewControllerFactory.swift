@@ -8,10 +8,13 @@
 import UIKit
 
 struct ViewControllerFactory {
+
     //MARK: - Properties
+
     static var create = ViewControllerFactory()
 
     //MARK: - Metods
+
     func rootViewController(with delegate: LoginViewControllerDelegate) -> UIViewController {
 
         let feedViewController = FeedViewController()

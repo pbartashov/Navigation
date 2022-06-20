@@ -7,9 +7,24 @@
 
 import SnapKit
 
+protocol ProfileHeaderViewDelegate: AnyObject {
+    func statusButtonTapped()
+    func avatarTapped(sender: UIView)
+}
+
 final class ProfileHeaderView: UIView {
+
+    //MARK: - Properties
+
+    weak var delegate: ProfileHeaderViewDelegate?
+
+    var statusText: String {
+        statusTextField.text ?? ""
+    }
+
     //MARK: - Views
-    let avatarImageView: UIImageView = {
+
+    private lazy var avatarImageView: UIImageView = {
         let image = UIImageView(frame: CGRect(x: Constants.padding,
                                               y: Constants.padding,
                                               width: Constants.avatarImageSize,
@@ -17,6 +32,13 @@ final class ProfileHeaderView: UIView {
         image.layer.borderWidth = 3
         image.layer.cornerRadius = image.frame.width / 2
         image.layer.masksToBounds = true
+
+        let tapRecognizer = UITapGestureRecognizer(target: self,
+                                                   action: #selector(avatarTapped))
+
+        image.addGestureRecognizer(tapRecognizer)
+        image.isUserInteractionEnabled = true
+
 
         return image
     }()
@@ -39,7 +61,7 @@ final class ProfileHeaderView: UIView {
         return label
     }()
 
-    let statusTextField: UITextField = {
+    private let statusTextField: UITextField = {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 15, weight: .regular)
         textField.textColor = .black
@@ -60,13 +82,21 @@ final class ProfileHeaderView: UIView {
         return textField
     }()
 
-    let setStatusButton: UIButton = {
-        ViewFactory.create.button(withTitle: "Set status")
+    private lazy var setStatusButton: UIButton = {
+        let button = ViewFactory.create.button(withTitle: "Set status")
+
+        button.addTarget(self,
+                         action:#selector(setStatusButtonTapped),
+                         for: .touchUpInside)
+
+        return button
     }()
 
     //MARK: - LifeCicle
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+
+    init(delegate: ProfileHeaderViewDelegate) {
+        self.delegate = delegate
+        super.init(frame: .zero)
 
         initialize()
     }
@@ -76,6 +106,7 @@ final class ProfileHeaderView: UIView {
     }
 
     //MARK: - Metods
+
     private func initialize() {
         backgroundColor = .systemGray6
 
@@ -128,5 +159,13 @@ final class ProfileHeaderView: UIView {
             make.height.equalTo(50)
             make.bottom.equalToSuperview().offset(-Constants.padding)
         }
+    }
+
+    @objc private func setStatusButtonTapped() {
+        delegate?.statusButtonTapped()
+    }
+
+    @objc private func avatarTapped() {
+        delegate?.avatarTapped(sender: avatarImageView)
     }
 }

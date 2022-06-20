@@ -25,8 +25,7 @@ final class PostViewController: UIViewController {
         title = post.author
     }
 
-    @objc
-    func infoButtonTapped() {
+    @objc func infoButtonTapped() {
         let infoViewController = InfoViewController()
         present(infoViewController, animated: true, completion: nil)
     }

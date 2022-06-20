@@ -9,11 +9,14 @@ import UIKit
 import iOSIntPackage
 
 final class PhotosViewController: UIViewController {
+
     //MARK: - Properties
+
     private var photos: [UIImage] = []
     private let imagePublisherFacade = ImagePublisherFacade()
 
     //MARK: - Views
+
     private lazy var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero,
@@ -30,6 +33,7 @@ final class PhotosViewController: UIViewController {
     }()
 
     //MARK: - LifeCicle
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -56,6 +60,7 @@ final class PhotosViewController: UIViewController {
     }
 
     //MARK: - Metods
+
     func setupLayout() {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

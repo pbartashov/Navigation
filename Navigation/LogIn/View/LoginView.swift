@@ -7,8 +7,15 @@
 
 import UIKit
 
+protocol LoginViewDelegate: AnyObject {
+    func loginButtonTapped()
+}
+
 final class LoginView: UIView {
+
     //MARK: - Properties
+
+    var delegate: LoginViewDelegate?
     private let logoImageView = UIImageView(image: UIImage(named: "logo"))
 
     var login: String {
@@ -18,9 +25,14 @@ final class LoginView: UIView {
     var password: String {
         passwordTextField.text ?? ""
     }
+
+    var loginButtonFrame: CGRect {
+        loginButton.frame
+    }
     
     //MARK: - Views
-    lazy private var loginTextField: UITextField = {
+
+    private lazy var loginTextField: UITextField = {
         let textField = ViewFactory.create.textField()
 
         textField.placeholder = "Email or phone"
@@ -29,7 +41,7 @@ final class LoginView: UIView {
         return textField
     }()
 
-    lazy private var passwordTextField: UITextField = {
+    private lazy var passwordTextField: UITextField = {
         let textField = ViewFactory.create.textField()
 
         textField.placeholder = "Password"
@@ -39,7 +51,7 @@ final class LoginView: UIView {
         return textField
     }()
 
-    let loginButton: UIButton = {
+    private lazy var loginButton: UIButton = {
         let button = UIButton()
 
         button.setTitle("Log in", for: .normal)
@@ -55,6 +67,10 @@ final class LoginView: UIView {
 
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = true
+
+        button.addTarget(self,
+                         action:#selector(self.loginButtonTapped),
+                         for: .touchUpInside)
 
         return button
     }()
@@ -75,6 +91,7 @@ final class LoginView: UIView {
     }
 
     //MARK: - Metods
+    
     private func initialize() {
         [logoImageView,
         loginTextField,
@@ -111,5 +128,19 @@ final class LoginView: UIView {
 
             bottomAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: Constants.padding)
         ])
+    }
+
+    @objc func loginButtonTapped() {
+        delegate?.loginButtonTapped()
+    }
+
+    func shakeLoginButton() {
+        loginButton.transform = CGAffineTransform(translationX: 10, y: 0)
+
+        UIView.animate(withDuration: 0.5, delay: 0,
+                       usingSpringWithDamping: 0.1, initialSpringVelocity: 0.1,
+                       options: [], animations: {
+            self.loginButton.transform = .identity
+        }, completion: nil )
     }
 }

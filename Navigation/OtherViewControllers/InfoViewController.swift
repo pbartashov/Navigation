@@ -8,8 +8,10 @@
 import UIKit
 
 final class InfoViewController: UIViewController {
+
     //MARK: - Properties
-    lazy private var buttonShowQuestion: UIButton = {
+
+    private lazy var buttonShowQuestion: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
         button.center = self.view.center
         button.tintColor = .black
@@ -20,6 +22,7 @@ final class InfoViewController: UIViewController {
     }()
 
     //MARK: - LifeCicle
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,8 +32,8 @@ final class InfoViewController: UIViewController {
     }
 
     //MARK: - Metods
-    @objc
-    func buttonTapped() {
+
+    @objc func buttonTapped() {
 
         let alert = UIAlertController(title: "Сохранить изменения?",
                                       message: "Все несохраненные изменения будут утеряны",

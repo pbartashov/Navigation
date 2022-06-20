@@ -9,7 +9,9 @@ import UIKit
 import StorageService
 
 final class FeedViewController: UIViewController {
+    
     //MARK: - Properties
+
     private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -20,14 +22,14 @@ final class FeedViewController: UIViewController {
         return stack
     }()
 
-    lazy private var showPost1Button: UIButton = {
+    private lazy var showPost1Button: UIButton = {
         let button = ViewFactory.create.button(withTitle: "Post 1")
         button.addTarget(self, action:#selector(self.buttonTapped), for: .touchUpInside)
 
         return button
     }()
 
-    lazy private var showPost2Button: UIButton = {
+    private lazy var showPost2Button: UIButton = {
         let button = ViewFactory.create.button(withTitle: "Post 2")
         button.addTarget(self, action:#selector(self.buttonTapped), for: .touchUpInside)
 
@@ -35,6 +37,7 @@ final class FeedViewController: UIViewController {
     }()
 
     //MARK: - LifeCicle
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -49,6 +52,7 @@ final class FeedViewController: UIViewController {
     }
 
     //MARK: - Metods
+
     func setupLayout() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
 

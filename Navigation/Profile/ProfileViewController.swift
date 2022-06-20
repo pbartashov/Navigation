@@ -10,7 +10,9 @@ import StorageService
 import iOSIntPackage
 
 final class ProfileViewController: UIViewController {
+
     //MARK: - Properties
+
     private let posts: [Post] = Post.demoPosts
 
     private let userService: UserService
@@ -38,6 +40,8 @@ final class ProfileViewController: UIViewController {
     }
 
     //MARK: - Views
+
+    private weak var avatar: UIView?
     private weak var coverView: UIView?
     private weak var closeAvatarPresentationButton: UIButton?
 
@@ -61,21 +65,11 @@ final class ProfileViewController: UIViewController {
 
     private lazy var profileHeaderView: ProfileHeaderView = {
 
-        let profileHeaderView = ProfileHeaderView()
+        let profileHeaderView = ProfileHeaderView(delegate: self)
 
         if let user = user {
             profileHeaderView.setup(with: user)
         }
-
-        profileHeaderView.setStatusButton.addTarget(self,
-                                                    action:#selector(setStatusButtonClicked),
-                                                    for: .touchUpInside)
-
-        let tapRecognizer = UITapGestureRecognizer(target: self,
-                                                   action: #selector(showAvatarPresentation))
-
-        profileHeaderView.avatarImageView.addGestureRecognizer(tapRecognizer)
-        profileHeaderView.avatarImageView.isUserInteractionEnabled = true
 
         return profileHeaderView
     }()
@@ -100,6 +94,7 @@ final class ProfileViewController: UIViewController {
     }()
 
     //MARK: - LifeCicle
+
     init(userService: UserService, userName: String) {
         self.userService = userService
         self.userName = userName
@@ -134,6 +129,7 @@ final class ProfileViewController: UIViewController {
     }
 
     //MARK: - Metods
+    
     private func setupLayout() {
         colorFilterSelecor.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
@@ -145,39 +141,12 @@ final class ProfileViewController: UIViewController {
         }
     }
 
-    @objc
-    private func setStatusButtonClicked() {
-        if let text = profileHeaderView.statusTextField.text,
-           let user = user {
-            user.status = text
-            profileHeaderView.setup(with: user)
-        }
-    }
-
-    @objc
-    private func showAvatarPresentation() {
-        isAvatarPresenting = true
-
-        createCover()
-
-        let avatar = profileHeaderView.avatarImageView
-
-        profileHeaderView.bringSubviewToFront(avatar)
-
-        UIView.animate(withDuration: 0.5) { [self] in
-            coverView?.alpha = 0.5
-            avatar.layer.cornerRadius = 0
-            moveAndScaleAvatarToCenter()
-        } completion: { _ in
-            UIView.animate(withDuration: 0.3) { [self] in
-                closeAvatarPresentationButton?.alpha = 1
-            }
-        }
-    }
-
     private func moveAndScaleAvatarToCenter() {
+        guard let avatar = avatar else {
+            return
+        }
+
         let layoutFrame = view.safeAreaLayoutGuide.layoutFrame
-        let avatar = profileHeaderView.avatarImageView
         let scale = min(layoutFrame.size.width, layoutFrame.size.height) / avatar.bounds.width
 
         let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
@@ -222,7 +191,6 @@ final class ProfileViewController: UIViewController {
     @objc
     private func closeAvatarPresentation() {
         let duration = 0.8
-        let avatar = profileHeaderView.avatarImageView
 
         UIView.animateKeyframes(withDuration: duration, delay: 0.0,
                                 animations: {
@@ -233,7 +201,9 @@ final class ProfileViewController: UIViewController {
             }
 
             UIView.addKeyframe(withRelativeStartTime: 0.3 / duration,
-                               relativeDuration: 0.5 / duration ) {
+                               relativeDuration: 0.5 / duration ) { [weak self] in
+                guard let self = self, let avatar = self.avatar else { return }
+
                 self.coverView?.alpha = 0.0
                 avatar.transform = .identity
                 avatar.layer.cornerRadius = avatar.bounds.width / 2
@@ -242,6 +212,7 @@ final class ProfileViewController: UIViewController {
 
             coverView?.removeFromSuperview()
             closeAvatarPresentationButton?.removeFromSuperview()
+            avatar = nil
             isAvatarPresenting = false
         }
         )
@@ -285,6 +256,35 @@ extension ProfileViewController: UITableViewDelegate {
 
             let photosViewController = PhotosViewController()
             navigationController?.pushViewController(photosViewController, animated: true)
+        }
+    }
+}
+
+// MARK: - ProfileHeaderViewDelegate methods
+extension ProfileViewController: ProfileHeaderViewDelegate {
+    func statusButtonTapped() {
+        if let user = user {
+            user.status = profileHeaderView.statusText
+            profileHeaderView.setup(with: user)
+        }
+    }
+
+    func avatarTapped(sender: UIView) {
+        isAvatarPresenting = true
+
+        createCover()
+
+        avatar = sender
+        profileHeaderView.bringSubviewToFront(sender)
+
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            self?.coverView?.alpha = 0.5
+            self?.avatar?.layer.cornerRadius = 0
+            self?.moveAndScaleAvatarToCenter()
+        } completion: { _ in
+            UIView.animate(withDuration: 0.3) { [weak self] in
+                self?.closeAvatarPresentationButton?.alpha = 1
+            }
         }
     }
 }

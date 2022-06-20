@@ -7,22 +7,29 @@
 
 import UIKit
 
+protocol LoginViewControllerDelegate: AnyObject {
+    func authPassedFor(login: String, password: String) -> Bool
+}
+
 final class LoginViewController: UIViewController {
+
     //MARK: - Properties
+
     weak var delegate: LoginViewControllerDelegate?
 
     //MARK: - Views
-    lazy private var loginView: LoginView = {
+
+    private lazy var loginView: LoginView = {
         let loginView = LoginView()
-        loginView.loginButton.addTarget(self,
-                                        action:#selector(self.loginButtonClicked),
-                                        for: .touchUpInside)
+        loginView.delegate = self
+        
         return loginView
     }()
 
-    private var scrollView = UIScrollView()
+    private let scrollView = UIScrollView()
 
     //MARK: - LifeCicle
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -69,6 +76,7 @@ final class LoginViewController: UIViewController {
     }
 
     //MARK: - Metods
+
     func setupLayout() {
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
@@ -91,7 +99,8 @@ final class LoginViewController: UIViewController {
             scrollView.contentInset = contentInset
             scrollView.verticalScrollIndicatorInsets = contentInset
 
-            scrollView.scrollRectToVisible(loginView.loginButton.frame.offsetBy(dx: 0, dy: Constants.padding), animated: true)
+            scrollView.scrollRectToVisible(loginView.loginButtonFrame.offsetBy(dx: 0, dy: Constants.padding),
+                                           animated: true)
         }
     }
 
@@ -99,9 +108,11 @@ final class LoginViewController: UIViewController {
         scrollView.contentInset = .zero
         scrollView.verticalScrollIndicatorInsets = .zero
     }
+}
 
-    @objc
-    func loginButtonClicked() {
+// MARK: - LoginViewDelegate methods
+extension LoginViewController: LoginViewDelegate {
+    func loginButtonTapped() {
         guard let delegate = delegate else { return }
 
         if delegate.authPassedFor(login: loginView.login, password: loginView.password) {
@@ -109,12 +120,7 @@ final class LoginViewController: UIViewController {
 
             navigationController?.pushViewController(profileViewController, animated: true)
         } else {
-            loginView.loginButton.transform = CGAffineTransform(translationX: 10, y: 0)
-            UIView.animate(withDuration: 0.5, delay: 0,
-                           usingSpringWithDamping: 0.1, initialSpringVelocity: 0.1,
-                           options: [], animations: {
-                self.loginView.loginButton.transform = .identity
-            }, completion: nil )
+            loginView.shakeLoginButton()
         }
     }
 }
