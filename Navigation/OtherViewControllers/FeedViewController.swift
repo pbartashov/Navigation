@@ -22,16 +22,16 @@ final class FeedViewController: UIViewController {
         return stack
     }()
 
-    private lazy var showPost1Button: UIButton = {
+    private lazy var showPost1Button: ClosureBasedButton = {
         let button = ViewFactory.create.button(withTitle: "Post 1")
-        button.addTarget(self, action:#selector(self.buttonTapped), for: .touchUpInside)
+        button.tapActionWithSender = buttonTapped
 
         return button
     }()
 
-    private lazy var showPost2Button: UIButton = {
+    private lazy var showPost2Button: ClosureBasedButton = {
         let button = ViewFactory.create.button(withTitle: "Post 2")
-        button.addTarget(self, action:#selector(self.buttonTapped), for: .touchUpInside)
+        button.tapActionWithSender = buttonTapped
 
         return button
     }()
@@ -63,7 +63,6 @@ final class FeedViewController: UIViewController {
         ])
     }
 
-    @objc
     func buttonTapped(sender: UIButton) {
         let post = Post(author: sender.currentTitle ?? "New post",
                         description: "",

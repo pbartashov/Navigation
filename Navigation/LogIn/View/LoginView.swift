@@ -51,11 +51,10 @@ final class LoginView: UIView {
         return textField
     }()
 
-    private lazy var loginButton: UIButton = {
-        let button = UIButton()
-
-        button.setTitle("Log in", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+    private lazy var loginButton: ClosureBasedButton = {
+        let button = ClosureBasedButton(title: "Log in",
+                                        titleColor: .white,
+                                        tapAction: loginButtonTapped)
 
         let backgroundImage = UIImage(named: "blue_pixel")
         button.setBackgroundImage(backgroundImage, for: .normal)
@@ -67,10 +66,6 @@ final class LoginView: UIView {
 
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = true
-
-        button.addTarget(self,
-                         action:#selector(self.loginButtonTapped),
-                         for: .touchUpInside)
 
         return button
     }()
@@ -130,7 +125,7 @@ final class LoginView: UIView {
         ])
     }
 
-    @objc func loginButtonTapped() {
+    func loginButtonTapped() {
         delegate?.loginButtonTapped()
     }
 

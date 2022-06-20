@@ -82,13 +82,10 @@ final class ProfileHeaderView: UIView {
         return textField
     }()
 
-    private lazy var setStatusButton: UIButton = {
+    private lazy var setStatusButton: ClosureBasedButton = {
         let button = ViewFactory.create.button(withTitle: "Set status")
-
-        button.addTarget(self,
-                         action:#selector(setStatusButtonTapped),
-                         for: .touchUpInside)
-
+        button.tapAction = setStatusButtonTapped
+        
         return button
     }()
 
@@ -161,7 +158,7 @@ final class ProfileHeaderView: UIView {
         }
     }
 
-    @objc private func setStatusButtonTapped() {
+    private func setStatusButtonTapped() {
         delegate?.statusButtonTapped()
     }
 

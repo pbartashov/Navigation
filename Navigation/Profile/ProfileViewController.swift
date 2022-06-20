@@ -161,16 +161,14 @@ final class ProfileViewController: UIViewController {
         cover.backgroundColor = .white
         cover.alpha = 0.0
 
-        let button = UIButton()
+        let button = ClosureBasedButton()
         button.tintColor = .black
         button.alpha = 0.0
+        button.tapAction = closeAvatarPresentation
 
         let configuration = UIImage.SymbolConfiguration(pointSize: 24)
         let image = UIImage(systemName: "xmark", withConfiguration: configuration)
         button.setImage(image, for: .normal)
-        button.addTarget(self,
-                         action: #selector(closeAvatarPresentation),
-                         for: .touchUpInside)
 
         view.addSubview(button)
         profileHeaderView.addSubview(cover)
@@ -188,7 +186,6 @@ final class ProfileViewController: UIViewController {
         self.closeAvatarPresentationButton = button
     }
 
-    @objc
     private func closeAvatarPresentation() {
         let duration = 0.8
 

@@ -11,13 +11,15 @@ final class InfoViewController: UIViewController {
 
     //MARK: - Properties
 
-    private lazy var buttonShowQuestion: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+    private lazy var buttonShowQuestion: ClosureBasedButton = {
+        let button = ClosureBasedButton(title: "Показать вопрос",
+                                        titleColor: .black,
+                                        tapAction: buttonTapped)
+
+        button.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
         button.center = self.view.center
         button.tintColor = .black
-        button.setTitle("Показать вопрос", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action:#selector(self.buttonTapped), for: .touchUpInside)
+
         return button
     }()
 
@@ -33,7 +35,7 @@ final class InfoViewController: UIViewController {
 
     //MARK: - Metods
 
-    @objc func buttonTapped() {
+    func buttonTapped() {
 
         let alert = UIAlertController(title: "Сохранить изменения?",
                                       message: "Все несохраненные изменения будут утеряны",
