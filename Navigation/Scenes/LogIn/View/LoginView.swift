@@ -7,15 +7,11 @@
 
 import UIKit
 
-protocol LoginViewDelegate: AnyObject {
-    func loginButtonTapped()
-}
-
 final class LoginView: UIView {
 
     //MARK: - Properties
 
-    var delegate: LoginViewDelegate?
+    var delegate: ViewWithButtonDelegate?
     private let logoImageView = UIImageView(image: UIImage(named: "logo"))
 
     var login: String {
@@ -54,7 +50,7 @@ final class LoginView: UIView {
     private lazy var loginButton: ClosureBasedButton = {
         let button = ClosureBasedButton(title: "Log in",
                                         titleColor: .white,
-                                        tapAction: loginButtonTapped)
+                                        tapAction: { [weak self] in self?.loginButtonTapped() })
 
         let backgroundImage = UIImage(named: "blue_pixel")
         button.setBackgroundImage(backgroundImage, for: .normal)
@@ -126,7 +122,7 @@ final class LoginView: UIView {
     }
 
     func loginButtonTapped() {
-        delegate?.loginButtonTapped()
+        delegate?.buttonTapped()
     }
 
     func shakeLoginButton() {

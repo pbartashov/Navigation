@@ -110,9 +110,9 @@ final class LoginViewController: UIViewController {
     }
 }
 
-// MARK: - LoginViewDelegate methods
-extension LoginViewController: LoginViewDelegate {
-    func loginButtonTapped() {
+// MARK: - ViewWithButtonDelegate methods
+extension LoginViewController: ViewWithButtonDelegate {
+    func buttonTapped() {
         guard let delegate = delegate else { return }
 
         if delegate.authPassedFor(login: loginView.login, password: loginView.password) {

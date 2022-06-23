@@ -14,7 +14,7 @@ final class InfoViewController: UIViewController {
     private lazy var buttonShowQuestion: ClosureBasedButton = {
         let button = ClosureBasedButton(title: "Показать вопрос",
                                         titleColor: .black,
-                                        tapAction: buttonTapped)
+                                        tapAction:  { [weak self] in self?.buttonTapped() })
 
         button.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
         button.center = self.view.center

@@ -84,7 +84,7 @@ final class ProfileHeaderView: UIView {
 
     private lazy var setStatusButton: ClosureBasedButton = {
         let button = ViewFactory.create.button(withTitle: "Set status")
-        button.tapAction = setStatusButtonTapped
+        button.tapAction =  { [weak self] in self?.setStatusButtonTapped() }
         
         return button
     }()

@@ -18,4 +18,16 @@ public extension UIView {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
+
+    func hideWithAnimation() {
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            self?.alpha = 0
+        }
+    }
+
+    func showWithAnimation() {
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            self?.alpha = 1
+        }
+    }
 }

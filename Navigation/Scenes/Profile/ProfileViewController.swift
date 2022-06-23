@@ -164,7 +164,7 @@ final class ProfileViewController: UIViewController {
         let button = ClosureBasedButton()
         button.tintColor = .black
         button.alpha = 0.0
-        button.tapAction = closeAvatarPresentation
+        button.tapAction =  { [weak self] in self?.closeAvatarPresentation() }
 
         let configuration = UIImage.SymbolConfiguration(pointSize: 24)
         let image = UIImage(systemName: "xmark", withConfiguration: configuration)

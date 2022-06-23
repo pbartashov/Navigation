@@ -47,7 +47,7 @@ final class ClosureBasedButton: UIButton {
 
         self.init(title: title, titleColor: titleColor, backgroundColor: backgroundColor)
 
-        defer { // to trigger didSet
+        defer { // need to trigger didSet
             self.tapAction = tapAction
         }
     }
@@ -59,7 +59,7 @@ final class ClosureBasedButton: UIButton {
 
         self.init(title: title, titleColor: titleColor, backgroundColor: backgroundColor)
 
-        defer { // to trigger didSet
+        defer { // need to trigger didSet
             self.tapActionWithSender = tapAction
         }
     }
