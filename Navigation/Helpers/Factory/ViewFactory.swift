@@ -10,11 +10,8 @@ import UIKit
 struct ViewFactory {
     static var create = ViewFactory()
 
-    func button(withTitle title: String) -> UIButton {
-        let button = UIButton()
-        button.setTitle(title, for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemBlue
+    func button(withTitle title: String) -> ClosureBasedButton {
+        let button = ClosureBasedButton(title: title, titleColor: .white, backgroundColor: .systemBlue)
 
         button.layer.cornerRadius = 14
 
