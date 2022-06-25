@@ -7,6 +7,12 @@
 
 import UIKit
 
-final class ProfileCoordinator {
-    
+final class ProfileCoordinator: NavigationCoordinator {
+
+    //MARK: - Metods
+
+    func showPhotos() {
+        let photosViewController = PhotosViewController()
+        navigationController?.pushViewController(photosViewController, animated: true)
+    }
 }

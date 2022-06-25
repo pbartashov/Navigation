@@ -14,6 +14,7 @@ final class ProfileViewController: UIViewController {
     //MARK: - Properties
 
     private let posts: [Post] = Post.demoPosts
+    weak var coordinator: ProfileCoordinator?
 
     private let userService: UserService
     private let userName: String
@@ -251,8 +252,7 @@ extension ProfileViewController: UITableViewDelegate {
         if indexPath == IndexPath(row: 0, section: 0) {
             tableView.deselectRow(at: indexPath, animated: true)
 
-            let photosViewController = PhotosViewController()
-            navigationController?.pushViewController(photosViewController, animated: true)
+            coordinator?.showPhotos()
         }
     }
 }
@@ -268,7 +268,7 @@ extension ProfileViewController: ProfileHeaderViewDelegate {
 
     func avatarTapped(sender: UIView) {
         isAvatarPresenting = true
-
+        
         createCover()
 
         avatar = sender
