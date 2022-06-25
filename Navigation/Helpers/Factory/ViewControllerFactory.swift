@@ -17,7 +17,7 @@ struct ViewControllerFactory {
 
     func rootViewController(with delegate: LoginViewControllerDelegate) -> UIViewController {
 
-        let feedViewController = FeedViewController()
+        let feedViewController = FeedViewController(model: FeedViewControllerModel())
         feedViewController.tabBarItem = UITabBarItem(title: "Feed",
                                                      image: UIImage(systemName: "house.fill"),
                                                      tag: 0)
@@ -35,8 +35,6 @@ struct ViewControllerFactory {
             [UINavigationController(rootViewController: feedViewController),
              UINavigationController(rootViewController: loginViewController)],
             animated: true)
-
-        tabBarController.selectedIndex = 1
 
         return tabBarController
     }
