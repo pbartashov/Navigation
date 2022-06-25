@@ -15,29 +15,25 @@ struct ViewControllerFactory {
 
     //MARK: - Metods
 
-    func rootViewController(with delegate: LoginViewControllerDelegate) -> UIViewController {
+    func feedViewController(tag: Int) -> UIViewController {
 
         let feedViewController = FeedViewController(model: FeedViewControllerModel())
         feedViewController.tabBarItem = UITabBarItem(title: "Feed",
                                                      image: UIImage(systemName: "house.fill"),
-                                                     tag: 0)
+                                                     tag: tag)
 
+        return feedViewController
+    }
+
+    func loginViewController(with delegate: LoginViewControllerDelegate, tag: Int) -> UIViewController {
         let loginViewController = LoginViewController()
         loginViewController.delegate = delegate
         loginViewController.tabBarItem = UITabBarItem(title: "Profile",
                                                       image: UIImage(systemName: "person.fill"),
-                                                      tag: 1)
-
-        let tabBarController = UITabBarController()
-        tabBarController.tabBar.backgroundColor = .systemGray6
-
-        tabBarController.setViewControllers(
-            [UINavigationController(rootViewController: feedViewController),
-             UINavigationController(rootViewController: loginViewController)],
-            animated: true)
-
-        return tabBarController
+                                                      tag: tag)
+        return loginViewController
     }
+
 
     func profileViewController(for userName: String) -> UIViewController {
 #if DEBUG
