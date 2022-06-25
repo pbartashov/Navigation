@@ -12,15 +12,7 @@ import iOSIntPackage
 final class ProfileViewController: UIViewController {
 
     //MARK: - Properties
-
-    private let posts: [Post] = Post.demoPosts
-    weak var coordinator: ProfileCoordinator?
-
-    private let userService: UserService
-    private let userName: String
-    private var user: User? {
-        userService.getUser(byName: userName)
-    }
+    private var viewModel: ProfileViewModelProtocol
 
     private var isAvatarPresenting: Bool = false {
         didSet {
@@ -30,7 +22,7 @@ final class ProfileViewController: UIViewController {
 
     private var currentColorFilter: ColorFilter? {
         didSet {
-            for (i, post) in posts.enumerated() {
+            for (i, post) in viewModel.posts.enumerated() {
                 let indexPath = IndexPath(row: i, section: 1)
 
                 if let cell = tableView.cellForRow(at: indexPath) as? PostTableViewCell {
@@ -68,7 +60,7 @@ final class ProfileViewController: UIViewController {
 
         let profileHeaderView = ProfileHeaderView(delegate: self)
 
-        if let user = user {
+        if let user = viewModel.user {
             profileHeaderView.setup(with: user)
         }
 
@@ -96,9 +88,8 @@ final class ProfileViewController: UIViewController {
 
     //MARK: - LifeCicle
 
-    init(userService: UserService, userName: String) {
-        self.userService = userService
-        self.userName = userName
+    init(viewModel: ProfileViewModelProtocol) {
+        self.viewModel = viewModel
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -116,6 +107,10 @@ final class ProfileViewController: UIViewController {
         view.addSubview(tableView)
 
         setupLayout()
+
+        setupViewModel()
+
+        viewModel.perfomAction(.requstPosts)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -130,7 +125,18 @@ final class ProfileViewController: UIViewController {
     }
 
     //MARK: - Metods
-    
+
+    private func setupViewModel() {
+        viewModel.stateChanged = { [weak self] state in
+            switch state {
+                case .initial:
+                    break
+                case .loaded(_):
+                    self?.tableView.reloadData()
+            }
+        }
+    }
+
     private func setupLayout() {
         colorFilterSelecor.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
@@ -224,7 +230,7 @@ extension ProfileViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? 1 : posts.count
+        section == 0 ? 1 : viewModel.posts.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -236,7 +242,7 @@ extension ProfileViewController: UITableViewDataSource {
                                                  for: indexPath)
         as! PostTableViewCell
 
-        cell.setup(with: posts[indexPath.row], filter: currentColorFilter)
+        cell.setup(with: viewModel.posts[indexPath.row], filter: currentColorFilter)
 
         return cell
     }
@@ -252,7 +258,7 @@ extension ProfileViewController: UITableViewDelegate {
         if indexPath == IndexPath(row: 0, section: 0) {
             tableView.deselectRow(at: indexPath, animated: true)
 
-            coordinator?.showPhotos()
+            viewModel.perfomAction(.showPhotos)
         }
     }
 }
@@ -260,7 +266,7 @@ extension ProfileViewController: UITableViewDelegate {
 // MARK: - ProfileHeaderViewDelegate methods
 extension ProfileViewController: ProfileHeaderViewDelegate {
     func statusButtonTapped() {
-        if let user = user {
+        if let user = viewModel.user {
             user.status = profileHeaderView.statusText
             profileHeaderView.setup(with: user)
         }

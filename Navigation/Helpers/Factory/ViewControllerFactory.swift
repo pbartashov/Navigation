@@ -41,17 +41,4 @@ struct ViewControllerFactory {
                                                       tag: tag)
         return loginViewController
     }
-
-
-    func profileViewController(for userName: String) -> ProfileViewController {
-#if DEBUG
-        let userService = TestUserService()
-#else
-        let user = User(name: "Octopus",
-                        avatar: (UIImage(named: "profileImage") ?? UIImage(systemName: "person"))!,
-                        status: "Hardly coding")
-        let userService = CurrentUserService(currentUser: user)
-#endif
-        return ProfileViewController(userService: userService, userName: userName)
-    }
 }

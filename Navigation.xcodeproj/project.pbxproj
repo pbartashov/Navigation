@@ -14,6 +14,10 @@
 		6E0290AD2866B4D300365562 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0290AC2866B4D300365562 /* LoginCoordinator.swift */; };
 		6E0290B12866C1BA00365562 /* NavigationCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0290B02866C1B900365562 /* NavigationCoordinatorProtocol.swift */; };
 		6E0290B32866C32B00365562 /* PostCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0290B22866C32B00365562 /* PostCoordinator.swift */; };
+		6E0290B52866D15900365562 /* ProfileFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0290B42866D15900365562 /* ProfileFactory.swift */; };
+		6E0290BC2866D53700365562 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0290BB2866D53700365562 /* ProfileViewModel.swift */; };
+		6E0290BF2866D73700365562 /* PostServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0290BE2866D73700365562 /* PostServiceProtocol.swift */; };
+		6E0290C12866D78800365562 /* TestPostSevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0290C02866D78800365562 /* TestPostSevice.swift */; };
 		6E096F1427EDE88A00450675 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E096F1327EDE88A00450675 /* UIImage+Extension.swift */; };
 		6E096F1627EDE8B800450675 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E096F1527EDE8B800450675 /* UIView+Extension.swift */; };
 		6E10C90D27EDFE1C0019AC66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC429B27D4709A00E5E608 /* Assets.xcassets */; };
@@ -92,6 +96,10 @@
 		6E0290AC2866B4D300365562 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		6E0290B02866C1B900365562 /* NavigationCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		6E0290B22866C32B00365562 /* PostCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCoordinator.swift; sourceTree = "<group>"; };
+		6E0290B42866D15900365562 /* ProfileFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFactory.swift; sourceTree = "<group>"; };
+		6E0290BB2866D53700365562 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		6E0290BE2866D73700365562 /* PostServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServiceProtocol.swift; sourceTree = "<group>"; };
+		6E0290C02866D78800365562 /* TestPostSevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPostSevice.swift; sourceTree = "<group>"; };
 		6E096F1327EDE88A00450675 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		6E096F1527EDE8B800450675 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		6E2B02762860A66C003D12DE /* ClosureBasedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosureBasedButton.swift; sourceTree = "<group>"; };
@@ -170,6 +178,31 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		6E0290B92866D50400365562 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6E92C76227DA210500E77F6F /* ProfileViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		6E0290BA2866D51600365562 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6E0290BB2866D53700365562 /* ProfileViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		6E0290BD2866D71100365562 /* PostSevice */ = {
+			isa = PBXGroup;
+			children = (
+				6E0290BE2866D73700365562 /* PostServiceProtocol.swift */,
+				6E0290C02866D78800365562 /* TestPostSevice.swift */,
+			);
+			path = PostSevice;
+			sourceTree = "<group>";
+		};
 		6E2B02732860A454003D12DE /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,9 +214,10 @@
 		6E3E48992858C33B00EB849C /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				6E0290BD2866D71100365562 /* PostSevice */,
+				6E4234E7286497B700440F46 /* UserService */,
 				6E3E48A2285A1B3700EB849C /* AuthChecker.swift */,
 				6E4234E42861FA2A00440F46 /* ObservationToken.swift */,
-				6E4234E7286497B700440F46 /* UserService */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -302,9 +336,11 @@
 		6E92C75F27DA20A900E77F6F /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				6E0290BA2866D51600365562 /* ViewModel */,
+				6E0290B92866D50400365562 /* ViewController */,
 				6EAE394B285F32C400B63225 /* View */,
-				6E92C76227DA210500E77F6F /* ProfileViewController.swift */,
 				6E0290AA2866AF2300365562 /* ProfileCoordinator.swift */,
+				6E0290B42866D15900365562 /* ProfileFactory.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -625,8 +661,10 @@
 				6E3E48A1285A186D00EB849C /* ViewFactory.swift in Sources */,
 				6E0290A72866A73E00365562 /* MainCoordinator.swift in Sources */,
 				6ECC429327D4709900E5E608 /* AppDelegate.swift in Sources */,
+				6E0290C12866D78800365562 /* TestPostSevice.swift in Sources */,
 				6EE039CA27DE035000057A45 /* Constants.swift in Sources */,
 				6E92C75527D48E1800E77F6F /* FeedViewController.swift in Sources */,
+				6E0290BC2866D53700365562 /* ProfileViewModel.swift in Sources */,
 				6E4234DF2861E55B00440F46 /* FeedView.swift in Sources */,
 				6E6272EB27EB499800D151B5 /* Photos.swift in Sources */,
 				6E92C75E27D4996E00E77F6F /* InfoViewController.swift in Sources */,
@@ -635,6 +673,7 @@
 				6E3E48982858C1CE00EB849C /* User.swift in Sources */,
 				6ECC429527D4709900E5E608 /* SceneDelegate.swift in Sources */,
 				6E5E42B4285CD6AB002EA082 /* LoginFactory.swift in Sources */,
+				6E0290BF2866D73700365562 /* PostServiceProtocol.swift in Sources */,
 				6E0290AB2866AF2300365562 /* ProfileCoordinator.swift in Sources */,
 				6E3E489D2858C49400EB849C /* CurrentUserService.swift in Sources */,
 				6E0290AD2866B4D300365562 /* LoginCoordinator.swift in Sources */,
@@ -650,6 +689,7 @@
 				6E096F1627EDE8B800450675 /* UIView+Extension.swift in Sources */,
 				6EE039CE27E6B5B000057A45 /* LoginView.swift in Sources */,
 				6E4234E52861FA2A00440F46 /* ObservationToken.swift in Sources */,
+				6E0290B52866D15900365562 /* ProfileFactory.swift in Sources */,
 				6E3E48A7285B4DFE00EB849C /* LoginInspector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

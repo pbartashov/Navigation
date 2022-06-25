@@ -23,8 +23,10 @@ final class LoginCoordinator: NavigationCoordinator {
     //MARK: - Metods
 
     func showProfile(for userName: String) {
-        let profileViewController = ViewControllerFactory.create.profileViewController(for: userName)
-        profileViewController.coordinator = profileCoordinator
+        let profileViewModel = ProfileFactory.create.viewModelWith(coordinator: profileCoordinator,
+                                                                   userName: userName)
+
+        let profileViewController = ProfileFactory.create.viewControllerWith(viewModel: profileViewModel)
         
         navigationController?.pushViewController(profileViewController, animated: true)
     }
