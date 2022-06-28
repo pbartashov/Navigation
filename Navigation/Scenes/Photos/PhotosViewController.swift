@@ -42,6 +42,8 @@ final class PhotosViewController: UIViewController {
         view.addSubviewsToAutoLayout(collectionView)
 
         setupLayout()
+
+        runTest()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -55,12 +57,9 @@ final class PhotosViewController: UIViewController {
     //MARK: - Metods
 
     func setupLayout() {
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 }
 
@@ -117,5 +116,38 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
                         minimumInteritemSpacingForSectionAt section: Int)
     -> CGFloat {
         spacing
+    }
+}
+
+
+extension PhotosViewController {
+    private func runTest() {
+        let inputPhotos = photos.flatMap { [$0] + photos[0..<photos.count / 2] }
+        let filter: ColorFilter = .posterize
+        let qos: QualityOfService = .utility
+        let startTime = Date()
+
+        ImageProcessor()
+            .processImagesOnThread(sourceImages: inputPhotos,
+                                   filter: filter,
+                                   qos: qos) { [weak self] images in
+                let endTime = Date()
+
+                self?.photos = images.compactMap { image in
+                    guard let image = image else { return nil }
+                    return UIImage(cgImage: image)
+                }
+
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                }
+
+                let duration = String(format: "%.2f", endTime.timeIntervalSince(startTime))
+
+                print("Test results for \(inputPhotos.count) photos")
+                print("filter = \(filter)")
+                print("qos = \(qos)")
+                print("duration = \(duration)")
+            }
     }
 }
