@@ -42,11 +42,11 @@ final class PhotosViewController: UIViewController {
         view.addSubviewsToAutoLayout(collectionView)
 
         setupLayout()
- }
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
-   }
+    }
 
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
@@ -62,7 +62,7 @@ final class PhotosViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
- }
+}
 
 // MARK: - UICollectionViewDataSource methods
 extension PhotosViewController: UICollectionViewDataSource {
@@ -73,7 +73,7 @@ extension PhotosViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.identifier,
                                                       for: indexPath)
-            as! PhotosCollectionViewCell
+        as! PhotosCollectionViewCell
 
         cell.setup(with: photos[indexPath.row])
 
