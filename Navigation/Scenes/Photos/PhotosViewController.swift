@@ -12,8 +12,7 @@ final class PhotosViewController: UIViewController {
 
     //MARK: - Properties
 
-    private var photos: [UIImage] = []
-    private let imagePublisherFacade = ImagePublisherFacade()
+    private var photos: [UIImage] = Photos.allPhotos
 
     //MARK: - Views
 
@@ -47,16 +46,10 @@ final class PhotosViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
-
-        imagePublisherFacade.subscribe(self)
-        imagePublisherFacade.addImagesWithTimer(time: 0.3, repeat: 15, userImages: Photos.allPhotos)
-    }
+   }
 
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
-
-        imagePublisherFacade.removeSubscription(for: self)
-//        imagePublisherFacade.rechargeImageLibrary()
     }
 
     //MARK: - Metods
@@ -124,13 +117,5 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
                         minimumInteritemSpacingForSectionAt section: Int)
     -> CGFloat {
         spacing
-    }
-}
-
-// MARK: - ImageLibrarySubscriber methods
-extension PhotosViewController: ImageLibrarySubscriber {
-    func receive(images: [UIImage]) {
-        photos = images
-        collectionView.reloadData()
     }
 }
