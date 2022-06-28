@@ -12,8 +12,7 @@ final class PhotosViewController: UIViewController {
 
     //MARK: - Properties
 
-    private var photos: [UIImage] = []
-    private let imagePublisherFacade = ImagePublisherFacade()
+    private var photos: [UIImage] = Photos.allPhotos
 
     //MARK: - Views
 
@@ -43,33 +42,26 @@ final class PhotosViewController: UIViewController {
         view.addSubviewsToAutoLayout(collectionView)
 
         setupLayout()
- }
+
+        runTest()
+     }
 
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
-
-        imagePublisherFacade.subscribe(self)
-        imagePublisherFacade.addImagesWithTimer(time: 0.3, repeat: 15, userImages: Photos.allPhotos)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
-
-        imagePublisherFacade.removeSubscription(for: self)
-//        imagePublisherFacade.rechargeImageLibrary()
     }
 
     //MARK: - Metods
 
     func setupLayout() {
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
     }
- }
+}
 
 // MARK: - UICollectionViewDataSource methods
 extension PhotosViewController: UICollectionViewDataSource {
@@ -80,7 +72,7 @@ extension PhotosViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.identifier,
                                                       for: indexPath)
-            as! PhotosCollectionViewCell
+        as! PhotosCollectionViewCell
 
         cell.setup(with: photos[indexPath.row])
 
@@ -127,10 +119,35 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: - ImageLibrarySubscriber methods
-extension PhotosViewController: ImageLibrarySubscriber {
-    func receive(images: [UIImage]) {
-        photos = images
-        collectionView.reloadData()
+
+extension PhotosViewController {
+    private func runTest() {
+        let inputPhotos = photos.flatMap { [$0] + photos[0..<photos.count / 2] }
+        let filter: ColorFilter = .posterize
+        let qos: QualityOfService = .utility
+        let startTime = Date()
+
+        ImageProcessor()
+            .processImagesOnThread(sourceImages: inputPhotos,
+                                   filter: filter,
+                                   qos: qos) { [weak self] images in
+                let endTime = Date()
+
+                self?.photos = images.compactMap { image in
+                    guard let image = image else { return nil }
+                    return UIImage(cgImage: image)
+                }
+
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                }
+
+                let duration = String(format: "%.2f", endTime.timeIntervalSince(startTime))
+
+                print("Test results for \(inputPhotos.count) photos")
+                print("filter = \(filter)")
+                print("qos = \(qos)")
+                print("duration = \(duration)")
+            }
     }
 }
