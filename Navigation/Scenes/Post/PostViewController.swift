@@ -10,6 +10,12 @@ import StorageService
 
 final class PostViewController: UIViewController {
 
+    //MARK: - Properties
+
+    weak var coordinator: PostCoordinator?
+
+    //MARK: - LifeCicle
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,12 +27,13 @@ final class PostViewController: UIViewController {
                                                             action: #selector(infoButtonTapped))
     }
 
+    //MARK: - Metods
+
     func setup(with post: Post) {
         title = post.author
     }
 
     @objc func infoButtonTapped() {
-        let infoViewController = InfoViewController()
-        present(infoViewController, animated: true, completion: nil)
+        coordinator?.showInfo()
     }
 }

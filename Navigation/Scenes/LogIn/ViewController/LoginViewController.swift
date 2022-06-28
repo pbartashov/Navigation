@@ -16,6 +16,7 @@ final class LoginViewController: UIViewController {
     //MARK: - Properties
 
     weak var delegate: LoginViewControllerDelegate?
+    weak var coordinator: LoginCoordinator?
 
     //MARK: - Views
 
@@ -114,11 +115,9 @@ final class LoginViewController: UIViewController {
 extension LoginViewController: ViewWithButtonDelegate {
     func buttonTapped() {
         guard let delegate = delegate else { return }
-
+        
         if delegate.authPassedFor(login: loginView.login, password: loginView.password) {
-            let profileViewController = ViewControllerFactory.create.profileViewController(for: loginView.login)
-
-            navigationController?.pushViewController(profileViewController, animated: true)
+            coordinator?.showProfile(for: loginView.login)
         } else {
             loginView.shakeLoginButton()
         }

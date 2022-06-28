@@ -15,39 +15,30 @@ struct ViewControllerFactory {
 
     //MARK: - Metods
 
-    func rootViewController(with delegate: LoginViewControllerDelegate) -> UIViewController {
-
-        let feedViewController = FeedViewController(model: FeedViewControllerModel())
-        feedViewController.tabBarItem = UITabBarItem(title: "Feed",
-                                                     image: UIImage(systemName: "house.fill"),
-                                                     tag: 0)
-
-        let loginViewController = LoginViewController()
-        loginViewController.delegate = delegate
-        loginViewController.tabBarItem = UITabBarItem(title: "Profile",
-                                                      image: UIImage(systemName: "person.fill"),
-                                                      tag: 1)
-
+    func tabBarController(with viewControllers: [UIViewController]) -> UITabBarController {
         let tabBarController = UITabBarController()
         tabBarController.tabBar.backgroundColor = .systemGray6
 
-        tabBarController.setViewControllers(
-            [UINavigationController(rootViewController: feedViewController),
-             UINavigationController(rootViewController: loginViewController)],
-            animated: true)
+        tabBarController.setViewControllers(viewControllers, animated: true)
 
         return tabBarController
     }
 
-    func profileViewController(for userName: String) -> UIViewController {
-#if DEBUG
-        let userService = TestUserService()
-#else
-        let user = User(name: "Octopus",
-                        avatar: (UIImage(named: "profileImage") ?? UIImage(systemName: "person"))!,
-                        status: "Hardly coding")
-        let userService = CurrentUserService(currentUser: user)
-#endif
-        return ProfileViewController(userService: userService, userName: userName)
+    func feedViewController(tag: Int) -> FeedViewController {
+
+        let feedViewController = FeedViewController(model: FeedViewControllerModel())
+        feedViewController.tabBarItem = UITabBarItem(title: "Feed",
+                                                     image: UIImage(systemName: "house.fill"),
+                                                     tag: tag)
+        return feedViewController
+    }
+
+    func loginViewController(with delegate: LoginViewControllerDelegate, tag: Int) -> LoginViewController {
+        let loginViewController = LoginViewController()
+        loginViewController.delegate = delegate
+        loginViewController.tabBarItem = UITabBarItem(title: "Profile",
+                                                      image: UIImage(systemName: "person.fill"),
+                                                      tag: tag)
+        return loginViewController
     }
 }
