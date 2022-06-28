@@ -13,6 +13,7 @@ final class FeedViewController: UIViewController {
     //MARK: - Properties
 
     var model: FeedViewControllerModelProtocol
+    weak var coordinator: FeedCoordinator?
 
     //MARK: - Views
 
@@ -74,10 +75,9 @@ extension FeedViewController: ViewWithButtonDelegate {
                                 image: "",
                                 likes: 0,
                                 views: 0)
-                let postViewController = PostViewController()
-                postViewController.setup(with: post)
-                navigationController?.pushViewController(postViewController, animated: true)
 
+                coordinator?.showPost(post)
+                
             case FeedView.Buttons.login.hashValue:
                 if !feedView.text.isEmpty {
                     model.check(word: feedView.text)

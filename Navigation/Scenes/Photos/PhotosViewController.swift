@@ -56,7 +56,7 @@ final class PhotosViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
 
         imagePublisherFacade.removeSubscription(for: self)
-        imagePublisherFacade.rechargeImageLibrary()
+//        imagePublisherFacade.rechargeImageLibrary()
     }
 
     //MARK: - Metods
