@@ -44,7 +44,7 @@ final class PhotosViewController: UIViewController {
         setupLayout()
 
         runTest()
-     }
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
