@@ -5,12 +5,10 @@
 //  Created by Павел Барташов on 18.06.2022.
 //
 
-protocol LoginFactory {
-    func createLoginInsoector() -> LoginInspector
-}
+struct LoginFactory {
+    func viewModelWith(loginDelegate: LoginDelegate,
+                       coordinator: LoginCoordinator) -> LoginViewModel {
 
-struct LoginFactoryImp: LoginFactory {
-    func createLoginInsoector() -> LoginInspector {
-        LoginInspector()
+        LoginViewModel(loginDelegate: loginDelegate, coordinator: coordinator)
     }
 }

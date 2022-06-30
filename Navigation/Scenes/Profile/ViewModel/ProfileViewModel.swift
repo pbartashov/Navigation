@@ -7,26 +7,26 @@
 
 import StorageService
 
-enum Action {
+enum ProfileAction {
     case requstPosts
     case showPhotos
 }
 
-enum State {
+enum ProfileState {
     case initial
     case loaded([Post])
 }
 
-protocol ProfileViewModelProtocol {
+protocol ProfileViewModelProtocol: ViewModelProtocol
+    where State == ProfileState,
+          Action == ProfileAction {
+
     var posts: [Post] { get }
     var user: User? { get }
-    var stateChanged: ((State) -> Void)? { get set }
-
-    func perfomAction(_ action: Action)
 }
 
-final class ProfileViewModel: ProfileViewModelProtocol {
-
+final class ProfileViewModel: ViewModel<ProfileState, ProfileAction>,
+                              ProfileViewModelProtocol {
     //MARK: - Properties
 
     private weak var coordinator: ProfileCoordinator?
@@ -35,13 +35,6 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     private let userName: String
     var user: User? {
         userService.getUser(byName: userName)
-    }
-
-    var stateChanged: ((State) -> Void)?
-    private var state: State = .initial {
-        didSet {
-            stateChanged?(state)
-        }
     }
 
     private let postService: PostServiceProtocol
@@ -62,11 +55,13 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         self.coordinator = coordinator
         self.userService = userService
         self.userName = userName
+
+        super.init(state: .initial)
     }
 
     //MARK: - Metods
 
-    func perfomAction(_ action: Action) {
+    override func perfomAction(_ action: ProfileAction) {
         switch action {
             case .requstPosts:
                 posts = postService.getPosts()

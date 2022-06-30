@@ -7,16 +7,12 @@
 
 import UIKit
 
-protocol LoginViewControllerDelegate: AnyObject {
-    func authPassedFor(login: String, password: String) -> Bool
-}
 
-final class LoginViewController: UIViewController {
+final class LoginViewController<ViewModelType: LoginViewModelProtocol> : UIViewController {
 
     //MARK: - Properties
 
-    weak var delegate: LoginViewControllerDelegate?
-    weak var coordinator: LoginCoordinator?
+    private var viewModel: ViewModelType
 
     //MARK: - Views
 
@@ -31,6 +27,16 @@ final class LoginViewController: UIViewController {
 
     //MARK: - LifeCicle
 
+    init(viewModel: ViewModelType) {
+        self.viewModel = viewModel
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,6 +48,8 @@ final class LoginViewController: UIViewController {
         view.addSubview(scrollView)
 
         setupLayout()
+
+        setupViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -89,6 +97,19 @@ final class LoginViewController: UIViewController {
         }
     }
 
+    private func setupViewModel() {
+        viewModel.stateChanged = { [weak self] state in
+            switch state {
+                case .initial:
+                    break
+                case .authFailed:
+                    DispatchQueue.main.async {
+                        self?.loginView.shakeLoginButton()
+                    }
+            }
+        }
+    }
+
     @objc private func kbdShow(notification: NSNotification) {
         if let kbdSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
 
@@ -113,13 +134,26 @@ final class LoginViewController: UIViewController {
 
 // MARK: - ViewWithButtonDelegate methods
 extension LoginViewController: ViewWithButtonDelegate {
-    func buttonTapped() {
-        guard let delegate = delegate else { return }
-        
-        if delegate.authPassedFor(login: loginView.login, password: loginView.password) {
-            coordinator?.showProfile(for: loginView.login)
-        } else {
-            loginView.shakeLoginButton()
+    func buttonTapped(sender: UIButton) {
+        switch sender.tag {
+            case LoginView.Buttons.login.hashValue:
+                viewModel.perfomAction(.authWith(login: loginView.login, password: loginView.password))
+
+            case LoginView.Buttons.brutePassword.hashValue:
+                let randomPassword = getRandomString(length: 3)
+
+                let bruteWorkItem = DispatchWorkItem {
+                    BruteForce().bruteForce(passwordToUnlock: randomPassword)
+                }
+
+                bruteWorkItem.notify(queue: DispatchQueue.main) {
+                    print()
+                }
+
+                DispatchQueue.global().async(execute: bruteWorkItem)
+
+            default:
+                break
         }
     }
 }

@@ -16,3 +16,25 @@ func getUniqueRandomNumbers(min: Int, max: Int, count: Int) -> [Int] {
     
     return Array(set)
 }
+
+func getRandomString(length: Int) -> String {
+    var result = ""
+
+    while result.count < length {
+        if let character = result.digitsLetters.randomElement() {
+            result.append(character)
+        }
+    }
+
+    return result
+}
+//
+//func getRandomStringV2(length: Int) -> String {
+//    let allowedSymbols = Array("".printable)
+//    let randomIndexes = getUniqueRandomNumbers(min: 0, max: allowedSymbols.count, count: length)
+//
+//    return randomIndexes
+//        .reduce(into: "", { result, index in
+//            result.append(allowedSymbols[index])
+//        })
+//}

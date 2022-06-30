@@ -9,10 +9,13 @@ import UIKit
 import StorageService
 import iOSIntPackage
 
-final class ProfileViewController: UIViewController {
+final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIViewController,
+                                                                            UITableViewDataSource,
+                                                                            UITableViewDelegate {
 
     //MARK: - Properties
-    private var viewModel: ProfileViewModelProtocol
+
+    private var viewModel: ViewModelType
 
     private var isAvatarPresenting: Bool = false {
         didSet {
@@ -88,7 +91,7 @@ final class ProfileViewController: UIViewController {
 
     //MARK: - LifeCicle
 
-    init(viewModel: ProfileViewModelProtocol) {
+    init(viewModel: ViewModelType) {
         self.viewModel = viewModel
 
         super.init(nibName: nil, bundle: nil)
@@ -132,7 +135,9 @@ final class ProfileViewController: UIViewController {
                 case .initial:
                     break
                 case .loaded(_):
-                    self?.tableView.reloadData()
+                    DispatchQueue.main.async {
+                        self?.tableView.reloadData()
+                    }
             }
         }
     }
@@ -221,10 +226,8 @@ final class ProfileViewController: UIViewController {
         }
         )
     }
-}
 
-// MARK: - UITableViewDataSource methods
-extension ProfileViewController: UITableViewDataSource {
+    // MARK: - UITableViewDataSource methods
     func numberOfSections(in tableView: UITableView) -> Int {
         2
     }
@@ -246,10 +249,8 @@ extension ProfileViewController: UITableViewDataSource {
 
         return cell
     }
-}
 
-// MARK: - UITableViewDelegate methods
-extension ProfileViewController: UITableViewDelegate {
+    // MARK: - UITableViewDelegate methods
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         section == 0 ? profileHeaderView : nil
     }

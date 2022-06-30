@@ -9,17 +9,32 @@ import UIKit
 
 final class LoginView: UIView {
 
+    enum Buttons: String {
+        case login = "Log in"
+        case brutePassword = "Подобрать пароль"
+    }
+    
     //MARK: - Properties
 
     var delegate: ViewWithButtonDelegate?
     private let logoImageView = UIImageView(image: UIImage(named: "logo"))
 
     var login: String {
-        loginTextField.text ?? ""
+        get {
+            loginTextField.text ?? ""
+        }
+        set {
+            loginTextField.text = newValue
+        }
     }
 
     var password: String {
-        passwordTextField.text ?? ""
+        get {
+            passwordTextField.text ?? ""
+        }
+        set {
+            passwordTextField.text = newValue
+        }
     }
 
     var loginButtonFrame: CGRect {
@@ -48,9 +63,9 @@ final class LoginView: UIView {
     }()
 
     private lazy var loginButton: ClosureBasedButton = {
-        let button = ClosureBasedButton(title: "Log in",
+        let button = ClosureBasedButton(title: Buttons.login.rawValue,
                                         titleColor: .white,
-                                        tapAction: { [weak self] in self?.loginButtonTapped() })
+                                        tapAction: { [weak self] in self?.buttonTapped(sender: $0) })
 
         let backgroundImage = UIImage(named: "blue_pixel")
         button.setBackgroundImage(backgroundImage, for: .normal)
@@ -63,10 +78,29 @@ final class LoginView: UIView {
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = true
 
+        button.tag = Buttons.login.hashValue
+
+        return button
+    }()
+
+    private lazy var brutePasswordButton: ClosureBasedButton = {
+        let button = ClosureBasedButton(title: Buttons.brutePassword.rawValue,
+                                        titleColor: .white,
+                                        tapAction: { [weak self] in self?.buttonTapped(sender: $0) })
+
+        let backgroundImage = UIImage(named: "blue_pixel")
+        button.setBackgroundImage(backgroundImage, for: .normal)
+
+        button.layer.cornerRadius = 10
+        button.layer.masksToBounds = true
+
+        button.tag = Buttons.brutePassword.hashValue
+
         return button
     }()
 
     //MARK: - LifeCicle
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -87,42 +121,47 @@ final class LoginView: UIView {
         [logoImageView,
         loginTextField,
         passwordTextField,
-        loginButton].forEach {
+        loginButton,
+        brutePasswordButton].forEach {
             self.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
         setupLayouts()
     }
 
     private func setupLayouts() {
-        NSLayoutConstraint.activate([
-            logoImageView.topAnchor.constraint(equalTo: topAnchor, constant: 120),
-            logoImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            logoImageView.widthAnchor.constraint(equalToConstant: Constants.avatarImageSize),
-            logoImageView.heightAnchor.constraint(equalToConstant: Constants.avatarImageSize),
+        logoImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(120)
+            make.centerX.equalToSuperview()
+            make.width.height.equalTo(Constants.avatarImageSize)
+        }
 
-            loginTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 120),
-            loginTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
-            loginTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
-            loginTextField.heightAnchor.constraint(equalToConstant: 50),
+        loginTextField.snp.makeConstraints { make in
+            make.top.equalTo(logoImageView.snp.bottom).offset(120)
+            make.leading.equalToSuperview().offset(Constants.padding)
+            make.trailing.equalToSuperview().offset(-Constants.padding)
+            make.height.equalTo(50)
+        }
 
-            passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor),
-            passwordTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
-            passwordTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
-            passwordTextField.heightAnchor.constraint(equalToConstant: 50),
+        passwordTextField.snp.makeConstraints { make in
+            make.top.equalTo(loginTextField.snp.bottom)
+            make.leading.trailing.height.equalTo(loginTextField)
+        }
 
-            loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: Constants.padding),
-            loginButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
-            loginButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
-            loginButton.heightAnchor.constraint(equalToConstant: 50),
+        loginButton.snp.makeConstraints { make in
+            make.top.equalTo(passwordTextField.snp.bottom).offset(Constants.padding)
+            make.leading.trailing.height.equalTo(loginTextField)
+        }
 
-            bottomAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: Constants.padding)
-        ])
+        brutePasswordButton.snp.makeConstraints { make in
+            make.top.equalTo(loginButton.snp.bottom).offset(Constants.padding)
+            make.leading.trailing.height.equalTo(loginTextField)
+            make.bottom.equalToSuperview().offset(Constants.padding)
+        }
     }
 
-    func loginButtonTapped() {
-        delegate?.buttonTapped()
+    func buttonTapped(sender: UIButton) {
+        delegate?.buttonTapped(sender: sender)
     }
 
     func shakeLoginButton() {
