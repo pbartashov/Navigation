@@ -23,7 +23,12 @@
 		6E10C90D27EDFE1C0019AC66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC429B27D4709A00E5E608 /* Assets.xcassets */; };
 		6E1D5575287160EE0066A519 /* BruteForceServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D5574287160EE0066A519 /* BruteForceServiceProtocol.swift */; };
 		6E1D5577287193930066A519 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D5576287193930066A519 /* ViewModel.swift */; };
-		6E2859D0286C7E1F00383EA8 /* BruteForceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2859CF286C7E1F00383EA8 /* BruteForceService.swift */; };
+		6E1D5579287197020066A519 /* OperationBruteForceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D5578287197020066A519 /* OperationBruteForceService.swift */; };
+		6E1D557B287198710066A519 /* BruteForceOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D557A287198710066A519 /* BruteForceOperation.swift */; };
+		6E1D55802871A2D40066A519 /* BruteForcerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D557F2871A2D40066A519 /* BruteForcerProtocol.swift */; };
+		6E1D55822871A36A0066A519 /* BruteForcerV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D55812871A36A0066A519 /* BruteForcerV1.swift */; };
+		6E1D55842871D3CE0066A519 /* BruteForcerV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D55832871D3CE0066A519 /* BruteForcerV2.swift */; };
+		6E2859D0286C7E1F00383EA8 /* GCDBruteForceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2859CF286C7E1F00383EA8 /* GCDBruteForceService.swift */; };
 		6E2859D2286C898D00383EA8 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2859D1286C898D00383EA8 /* String+Extension.swift */; };
 		6E2859D5286DACE200383EA8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2859D4286DACE200383EA8 /* LoginViewModel.swift */; };
 		6E2859D7286DB49300383EA8 /* LoginDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2859D6286DB49300383EA8 /* LoginDelegate.swift */; };
@@ -111,7 +116,12 @@
 		6E096F1527EDE8B800450675 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		6E1D5574287160EE0066A519 /* BruteForceServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BruteForceServiceProtocol.swift; sourceTree = "<group>"; };
 		6E1D5576287193930066A519 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		6E2859CF286C7E1F00383EA8 /* BruteForceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BruteForceService.swift; sourceTree = "<group>"; };
+		6E1D5578287197020066A519 /* OperationBruteForceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationBruteForceService.swift; sourceTree = "<group>"; };
+		6E1D557A287198710066A519 /* BruteForceOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BruteForceOperation.swift; sourceTree = "<group>"; };
+		6E1D557F2871A2D40066A519 /* BruteForcerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BruteForcerProtocol.swift; sourceTree = "<group>"; };
+		6E1D55812871A36A0066A519 /* BruteForcerV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BruteForcerV1.swift; sourceTree = "<group>"; };
+		6E1D55832871D3CE0066A519 /* BruteForcerV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BruteForcerV2.swift; sourceTree = "<group>"; };
+		6E2859CF286C7E1F00383EA8 /* GCDBruteForceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDBruteForceService.swift; sourceTree = "<group>"; };
 		6E2859D1286C898D00383EA8 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		6E2859D4286DACE200383EA8 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		6E2859D6286DB49300383EA8 /* LoginDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDelegate.swift; sourceTree = "<group>"; };
@@ -220,10 +230,39 @@
 		6E1D5573287159860066A519 /* BruteForce */ = {
 			isa = PBXGroup;
 			children = (
+				6E1D557E2871A2BC0066A519 /* BruteForcer */,
+				6E1D557C287198C10066A519 /* GCD */,
+				6E1D557D287198D20066A519 /* Operation */,
 				6E1D5574287160EE0066A519 /* BruteForceServiceProtocol.swift */,
-				6E2859CF286C7E1F00383EA8 /* BruteForceService.swift */,
 			);
 			path = BruteForce;
+			sourceTree = "<group>";
+		};
+		6E1D557C287198C10066A519 /* GCD */ = {
+			isa = PBXGroup;
+			children = (
+				6E2859CF286C7E1F00383EA8 /* GCDBruteForceService.swift */,
+			);
+			path = GCD;
+			sourceTree = "<group>";
+		};
+		6E1D557D287198D20066A519 /* Operation */ = {
+			isa = PBXGroup;
+			children = (
+				6E1D5578287197020066A519 /* OperationBruteForceService.swift */,
+				6E1D557A287198710066A519 /* BruteForceOperation.swift */,
+			);
+			path = Operation;
+			sourceTree = "<group>";
+		};
+		6E1D557E2871A2BC0066A519 /* BruteForcer */ = {
+			isa = PBXGroup;
+			children = (
+				6E1D557F2871A2D40066A519 /* BruteForcerProtocol.swift */,
+				6E1D55812871A36A0066A519 /* BruteForcerV1.swift */,
+				6E1D55832871D3CE0066A519 /* BruteForcerV2.swift */,
+			);
+			path = BruteForcer;
 			sourceTree = "<group>";
 		};
 		6E2859D3286DACCB00383EA8 /* ViewModel */ = {
@@ -688,8 +727,10 @@
 			files = (
 				6E6272E927EB3BCA00D151B5 /* PhotosTableViewCell.swift in Sources */,
 				6E5E42B7285DDE74002EA082 /* ViewControllerFactory.swift in Sources */,
-				6E2859D0286C7E1F00383EA8 /* BruteForceService.swift in Sources */,
+				6E2859D0286C7E1F00383EA8 /* GCDBruteForceService.swift in Sources */,
+				6E1D55842871D3CE0066A519 /* BruteForcerV2.swift in Sources */,
 				6E6272EE27EC8F3600D151B5 /* PhotosViewController.swift in Sources */,
+				6E1D557B287198710066A519 /* BruteForceOperation.swift in Sources */,
 				6E2B02772860A66C003D12DE /* ClosureBasedButton.swift in Sources */,
 				6E4234E32861F1C600440F46 /* ViewWithButtonDelegate.swift in Sources */,
 				6E1D5577287193930066A519 /* ViewModel.swift in Sources */,
@@ -697,8 +738,11 @@
 				6E3E489F2859FE7900EB849C /* TestUserService.swift in Sources */,
 				6E2859D5286DACE200383EA8 /* LoginViewModel.swift in Sources */,
 				6E3E48A3285A1B3700EB849C /* AuthChecker.swift in Sources */,
+				6E1D5579287197020066A519 /* OperationBruteForceService.swift in Sources */,
+				6E1D55802871A2D40066A519 /* BruteForcerProtocol.swift in Sources */,
 				6E0290B32866C32B00365562 /* PostCoordinator.swift in Sources */,
 				6E3E48A1285A186D00EB849C /* ViewFactory.swift in Sources */,
+				6E1D55822871A36A0066A519 /* BruteForcerV1.swift in Sources */,
 				6E0290A72866A73E00365562 /* MainCoordinator.swift in Sources */,
 				6E2859D2286C898D00383EA8 /* String+Extension.swift in Sources */,
 				6ECC429327D4709900E5E608 /* AppDelegate.swift in Sources */,

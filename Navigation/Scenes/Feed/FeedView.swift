@@ -107,6 +107,7 @@ final class FeedView: UIStackView {
     }()
 
     //MARK: - LifeCicle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
 

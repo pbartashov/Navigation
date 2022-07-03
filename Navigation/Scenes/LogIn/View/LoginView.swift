@@ -105,6 +105,7 @@ final class LoginView: UIView {
         stack.distribution = .equalSpacing
         stack.spacing = Constants.padding
         stack.alpha = 0
+        stack.backgroundColor = passwordTextField.backgroundColor
 
         let button = ClosureBasedButton(title: Buttons.cancelBrutePassword.rawValue,
                                         titleColor: .tintColor,

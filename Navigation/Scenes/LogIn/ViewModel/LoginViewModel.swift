@@ -22,8 +22,8 @@ enum LoginState {
 }
 
 protocol LoginViewModelProtocol: ViewModelProtocol
-where State == LoginState,
-      Action == LoginAction {
+    where State == LoginState,
+          Action == LoginAction {
 }
 
 final class LoginViewModel: ViewModel<LoginState, LoginAction>,
@@ -62,7 +62,7 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
         }
 
         bruteForceService?.progress = { [weak self] counter, current in
-            if counter % 10000 == 0 {
+            if counter % 100_000 == 0 {
                 self?.state = .bruteForceProgress(password: current)
             }
         }
@@ -80,7 +80,7 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
                 }
 
             case .bruteForce:
-                let randomPassword = getRandomString(length: 3)
+                let randomPassword = getRandomString(length: 4)
                 bruteForceService?.start(passwordToUnlock: randomPassword)
                 
             case .cancelBruteForce:
