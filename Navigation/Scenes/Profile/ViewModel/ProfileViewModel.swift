@@ -64,7 +64,9 @@ final class ProfileViewModel: ViewModel<ProfileState, ProfileAction>,
     override func perfomAction(_ action: ProfileAction) {
         switch action {
             case .requstPosts:
-                posts = postService.getPosts()
+                DispatchQueue.global().async { [self] in
+                    posts = postService.getPosts()
+                }
             case .showPhotos:
                 coordinator?.showPhotos()
         }

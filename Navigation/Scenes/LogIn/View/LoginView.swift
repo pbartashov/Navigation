@@ -12,6 +12,7 @@ final class LoginView: UIView {
     enum Buttons: String {
         case login = "Log in"
         case brutePassword = "Подобрать пароль"
+        case cancelBrutePassword = "Отменить"
     }
     
     //MARK: - Properties
@@ -20,27 +21,17 @@ final class LoginView: UIView {
     private let logoImageView = UIImageView(image: UIImage(named: "logo"))
 
     var login: String {
-        get {
-            loginTextField.text ?? ""
-        }
-        set {
-            loginTextField.text = newValue
-        }
+        loginTextField.text ?? ""
     }
 
     var password: String {
-        get {
-            passwordTextField.text ?? ""
-        }
-        set {
-            passwordTextField.text = newValue
-        }
+        passwordTextField.text ?? ""
     }
 
     var loginButtonFrame: CGRect {
         loginButton.frame
     }
-    
+
     //MARK: - Views
 
     private lazy var loginTextField: UITextField = {
@@ -85,18 +76,51 @@ final class LoginView: UIView {
 
     private lazy var brutePasswordButton: ClosureBasedButton = {
         let button = ClosureBasedButton(title: Buttons.brutePassword.rawValue,
-                                        titleColor: .white,
+                                        titleColor: .tintColor,
                                         tapAction: { [weak self] in self?.buttonTapped(sender: $0) })
 
-        let backgroundImage = UIImage(named: "blue_pixel")
-        button.setBackgroundImage(backgroundImage, for: .normal)
-
-        button.layer.cornerRadius = 10
-        button.layer.masksToBounds = true
-
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .regular)
         button.tag = Buttons.brutePassword.hashValue
 
         return button
+    }()
+
+    private lazy var currentPassword: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+
+        return label
+    }()
+
+    private lazy var bruteActivity: UIActivityIndicatorView = {
+        let activity = UIActivityIndicatorView(style: .medium)
+        activity.startAnimating()
+
+        return activity
+    }()
+
+
+    private lazy var bruteDashBoard: UIStackView = {
+        let stack = UIStackView()
+        stack.distribution = .equalSpacing
+        stack.spacing = Constants.padding
+        stack.alpha = 0
+
+        let button = ClosureBasedButton(title: Buttons.cancelBrutePassword.rawValue,
+                                        titleColor: .tintColor,
+                                        tapAction: { [weak self] in self?.buttonTapped(sender: $0) })
+
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .regular)
+        button.tag = Buttons.cancelBrutePassword.hashValue
+
+        [currentPassword,
+         bruteActivity,
+         button
+        ].forEach {
+            stack.addArrangedSubview($0)
+        }
+
+        return stack
     }()
 
     //MARK: - LifeCicle
@@ -116,13 +140,13 @@ final class LoginView: UIView {
     }
 
     //MARK: - Metods
-    
+
     private func initialize() {
         [logoImageView,
-        loginTextField,
-        passwordTextField,
-        loginButton,
-        brutePasswordButton].forEach {
+         loginTextField,
+         passwordTextField,
+         loginButton,
+         brutePasswordButton].forEach {
             self.addSubview($0)
         }
 
@@ -148,19 +172,19 @@ final class LoginView: UIView {
             make.leading.trailing.height.equalTo(loginTextField)
         }
 
-        loginButton.snp.makeConstraints { make in
-            make.top.equalTo(passwordTextField.snp.bottom).offset(Constants.padding)
-            make.leading.trailing.height.equalTo(loginTextField)
+        brutePasswordButton.snp.makeConstraints { make in
+            make.top.equalTo(passwordTextField.snp.bottom)
+            make.centerX.equalTo(loginTextField)
         }
 
-        brutePasswordButton.snp.makeConstraints { make in
-            make.top.equalTo(loginButton.snp.bottom).offset(Constants.padding)
+        loginButton.snp.makeConstraints { make in
+            make.top.equalTo(brutePasswordButton.snp.bottom).offset(Constants.padding)
             make.leading.trailing.height.equalTo(loginTextField)
             make.bottom.equalToSuperview().offset(Constants.padding)
         }
     }
 
-    func buttonTapped(sender: UIButton) {
+    private func buttonTapped(sender: UIButton) {
         delegate?.buttonTapped(sender: sender)
     }
 
@@ -172,5 +196,47 @@ final class LoginView: UIView {
                        options: [], animations: {
             self.loginButton.transform = .identity
         }, completion: nil )
+    }
+
+    func startBrutePassword() {
+        passwordTextField.isSecureTextEntry = true
+
+        UIView.animate(withDuration: 0.3) {
+            self.brutePasswordButton.alpha = 0
+            self.bruteDashBoard.alpha = 1
+        }
+
+        passwordTextField.addSubview(bruteDashBoard)
+
+        bruteDashBoard.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+
+        bruteActivity.snp.makeConstraints { make in
+            make.center.equalTo(passwordTextField)
+        }
+    }
+
+    func updateBruteProgress(with password: String) {
+        self.currentPassword.text = password
+    }
+
+    func cancelBrutePassword() {
+        UIView.animate(withDuration: 0.3) {
+            self.brutePasswordButton.alpha = 1
+            self.bruteDashBoard.alpha = 0
+        } completion: { _ in
+            self.bruteActivity.snp.removeConstraints()
+
+            self.bruteDashBoard.snp.removeConstraints()
+            self.bruteDashBoard.removeFromSuperview()
+        }
+    }
+
+    func finishBruteProgress(with password: String) {
+        cancelBrutePassword()
+
+        passwordTextField.text = password
+        passwordTextField.isSecureTextEntry = false
     }
 }

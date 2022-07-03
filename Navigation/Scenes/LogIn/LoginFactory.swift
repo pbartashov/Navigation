@@ -8,7 +8,8 @@
 struct LoginFactory {
     func viewModelWith(loginDelegate: LoginDelegate,
                        coordinator: LoginCoordinator) -> LoginViewModel {
-
-        LoginViewModel(loginDelegate: loginDelegate, coordinator: coordinator)
+        LoginViewModel(loginDelegate: loginDelegate,
+                       coordinator: coordinator,
+                       bruteForceService: BruteForceService())
     }
 }

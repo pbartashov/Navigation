@@ -5,63 +5,26 @@
 //  Created by Павел Барташов on 30.06.2022.
 //
 
-protocol ViewModelProtocol {
-    associatedtype State
-    associatedtype Action
-
-    var stateChanged: ((State) -> Void)? { get set }
-    func perfomAction(_ action: Action)
-}
-
-class ViewModel<State, Action>: ViewModelProtocol {
-
-    //MARK: - Properties
-
-    var stateChanged: ((State) -> Void)?
-
-    var state: State {
-        didSet {
-            stateChanged?(state)
-        }
-    }
-
-    //MARK: - LifeCicle
-
-    init(state: State) {
-        self.state = state
-    }
-
-    //MARK: - Metods
-
-    func perfomAction(_ action: Action) { }
-}
-
-
-
-
-
-
-
-
-
-
+import Foundation
 
 enum LoginAction {
     case authWith(login: String, password: String)
+    case bruteForce
+    case cancelBruteForce
 }
 
 enum LoginState {
     case initial
     case authFailed
+    case bruteForceFinishedWith(password: String)
+    case bruteForceCancelled
+    case bruteForceProgress(password: String)
 }
 
 protocol LoginViewModelProtocol: ViewModelProtocol
-    where State == LoginState,
-          Action == LoginAction {
-
+where State == LoginState,
+      Action == LoginAction {
 }
-
-
 
 final class LoginViewModel: ViewModel<LoginState, LoginAction>,
                             LoginViewModelProtocol {
@@ -69,18 +32,41 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
 
     weak var loginDelegate: LoginDelegate?
     weak var coordinator: LoginCoordinator?
+    var bruteForceService: BruteForceServiceProtocol?
 
     //MARK: - LifeCicle
 
     init(loginDelegate: LoginDelegate,
-         coordinator: LoginCoordinator) {
+         coordinator: LoginCoordinator,
+         bruteForceService: BruteForceServiceProtocol) {
 
         self.loginDelegate = loginDelegate
         self.coordinator = coordinator
+        self.bruteForceService = bruteForceService
         super.init(state: .initial)
+
+        setupBruteForceService()
     }
 
     //MARK: - Metods
+
+    private func setupBruteForceService() {
+        bruteForceService?.completion = { [weak self] bruteState in
+            switch bruteState {
+                case .success(password: let password):
+                    self?.state = .bruteForceFinishedWith(password: password)
+
+                case .fail, .cancel:
+                    self?.state = .bruteForceCancelled
+            }
+        }
+
+        bruteForceService?.progress = { [weak self] counter, current in
+            if counter % 10000 == 0 {
+                self?.state = .bruteForceProgress(password: current)
+            }
+        }
+    }
 
     override func perfomAction(_ action: LoginAction) {
         switch action {
@@ -91,10 +77,14 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
                     coordinator?.showProfile(for: login)
                 } else {
                     state = .authFailed
-    
                 }
-            
+
+            case .bruteForce:
+                let randomPassword = getRandomString(length: 3)
+                bruteForceService?.start(passwordToUnlock: randomPassword)
+                
+            case .cancelBruteForce:
+                bruteForceService?.cancel()
         }
     }
-
 }

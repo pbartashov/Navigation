@@ -154,7 +154,7 @@ final class ProfileHeaderView: UIView {
             make.leading.equalToSuperview().offset(Constants.padding)
             make.trailing.equalToSuperview().offset(-Constants.padding)
             make.height.equalTo(50)
-            make.bottom.equalToSuperview().offset(-Constants.padding)
+            make.bottom.equalToSuperview().offset(-Constants.padding).priority(999)
         }
     }
 

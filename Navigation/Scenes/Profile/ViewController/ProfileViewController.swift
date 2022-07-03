@@ -12,7 +12,6 @@ import iOSIntPackage
 final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIViewController,
                                                                             UITableViewDataSource,
                                                                             UITableViewDelegate {
-
     //MARK: - Properties
 
     private var viewModel: ViewModelType
@@ -217,7 +216,7 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
                 avatar.transform = .identity
                 avatar.layer.cornerRadius = avatar.bounds.width / 2
             }
-        }, completion: { [self]_ in
+        }, completion: { [self] _ in
 
             coverView?.removeFromSuperview()
             closeAvatarPresentationButton?.removeFromSuperview()
