@@ -9,7 +9,7 @@ struct LoginFactory {
     func viewModelWith(loginDelegate: LoginDelegate,
                        coordinator: LoginCoordinator) -> LoginViewModel {
 
-        let allowedCharacters: String = String().printable
+        let allowedCharacters = String().printable
         let bruteForcer = BruteForcerV2(allowedCharacters: allowedCharacters)
         let bruteForceService = OperationBruteForceService(bruteForcer: bruteForcer)
 

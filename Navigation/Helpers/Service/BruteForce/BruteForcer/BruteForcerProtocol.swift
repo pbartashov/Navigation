@@ -8,6 +8,8 @@
 import Foundation
 
 protocol BruteForcerProtocol {
+    var allowedCharacters: String { get }
+
     mutating func generateBruteForce(_ password: String) -> String
     mutating func reset()
 }

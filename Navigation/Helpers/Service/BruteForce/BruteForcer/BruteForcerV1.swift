@@ -10,12 +10,16 @@ struct BruteForcerV1: BruteForcerProtocol {
 
     //MARK: - Properties
 
-    private let allowedCharacters: [String]
+    private let _allowedCharacters: [String]
+
+    var allowedCharacters: String {
+        _allowedCharacters.joined(separator: "")
+    }
 
     //MARK: - LifeCicle
 
     init(allowedCharacters: String) {
-        self.allowedCharacters = allowedCharacters.map { String($0) }
+        self._allowedCharacters = allowedCharacters.map { String($0) }
     }
     
     //MARK: - Metods
@@ -33,13 +37,13 @@ struct BruteForcerV1: BruteForcerProtocol {
         var str: String = string
 
         if str.count <= 0 {
-            str.append(characterAt(index: 0, allowedCharacters))
+            str.append(characterAt(index: 0, _allowedCharacters))
         }
         else {
             str.replace(at: str.count - 1,
-                        with: characterAt(index: (indexOf(character: str.last!, allowedCharacters) + 1) % allowedCharacters.count, allowedCharacters))
+                        with: characterAt(index: (indexOf(character: str.last!, _allowedCharacters) + 1) % _allowedCharacters.count, _allowedCharacters))
 
-            if indexOf(character: str.last!, allowedCharacters) == 0 {
+            if indexOf(character: str.last!, _allowedCharacters) == 0 {
                 str = String(generateBruteForce(String(str.dropLast()))) + String(str.last!)
             }
         }

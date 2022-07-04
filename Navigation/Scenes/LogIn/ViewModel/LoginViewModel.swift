@@ -81,7 +81,7 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
 
             case .bruteForce:
                 let randomPassword = getRandomString(length: 4)
-                bruteForceService?.start(passwordToUnlock: randomPassword)
+                bruteForceService?.start(passwordToUnlock: "VD%89")
                 
             case .cancelBruteForce:
                 bruteForceService?.cancel()

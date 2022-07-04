@@ -19,6 +19,9 @@ final class BruteForceOperation: Operation {
     var progress: ((Int, String) -> Void)?
     var result: String = ""
 
+    var lengthLimit = 0 // ноль означает, что длина подбираемой части пароля неограничена
+    var suffix = ""
+
     //MARK: - LifeCicle
 
     init(passwordToUnlock: String,
@@ -32,7 +35,7 @@ final class BruteForceOperation: Operation {
 
     override func main() {
         if isCancelled {
-            print("\(passwordToUnlock) cancelled at: \(Date())")
+            printDescription(for: "cancelled", at: Date())
             return
         }
 
@@ -40,29 +43,45 @@ final class BruteForceOperation: Operation {
         bruteForcer.reset()
 
         let startTime = Date()
-        print("\(passwordToUnlock) started at: \(startTime)")
+        printDescription(for: "started", at: startTime)
 
         var counter = 0
 
         while password != passwordToUnlock { // Increase MAXIMUM_PASSWORD_SIZE value for more
             if isCancelled {
-                print("\(passwordToUnlock) cancelled at: \(Date())")
+                printDescription(for: "cancelled", at: Date())
                 return
             }
 
             password = bruteForcer.generateBruteForce(password)
+
+            if lengthLimit > 0 && password.count > lengthLimit {
+                printDescription(for: "failed", at: Date())
+                return
+            }
+
+            password.append(suffix)
 
             progress?(counter, password)
             counter += 1
         }
 
         let endTime = Date()
-        print("\(passwordToUnlock) finished at: \(endTime)")
+        printDescription(for: "finished", at: endTime)
 
         let duration = String(format: "%.2f", endTime.timeIntervalSince(startTime))
         print("duration: \(duration)")
         print("password: \(password)")
 
         result = password
+    }
+
+    private func printDescription(for action: String, at date: Date) {
+        var template = ""
+        for _ in 0..<lengthLimit {
+            template.append("?")
+        }
+
+        print("\(passwordToUnlock) with template \(template)\(suffix) \(action) at: \(date)")
     }
 }

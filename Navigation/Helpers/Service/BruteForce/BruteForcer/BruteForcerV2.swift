@@ -9,26 +9,30 @@ struct BruteForcerV2: BruteForcerProtocol {
 
     //MARK: - Properties
 
-    private let allowedCharacters: [Character]
+    private let _allowedCharacters: [Character]
     private var indexes: [Int] = [0]
+
+    var allowedCharacters: String {
+        String(_allowedCharacters)
+    }
 
     //MARK: - LifeCicle
 
     init(allowedCharacters: String) {
-        self.allowedCharacters = Array(allowedCharacters)
+        self._allowedCharacters = Array(allowedCharacters)
     }
 
     //MARK: - Metods
 
     mutating func generateBruteForce(_ password: String) -> String {
         let result = indexes.reduce(into: "") { partialResult, i in
-            partialResult.append(allowedCharacters[i])
+            partialResult.append(_allowedCharacters[i])
         }
 
         var i = 0
         indexes[i] += 1
 
-        while indexes[i] >= allowedCharacters.count {
+        while indexes[i] >= _allowedCharacters.count {
             indexes[i] = 0
 
             i += 1
