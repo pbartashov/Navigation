@@ -11,7 +11,7 @@ struct LoginFactory {
 
         let allowedCharacters = String().printable
         let bruteForcer = BruteForcerV2(allowedCharacters: allowedCharacters)
-        let bruteForceService = OperationBruteForceService(bruteForcer: bruteForcer)
+        let bruteForceService = MultiOperationBruteForceService(bruteForcer: bruteForcer)
 
         return LoginViewModel(loginDelegate: loginDelegate,
                               coordinator: coordinator,

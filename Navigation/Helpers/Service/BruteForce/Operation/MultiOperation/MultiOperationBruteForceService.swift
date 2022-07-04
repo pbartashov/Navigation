@@ -13,8 +13,8 @@ final class MultiOperationBruteForceService: BruteForceServiceProtocol {
 
     var bruteForcer: BruteForcerProtocol
 
-    var operationCount: Int = 1
-    var lengthLimit: Int = 4
+    var operationCount: Int = 10
+    var lengthLimit: Int = 3
 
     var completion: ((BruteForceState) -> Void)?
 
@@ -23,7 +23,7 @@ final class MultiOperationBruteForceService: BruteForceServiceProtocol {
     lazy var bruteForceQueue: OperationQueue = {
         var queue = OperationQueue()
         queue.name = "BruteForce queue"
-        queue.qualityOfService = .userInitiated
+        queue.qualityOfService = .utility
 //        queue.maxConcurrentOperationCount = 1
 
         return queue
@@ -53,11 +53,11 @@ final class MultiOperationBruteForceService: BruteForceServiceProtocol {
 
     func start(passwordToUnlock: String) {
         cancel()
+        suffixBruteForcer.reset()
 
         for _ in 0..<operationCount {
             scheduleOperation(passwordToUnlock)
         }
-
     }
 
     func cancel() {
@@ -76,26 +76,31 @@ final class MultiOperationBruteForceService: BruteForceServiceProtocol {
         bruteForceOperation.completionBlock = { [weak self] in
             guard let self = self else { return }
 
-            self.schedulerQueue.addOperation {
+            let schedulerOperation = BlockOperation()
+
+            schedulerOperation.addExecutionBlock {
+                if schedulerOperation.isCancelled {
+                    return
+                }
+
                 if bruteForceOperation.isCancelled {
                     self.completion?(.cancel)
                     return
                 }
 
                 if bruteForceOperation.result.isEmpty {
-//                    self.schedulerQueue.addOperation {
-                        self.scheduleOperation(passwordToUnlock)
-//                    }
+                    self.scheduleOperation(passwordToUnlock)
                 } else {
-
-                    self.cancel()
+                    self.schedulerQueue.addOperation {
+                        self.cancel()
+                    }
                     self.completion?(.success(password: bruteForceOperation.result))
                 }
             }
+
+            self.schedulerQueue.addOperation(schedulerOperation)
         }
 
         bruteForceQueue.addOperation(bruteForceOperation)
-
-
     }
 }

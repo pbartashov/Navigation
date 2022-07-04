@@ -77,11 +77,15 @@ final class BruteForceOperation: Operation {
     }
 
     private func printDescription(for action: String, at date: Date) {
-        var template = ""
-        for _ in 0..<lengthLimit {
-            template.append("?")
-        }
+        if lengthLimit > 0 {
+            var template = ""
+            for _ in 0..<lengthLimit {
+                template.append("?")
+            }
 
-        print("\(passwordToUnlock) with template \(template)\(suffix) \(action) at: \(date)")
+            print("\(passwordToUnlock) with template \(template)\(suffix) \(action) at: \(date)")
+        } else {
+            print("\(passwordToUnlock) \(action) at: \(date)")
+        }
     }
 }
