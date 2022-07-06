@@ -5,12 +5,16 @@
 //  Created by Павел Барташов on 18.06.2022.
 //
 
-protocol LoginFactory {
-    func createLoginInsoector() -> LoginInspector
-}
+struct LoginFactory {
+    func viewModelWith(loginDelegate: LoginDelegate,
+                       coordinator: LoginCoordinator) -> LoginViewModel {
 
-struct LoginFactoryImp: LoginFactory {
-    func createLoginInsoector() -> LoginInspector {
-        LoginInspector()
+        let allowedCharacters = String().printable
+        let bruteForcer = BruteForcerV2(allowedCharacters: allowedCharacters)
+        let bruteForceService = OperationBruteForceService(bruteForcer: bruteForcer)
+
+        return LoginViewModel(loginDelegate: loginDelegate,
+                              coordinator: coordinator,
+                              bruteForceService: bruteForceService)
     }
 }

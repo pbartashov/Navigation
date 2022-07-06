@@ -15,7 +15,7 @@ final class MainCoordinator {
 
     //MARK: - Properties
 
-    private let loginInspector = LoginFactoryImp().createLoginInsoector()
+    private let loginInspector = LoginInspectorFactoryImp().createLoginInspector()
 
     private var feedCoordinator: FeedCoordinator?
     private var loginCoordinator: LoginCoordinator?
@@ -27,13 +27,15 @@ final class MainCoordinator {
         let loginNavigationController = UINavigationController()
 
         feedCoordinator = FeedCoordinator(navigationController: feedNavigationController)
-        loginCoordinator = LoginCoordinator(navigationController: loginNavigationController)
+        let loginCoordinator = LoginCoordinator(navigationController: loginNavigationController)
+        self.loginCoordinator = loginCoordinator
 
         let feedViewController = ViewControllerFactory.create.feedViewController(tag: 0)
         feedViewController.coordinator = feedCoordinator
 
-        let loginViewController = ViewControllerFactory.create.loginViewController(with: loginInspector, tag: 1)
-        loginViewController.coordinator = loginCoordinator
+        let loginViewController = ViewControllerFactory.create.loginViewController(loginDelegate: loginInspector,
+                                                                                   coordinator: loginCoordinator,
+                                                                                   tag: 1)
 
         feedNavigationController.setViewControllers([feedViewController], animated: false)
         loginNavigationController.setViewControllers([loginViewController], animated: false)

@@ -34,8 +34,8 @@ struct ProfileFactory {
                                 userService: userService,
                                 userName: userName)
     }
-
-    func viewControllerWith(viewModel: ProfileViewModel) -> ProfileViewController {
+    
+    func viewControllerWith(viewModel: ProfileViewModel) -> UIViewController {
         ProfileViewController(viewModel: viewModel)
     }
 }

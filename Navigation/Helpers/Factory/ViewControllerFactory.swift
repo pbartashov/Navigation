@@ -21,11 +21,12 @@ struct ViewControllerFactory {
 
         tabBarController.setViewControllers(viewControllers, animated: true)
 
+        tabBarController.selectedIndex = 1
+        
         return tabBarController
     }
 
     func feedViewController(tag: Int) -> FeedViewController {
-
         let feedViewController = FeedViewController(model: FeedViewControllerModel())
         feedViewController.tabBarItem = UITabBarItem(title: "Feed",
                                                      image: UIImage(systemName: "house.fill"),
@@ -33,9 +34,11 @@ struct ViewControllerFactory {
         return feedViewController
     }
 
-    func loginViewController(with delegate: LoginViewControllerDelegate, tag: Int) -> LoginViewController {
-        let loginViewController = LoginViewController()
-        loginViewController.delegate = delegate
+    func loginViewController(loginDelegate: LoginDelegate, coordinator: LoginCoordinator, tag: Int) -> UIViewController {
+        let loginViewModel = LoginFactory().viewModelWith(loginDelegate: loginDelegate,
+                                                          coordinator: coordinator)
+
+        let loginViewController = LoginViewController(viewModel: loginViewModel)
         loginViewController.tabBarItem = UITabBarItem(title: "Profile",
                                                       image: UIImage(systemName: "person.fill"),
                                                       tag: tag)

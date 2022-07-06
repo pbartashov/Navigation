@@ -9,6 +9,12 @@ import UIKit
 
 final class LoginView: UIView {
 
+    enum Buttons: String {
+        case login = "Log in"
+        case brutePassword = "Подобрать пароль"
+        case cancelBrutePassword = "Отменить"
+    }
+    
     //MARK: - Properties
 
     var delegate: ViewWithButtonDelegate?
@@ -25,7 +31,7 @@ final class LoginView: UIView {
     var loginButtonFrame: CGRect {
         loginButton.frame
     }
-    
+
     //MARK: - Views
 
     private lazy var loginTextField: UITextField = {
@@ -48,9 +54,9 @@ final class LoginView: UIView {
     }()
 
     private lazy var loginButton: ClosureBasedButton = {
-        let button = ClosureBasedButton(title: "Log in",
+        let button = ClosureBasedButton(title: Buttons.login.rawValue,
                                         titleColor: .white,
-                                        tapAction: { [weak self] in self?.loginButtonTapped() })
+                                        tapAction: { [weak self] in self?.buttonTapped(sender: $0) })
 
         let backgroundImage = UIImage(named: "blue_pixel")
         button.setBackgroundImage(backgroundImage, for: .normal)
@@ -63,10 +69,63 @@ final class LoginView: UIView {
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = true
 
+        button.tag = Buttons.login.hashValue
+
         return button
     }()
 
+    private lazy var brutePasswordButton: ClosureBasedButton = {
+        let button = ClosureBasedButton(title: Buttons.brutePassword.rawValue,
+                                        titleColor: .tintColor,
+                                        tapAction: { [weak self] in self?.buttonTapped(sender: $0) })
+
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .regular)
+        button.tag = Buttons.brutePassword.hashValue
+
+        return button
+    }()
+
+    private lazy var currentPassword: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+
+        return label
+    }()
+
+    private lazy var bruteActivity: UIActivityIndicatorView = {
+        let activity = UIActivityIndicatorView(style: .medium)
+        activity.startAnimating()
+
+        return activity
+    }()
+
+
+    private lazy var bruteDashBoard: UIStackView = {
+        let stack = UIStackView()
+        stack.distribution = .equalSpacing
+        stack.spacing = Constants.padding
+        stack.alpha = 0
+        stack.backgroundColor = passwordTextField.backgroundColor
+
+        let button = ClosureBasedButton(title: Buttons.cancelBrutePassword.rawValue,
+                                        titleColor: .tintColor,
+                                        tapAction: { [weak self] in self?.buttonTapped(sender: $0) })
+
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .regular)
+        button.tag = Buttons.cancelBrutePassword.hashValue
+
+        [currentPassword,
+         bruteActivity,
+         button
+        ].forEach {
+            stack.addArrangedSubview($0)
+        }
+
+        return stack
+    }()
+
     //MARK: - LifeCicle
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -82,47 +141,52 @@ final class LoginView: UIView {
     }
 
     //MARK: - Metods
-    
+
     private func initialize() {
         [logoImageView,
-        loginTextField,
-        passwordTextField,
-        loginButton].forEach {
+         loginTextField,
+         passwordTextField,
+         loginButton,
+         brutePasswordButton].forEach {
             self.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
         setupLayouts()
     }
 
     private func setupLayouts() {
-        NSLayoutConstraint.activate([
-            logoImageView.topAnchor.constraint(equalTo: topAnchor, constant: 120),
-            logoImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            logoImageView.widthAnchor.constraint(equalToConstant: Constants.avatarImageSize),
-            logoImageView.heightAnchor.constraint(equalToConstant: Constants.avatarImageSize),
+        logoImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(120)
+            make.centerX.equalToSuperview()
+            make.width.height.equalTo(Constants.avatarImageSize)
+        }
 
-            loginTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 120),
-            loginTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
-            loginTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
-            loginTextField.heightAnchor.constraint(equalToConstant: 50),
+        loginTextField.snp.makeConstraints { make in
+            make.top.equalTo(logoImageView.snp.bottom).offset(120)
+            make.leading.equalToSuperview().offset(Constants.padding)
+            make.trailing.equalToSuperview().offset(-Constants.padding)
+            make.height.equalTo(50)
+        }
 
-            passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor),
-            passwordTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
-            passwordTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
-            passwordTextField.heightAnchor.constraint(equalToConstant: 50),
+        passwordTextField.snp.makeConstraints { make in
+            make.top.equalTo(loginTextField.snp.bottom)
+            make.leading.trailing.height.equalTo(loginTextField)
+        }
 
-            loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: Constants.padding),
-            loginButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
-            loginButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
-            loginButton.heightAnchor.constraint(equalToConstant: 50),
+        brutePasswordButton.snp.makeConstraints { make in
+            make.top.equalTo(passwordTextField.snp.bottom)
+            make.centerX.equalTo(loginTextField)
+        }
 
-            bottomAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: Constants.padding)
-        ])
+        loginButton.snp.makeConstraints { make in
+            make.top.equalTo(brutePasswordButton.snp.bottom).offset(Constants.padding)
+            make.leading.trailing.height.equalTo(loginTextField)
+            make.bottom.equalToSuperview().offset(-Constants.padding)
+        }
     }
 
-    func loginButtonTapped() {
-        delegate?.buttonTapped()
+    private func buttonTapped(sender: UIButton) {
+        delegate?.buttonTapped(sender: sender)
     }
 
     func shakeLoginButton() {
@@ -133,5 +197,47 @@ final class LoginView: UIView {
                        options: [], animations: {
             self.loginButton.transform = .identity
         }, completion: nil )
+    }
+
+    func startBrutePassword() {
+        passwordTextField.isSecureTextEntry = true
+
+        UIView.animate(withDuration: 0.3) {
+            self.brutePasswordButton.alpha = 0
+            self.bruteDashBoard.alpha = 1
+        }
+
+        passwordTextField.addSubview(bruteDashBoard)
+
+        bruteDashBoard.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+
+        bruteActivity.snp.makeConstraints { make in
+            make.center.equalTo(passwordTextField)
+        }
+    }
+
+    func updateBruteProgress(with password: String) {
+        self.currentPassword.text = password
+    }
+
+    func cancelBrutePassword() {
+        UIView.animate(withDuration: 0.3) {
+            self.brutePasswordButton.alpha = 1
+            self.bruteDashBoard.alpha = 0
+        } completion: { _ in
+            self.bruteActivity.snp.removeConstraints()
+
+            self.bruteDashBoard.snp.removeConstraints()
+            self.bruteDashBoard.removeFromSuperview()
+        }
+    }
+
+    func finishBruteProgress(with password: String) {
+        cancelBrutePassword()
+
+        passwordTextField.text = password
+        passwordTextField.isSecureTextEntry = false
     }
 }

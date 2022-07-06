@@ -20,7 +20,7 @@ struct Photos {
     //MARK: - Metods
     
     static func randomPhotos(ofCount count: Int) -> [UIImage] {
-        let randomIndexes = getUniqueRandomNumbers(min: 1, max: totalPhotosCount, count: count)
+        let randomIndexes = Random.uniqueNumbers(min: 1, max: totalPhotosCount, count: count)
         return getPhotos(withIndexes: randomIndexes)
     }
 
