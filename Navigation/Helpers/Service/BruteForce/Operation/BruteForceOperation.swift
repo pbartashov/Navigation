@@ -35,7 +35,7 @@ final class BruteForceOperation: Operation {
 
     override func main() {
         if isCancelled {
-            printDescription(for: "cancelled", at: Date())
+            Print.description(of: self, for: "cancelled")
             return
         }
 
@@ -43,20 +43,21 @@ final class BruteForceOperation: Operation {
         bruteForcer.reset()
 
         let startTime = Date()
-        printDescription(for: "started", at: startTime)
+        Print.description(of: self, for: "started", at: startTime)
 
         var counter = 0
 
         while password != passwordToUnlock { // Increase MAXIMUM_PASSWORD_SIZE value for more
             if isCancelled {
-                printDescription(for: "cancelled", at: Date())
+
+                Print.description(of: self, for: "cancelled")
                 return
             }
 
             password = bruteForcer.generateBruteForce(password)
 
             if lengthLimit > 0 && password.count > lengthLimit {
-                printDescription(for: "failed", at: Date())
+                Print.description(of: self, for: "failed")
                 return
             }
 
@@ -67,25 +68,9 @@ final class BruteForceOperation: Operation {
         }
 
         let endTime = Date()
-        printDescription(for: "finished", at: endTime)
-
-        let duration = String(format: "%.2f", endTime.timeIntervalSince(startTime))
-        print("duration: \(duration)")
-        print("password: \(password)")
+        Print.description(of: self, for: "finished", at: endTime)
+        Print.bruteForcePasswordDuration(from: startTime, till: endTime, for: password)
 
         result = password
-    }
-
-    private func printDescription(for action: String, at date: Date) {
-        if lengthLimit > 0 {
-            var template = ""
-            for _ in 0..<lengthLimit {
-                template.append("?")
-            }
-
-            print("\(passwordToUnlock) with template \(template)\(suffix) \(action) at: \(date)")
-        } else {
-            print("\(passwordToUnlock) \(action) at: \(date)")
-        }
     }
 }

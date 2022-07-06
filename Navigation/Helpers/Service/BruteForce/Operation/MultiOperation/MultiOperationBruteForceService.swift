@@ -13,8 +13,8 @@ final class MultiOperationBruteForceService: BruteForceServiceProtocol {
 
     var bruteForcer: BruteForcerProtocol
 
-    var operationCount: Int = 10
-    var lengthLimit: Int = 3
+    var operationCount: Int = 3
+    var lengthLimit: Int = 4
 
     var completion: ((BruteForceState) -> Void)?
 
@@ -40,6 +40,9 @@ final class MultiOperationBruteForceService: BruteForceServiceProtocol {
 
     private var currentSuffix: String
     private var suffixBruteForcer: BruteForcerV2
+    private var isCancelled = false
+
+    private var startTime: Date?
 
     //MARK: - LifeCicle
 
@@ -55,14 +58,23 @@ final class MultiOperationBruteForceService: BruteForceServiceProtocol {
         cancel()
         suffixBruteForcer.reset()
 
+        startTime = Date()
+        isCancelled = false
+
         for _ in 0..<operationCount {
             scheduleOperation(passwordToUnlock)
         }
     }
 
     func cancel() {
+        isCancelled = true
+
+        schedulerQueue.isSuspended = true
+
         bruteForceQueue.cancelAllOperations()
-        schedulerQueue.cancelAllOperations()
+        bruteForceQueue.waitUntilAllOperationsAreFinished()
+
+        schedulerQueue.isSuspended = false
     }
 
     private func scheduleOperation(_ passwordToUnlock: String) {
@@ -76,14 +88,8 @@ final class MultiOperationBruteForceService: BruteForceServiceProtocol {
         bruteForceOperation.completionBlock = { [weak self] in
             guard let self = self else { return }
 
-            let schedulerOperation = BlockOperation()
-
-            schedulerOperation.addExecutionBlock {
-                if schedulerOperation.isCancelled {
-                    return
-                }
-
-                if bruteForceOperation.isCancelled {
+            self.schedulerQueue.addOperation {
+                if self.isCancelled || bruteForceOperation.isCancelled {
                     self.completion?(.cancel)
                     return
                 }
@@ -91,14 +97,13 @@ final class MultiOperationBruteForceService: BruteForceServiceProtocol {
                 if bruteForceOperation.result.isEmpty {
                     self.scheduleOperation(passwordToUnlock)
                 } else {
-                    self.schedulerQueue.addOperation {
-                        self.cancel()
-                    }
+                    self.cancel()
+
+                    Print.bruteForcePasswordDuration(from: self.startTime ?? Date(), for: bruteForceOperation.result)
+
                     self.completion?(.success(password: bruteForceOperation.result))
                 }
             }
-
-            self.schedulerQueue.addOperation(schedulerOperation)
         }
 
         bruteForceQueue.addOperation(bruteForceOperation)

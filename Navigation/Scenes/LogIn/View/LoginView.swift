@@ -181,7 +181,7 @@ final class LoginView: UIView {
         loginButton.snp.makeConstraints { make in
             make.top.equalTo(brutePasswordButton.snp.bottom).offset(Constants.padding)
             make.leading.trailing.height.equalTo(loginTextField)
-            make.bottom.equalToSuperview().offset(Constants.padding)
+            make.bottom.equalToSuperview().offset(-Constants.padding)
         }
     }
 

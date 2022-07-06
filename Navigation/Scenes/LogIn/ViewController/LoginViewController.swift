@@ -66,6 +66,13 @@ final class LoginViewController<ViewModelType: LoginViewModelProtocol> : UIViewC
                        name: UIResponder.keyboardWillHideNotification,
                        object: nil)
     }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        scrollView.scrollRectToVisible(loginView.loginButtonFrame.offsetBy(dx: 0, dy: Constants.padding),
+                                       animated: false)
+    }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
