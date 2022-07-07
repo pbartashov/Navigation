@@ -12,11 +12,14 @@ final class LoginCoordinator: NavigationCoordinator {
     //MARK: - Properties
 
     private let profileCoordinator: ProfileCoordinator
+    private let hintCoordinator: NavigationCoordinator
+    weak var coordinator: LoginCoordinator?
 
     //MARK: - LifeCicle
 
     override init(navigationController: UINavigationController) {
         self.profileCoordinator = ProfileCoordinator(navigationController: navigationController)
+        self.hintCoordinator = NavigationCoordinator(navigationController: navigationController)
         super.init(navigationController: navigationController)
     }
 
@@ -29,5 +32,21 @@ final class LoginCoordinator: NavigationCoordinator {
         let profileViewController = ProfileFactory.create.viewControllerWith(viewModel: profileViewModel)
         
         navigationController?.pushViewController(profileViewController, animated: true)
+    }
+
+    func startHintTimer() {
+        Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { _ in
+            let hintViewModel = HintViewModel(coordinator: self.hintCoordinator)
+            let hintViewController = HintViewController(viewModel: hintViewModel)
+
+            DispatchQueue.main.async {
+                self.navigationController?.present(hintViewController, animated: true)
+            }
+        }
+// В данном случае проще использовать asyncAfter, но т.к. мы изучаем таймеры, сделаем через них ))
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+//            let hintViewController = HintViewController()
+//            self.navigationController?.pushViewController(hintViewController, animated: true)
+//        }
     }
 }

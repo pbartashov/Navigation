@@ -29,35 +29,40 @@ final class ClosureBasedButton: UIButton {
         }
     }
 
-    init(title: String = "",
+    init(title: String? = nil,
          titleColor: UIColor? = nil,
-         backgroundColor: UIColor? = nil
+         backgroundColor: UIColor? = nil,
+         image: UIImage? = nil
     ) {
         super.init(frame: .zero)
 
         self.backgroundColor = backgroundColor
         setTitle(title, for: .normal)
         setTitleColor(titleColor, for: .normal)
+
+        setImage(image, for: .normal)
     }
 
-    convenience init(title: String = "",
+    convenience init(title: String? = nil,
                      titleColor: UIColor? = nil,
                      backgroundColor: UIColor? = nil,
+                     image: UIImage? = nil,
                      tapAction: (() -> Void)? = nil) {
 
-        self.init(title: title, titleColor: titleColor, backgroundColor: backgroundColor)
+        self.init(title: title, titleColor: titleColor, backgroundColor: backgroundColor, image: image)
 
         defer { // need to trigger didSet
             self.tapAction = tapAction
         }
     }
 
-    convenience init(title: String = "",
+    convenience init(title: String? = nil,
                      titleColor: UIColor? = nil,
                      backgroundColor: UIColor? = nil,
+                     image: UIImage? = nil,
                      tapAction: ((_ sender: UIButton) -> Void)? = nil) {
 
-        self.init(title: title, titleColor: titleColor, backgroundColor: backgroundColor)
+        self.init(title: title, titleColor: titleColor, backgroundColor: backgroundColor, image: image)
 
         defer { // need to trigger didSet
             self.tapActionWithSender = tapAction

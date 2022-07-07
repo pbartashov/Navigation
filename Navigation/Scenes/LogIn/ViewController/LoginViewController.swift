@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class LoginViewController<ViewModelType: LoginViewModelProtocol> : UIViewController {
+final class LoginViewController<ViewModelType: LoginViewModelProtocol>: UIViewController {
     
     //MARK: - Properties
     
@@ -49,6 +49,8 @@ final class LoginViewController<ViewModelType: LoginViewModelProtocol> : UIViewC
         setupLayout()
         
         setupViewModel()
+
+        viewModel.perfomAction(.startHintTimer)
     }
     
     override func viewWillAppear(_ animated: Bool) {

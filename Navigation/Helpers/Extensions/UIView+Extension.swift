@@ -18,6 +18,12 @@ public extension UIView {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
+    
+    func addSubviews(_ subviews: UIView...) {
+        subviews.forEach {
+            addSubview($0)
+        }
+    }
 
     func hideWithAnimation() {
         UIView.animate(withDuration: 0.5) { [weak self] in
