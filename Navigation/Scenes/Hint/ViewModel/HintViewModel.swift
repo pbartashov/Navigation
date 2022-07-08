@@ -18,12 +18,12 @@ enum HintAction {
 enum HintState {
     case initial
     case progress(TimeInterval)
-    case updateHint(with: HintElement)
+    case updateHint(with: HintElement?)
 }
 
 protocol HintViewModelProtocol: ViewModelProtocol
-    where State == HintState,
-          Action == HintAction {
+where State == HintState,
+      Action == HintAction {
 }
 
 final class HintViewModel: ViewModel<HintState, HintAction>,
@@ -51,61 +51,60 @@ final class HintViewModel: ViewModel<HintState, HintAction>,
     override func perfomAction(_ action: HintAction) {
         switch action {
             case .startCountDown(let seconds):
-                startTime = seconds
-                resetCounter()
-
-                if let first = model.first {
-                    self.state = .updateHint(with: first)
-                }
-
-                let timer = Timer(timeInterval: speed, repeats: true) { [weak self] _ in
-                    guard let self = self else { return }
-
-                    self.counter -= self.speed
-                    self.state = .progress(self.counter)
-
-                    if self.counter <= 0.0 {
-                        if let next = self.model.next() {
-                            self.state = .updateHint(with: next)
-                        } else {
-                            self.model.reset()
-                            if let first = self.model.first {
-                                self.state = .updateHint(with: first)
-                            }
-                        }
-
-                        self.resetCounter()
-                    }
-                }
-
-                RunLoop.current.add(timer, forMode: .common)
-                self.timer = timer
+                startTimer(seconds)
 
             case .closeHint:
                 coordinator?.dismiss(animated: true)
                 fallthrough
                 
             case .stopCountDown:
-                timer?.invalidate()
-                timer = nil
+                stopTimer()
 
             case .backward:
-                if let previous = self.model.previous() {
-                    self.state = .updateHint(with: previous)
-                }
+                state = .updateHint(with: model.previous())
                 resetCounter()
 
             case .forward:
-                if let next = self.model.next() {
+                state = .updateHint(with: model.next())
+                resetCounter()
+        }
+    }
+
+    private func startTimer(_ seconds: TimeInterval) {
+        startTime = seconds
+        resetCounter()
+
+        state = .updateHint(with: model.first)
+
+        timer = Timer.scheduledTimer(withTimeInterval: speed, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+
+            self.counter -= self.speed
+            self.state = .progress(self.counter)
+
+            if self.counter <= 0.0 {
+                let next = self.model.next()
+
+                if next == nil {
+                    self.model.reset()
+                    self.state = .updateHint(with: self.model.first)
+                } else {
                     self.state = .updateHint(with: next)
                 }
-                resetCounter()
+
+                self.resetCounter()
+            }
         }
     }
 
     private func resetCounter() {
         counter = startTime
         state = .progress(counter)
+    }
+
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 }
 

@@ -73,8 +73,10 @@ final class HintViewController<ViewModelType: HintViewModelProtocol>: UIViewCont
                         self?.hintView.updateProgress(with: seconds)
 
                     case .updateHint(let hint):
-                        self?.hintView.updateHint(with: hint.value)
-                        self?.hintView.updateButtons(with: hint.position)
+                        if let hint = hint {
+                            self?.hintView.updateHint(with: hint.value)
+                            self?.hintView.updateButtons(with: hint.position)
+                        }
                 }
             }
         }
