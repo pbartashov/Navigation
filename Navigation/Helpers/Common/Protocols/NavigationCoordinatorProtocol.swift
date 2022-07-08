@@ -21,4 +21,14 @@ class NavigationCoordinator {
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
+
+    //MARK: - Metods
+
+    func pop(animated: Bool) {
+        navigationController?.popViewController(animated: animated)
+    }
+
+    func dismiss(animated: Bool) {
+        navigationController?.dismiss(animated: animated)
+    }
 }

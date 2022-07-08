@@ -11,6 +11,7 @@ enum LoginAction {
     case authWith(login: String, password: String)
     case bruteForce
     case cancelBruteForce
+    case startHintTimer
 }
 
 enum LoginState {
@@ -85,6 +86,9 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
                 
             case .cancelBruteForce:
                 bruteForceService?.cancel()
+
+            case .startHintTimer:
+                coordinator?.startHintTimer()
         }
     }
 }
