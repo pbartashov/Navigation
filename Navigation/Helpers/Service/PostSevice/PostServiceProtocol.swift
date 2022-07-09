@@ -8,5 +8,5 @@
 import StorageService
 
 protocol PostServiceProtocol {
-    func getPosts() -> [Post]
+    func getPosts(comletion: @escaping (Result<[Post], PostServiceError>) -> Void)
 }

@@ -189,14 +189,26 @@ final class LoginView: UIView {
         delegate?.buttonTapped(sender: sender)
     }
 
-    func shakeLoginButton() {
-        loginButton.transform = CGAffineTransform(translationX: 10, y: 0)
+    func shake(view: UIView) {
+        view.transform = CGAffineTransform(translationX: 10, y: 0)
 
         UIView.animate(withDuration: 0.5, delay: 0,
                        usingSpringWithDamping: 0.1, initialSpringVelocity: 0.1,
                        options: [], animations: {
-            self.loginButton.transform = .identity
+            view.transform = .identity
         }, completion: nil )
+    }
+
+    func shakeLoginTextField() {
+        shake(view: loginTextField)
+    }
+
+    func shakePasswordTextField() {
+        shake(view: passwordTextField)
+    }
+
+    func shakeLoginButton() {
+        shake(view: loginButton)
     }
 
     func startBrutePassword() {
@@ -234,7 +246,7 @@ final class LoginView: UIView {
         }
     }
 
-    func finishBruteProgress(with password: String) {
+    func finishBrutePassword(with password: String) {
         cancelBrutePassword()
 
         passwordTextField.text = password
