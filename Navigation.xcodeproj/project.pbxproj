@@ -240,14 +240,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		6E0290BD2866D71100365562 /* PostSevice */ = {
+		6E0290BD2866D71100365562 /* PostService */ = {
 			isa = PBXGroup;
 			children = (
 				6E9811B32878624B00B17ADD /* PostServiceError.swift */,
 				6E0290BE2866D73700365562 /* PostServiceProtocol.swift */,
 				6E0290C02866D78800365562 /* TestPostSevice.swift */,
 			);
-			path = PostSevice;
+			path = PostService;
 			sourceTree = "<group>";
 		};
 		6E1D5573287159860066A519 /* BruteForce */ = {
@@ -309,7 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				6E1D5573287159860066A519 /* BruteForce */,
-				6E0290BD2866D71100365562 /* PostSevice */,
+				6E0290BD2866D71100365562 /* PostService */,
 				6E4234E7286497B700440F46 /* UserService */,
 				6E3E48A2285A1B3700EB849C /* AuthChecker.swift */,
 				6E4234E42861FA2A00440F46 /* ObservationToken.swift */,

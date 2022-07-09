@@ -8,7 +8,7 @@
 import StorageService
 
 final class TestPostService: PostServiceProtocol {
-    let mockNetworkRequstSucceeded = true
+    let mockNetworkRequstSucceeded = false
 
     func getPosts(comletion: @escaping (Result<[Post], PostServiceError>) -> Void) {
         DispatchQueue.global().async { [weak self] in
