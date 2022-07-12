@@ -13,7 +13,6 @@ final class LoginCoordinator: NavigationCoordinator {
 
     private let profileCoordinator: ProfileCoordinator
     private let hintCoordinator: NavigationCoordinator
-    weak var coordinator: LoginCoordinator?
 
     //MARK: - LifeCicle
 
@@ -35,18 +34,11 @@ final class LoginCoordinator: NavigationCoordinator {
     }
 
     func startHintTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { _ in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             let hintViewModel = HintViewModel(coordinator: self.hintCoordinator)
             let hintViewController = HintViewController(viewModel: hintViewModel)
 
-            DispatchQueue.main.async {
-                self.navigationController?.present(hintViewController, animated: true)
-            }
+            self.navigationController?.present(hintViewController, animated: true)
         }
-// В данном случае проще использовать asyncAfter, но т.к. мы изучаем таймеры, сделаем через них ))
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-//            let hintViewController = HintViewController()
-//            self.navigationController?.pushViewController(hintViewController, animated: true)
-//        }
     }
 }

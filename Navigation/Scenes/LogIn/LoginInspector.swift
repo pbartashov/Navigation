@@ -6,7 +6,19 @@
 //
 
 final class LoginInspector: LoginDelegate {
-    func authPassedFor(login: String, password: String) -> Bool {
-        AuthChecker.shared.areValid(loginHash: login.hash, passwordHash: password.hash)
+    func checkAuthFor(login: String, password: String) throws {
+        if login.isEmpty {
+            throw LoginError.missingLogin
+        }
+
+        if password.isEmpty {
+            throw LoginError.missingPassword
+        }
+
+        let authPassed = AuthChecker.shared.areValid(loginHash: login.hash, passwordHash: password.hash)
+
+        if !authPassed {
+            throw LoginError.authFailed
+        }
     }
 }

@@ -6,5 +6,5 @@
 //
 
 protocol UserService {
-    func getUser(byName name: String) -> User?
+    func getUser(byName name: String) throws -> User
 }

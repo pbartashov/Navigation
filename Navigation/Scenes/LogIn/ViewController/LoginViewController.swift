@@ -50,7 +50,7 @@ final class LoginViewController<ViewModelType: LoginViewModelProtocol>: UIViewCo
         
         setupViewModel()
 
-        viewModel.perfomAction(.startHintTimer)
+//        viewModel.perfomAction(.startHintTimer)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -109,11 +109,17 @@ final class LoginViewController<ViewModelType: LoginViewModelProtocol>: UIViewCo
                 switch state {
                     case .initial:
                         break
+                    case .missingLogin:
+                        self?.loginView.shakeLoginTextField()
+
+                    case .missingPassword:
+                        self?.loginView.shakePasswordTextField()
+
                     case .authFailed:
                         self?.loginView.shakeLoginButton()
                         
                     case .bruteForceFinishedWith(password: let password):
-                        self?.loginView.finishBruteProgress(with: password)
+                        self?.loginView.finishBrutePassword(with: password)
                         
                     case .bruteForceCancelled:
                         self?.loginView.cancelBrutePassword()

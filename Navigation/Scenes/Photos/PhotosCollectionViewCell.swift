@@ -25,7 +25,7 @@ final class PhotosCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        contentView.addSubviewsToAutoLayout(imageView)
+        contentView.addSubview(imageView)
 
         setupLayouts()
     }
@@ -37,14 +37,10 @@ final class PhotosCollectionViewCell: UICollectionViewCell {
     //MARK: - Metods
 
     private func setupLayouts() {
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.heightAnchor.constraint(equalTo: contentView.widthAnchor),
-
-            contentView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor)
-        ])
+        imageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.height.equalTo(contentView.snp.width)
+        }
     }
 
     func setup(with image: UIImage) {

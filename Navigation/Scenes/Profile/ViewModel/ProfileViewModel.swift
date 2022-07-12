@@ -10,6 +10,7 @@ import StorageService
 enum ProfileAction {
     case requstPosts
     case showPhotos
+    case showError(Error)
 }
 
 enum ProfileState {
@@ -22,7 +23,7 @@ protocol ProfileViewModelProtocol: ViewModelProtocol
           Action == ProfileAction {
 
     var posts: [Post] { get }
-    var user: User? { get }
+    func getUser() throws -> User
 }
 
 final class ProfileViewModel: ViewModel<ProfileState, ProfileAction>,
@@ -33,8 +34,8 @@ final class ProfileViewModel: ViewModel<ProfileState, ProfileAction>,
 
     private let userService: UserService
     private let userName: String
-    var user: User? {
-        userService.getUser(byName: userName)
+    func getUser() throws -> User {
+        try userService.getUser(byName: userName)
     }
 
     private let postService: PostServiceProtocol
@@ -64,11 +65,20 @@ final class ProfileViewModel: ViewModel<ProfileState, ProfileAction>,
     override func perfomAction(_ action: ProfileAction) {
         switch action {
             case .requstPosts:
-                DispatchQueue.global().async { [self] in
-                    posts = postService.getPosts()
+                postService.getPosts { [weak self] result in
+                    switch result {
+                        case .success(let posts):
+                            self?.posts = posts
+                            
+                        case .failure(let error):
+                            ErrorPresenter.shared.show(error: error)
+                    }
                 }
             case .showPhotos:
                 coordinator?.showPhotos()
+
+            case .showError(let error):
+                ErrorPresenter.shared.show(error: error)
         }
     }
 }

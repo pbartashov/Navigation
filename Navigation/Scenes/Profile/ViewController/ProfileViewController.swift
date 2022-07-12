@@ -62,8 +62,11 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
 
         let profileHeaderView = ProfileHeaderView(delegate: self)
 
-        if let user = viewModel.user {
+        do {
+            let user = try viewModel.getUser()
             profileHeaderView.setup(with: user)
+        } catch {
+            viewModel.perfomAction(.showError(error))
         }
 
         return profileHeaderView
@@ -266,12 +269,15 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
 // MARK: - ProfileHeaderViewDelegate methods
 extension ProfileViewController: ProfileHeaderViewDelegate {
     func statusButtonTapped() {
-        if let user = viewModel.user {
+        do {
+            let user = try viewModel.getUser()
             user.status = profileHeaderView.statusText
             profileHeaderView.setup(with: user)
+        } catch {
+            viewModel.perfomAction(.showError(error))
         }
     }
-
+    
     func avatarTapped(sender: UIView) {
         isAvatarPresenting = true
         

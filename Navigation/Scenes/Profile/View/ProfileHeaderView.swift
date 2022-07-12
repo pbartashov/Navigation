@@ -35,10 +35,8 @@ final class ProfileHeaderView: UIView {
 
         let tapRecognizer = UITapGestureRecognizer(target: self,
                                                    action: #selector(avatarTapped))
-
         image.addGestureRecognizer(tapRecognizer)
         image.isUserInteractionEnabled = true
-
 
         return image
     }()

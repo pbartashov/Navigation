@@ -11,7 +11,7 @@ protocol MainCoordinatorProtocol {
     func start() -> UIViewController
 }
 
-final class MainCoordinator {
+final class MainCoordinator: MainCoordinatorProtocol {
 
     //MARK: - Properties
 
@@ -40,6 +40,9 @@ final class MainCoordinator {
         feedNavigationController.setViewControllers([feedViewController], animated: false)
         loginNavigationController.setViewControllers([loginViewController], animated: false)
 
-        return ViewControllerFactory.create.tabBarController(with: [feedNavigationController, loginNavigationController])
+        let tabBarController = ViewControllerFactory.create.tabBarController(with: [feedNavigationController, loginNavigationController])
+        ErrorPresenter.shared.initialize(with: tabBarController)
+
+        return tabBarController
     }
 }
