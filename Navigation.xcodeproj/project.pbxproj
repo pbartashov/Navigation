@@ -61,7 +61,6 @@
 		6E92C76327DA210500E77F6F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E92C76227DA210500E77F6F /* ProfileViewController.swift */; };
 		6E9811B228785B8D00B17ADD /* LoginError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9811B128785B8D00B17ADD /* LoginError.swift */; };
 		6E9811B42878624B00B17ADD /* PostServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9811B32878624B00B17ADD /* PostServiceError.swift */; };
-		6E9811B6287870E200B17ADD /* UserServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9811B5287870E200B17ADD /* UserServiceError.swift */; };
 		6E9811B82879534A00B17ADD /* NavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9811B72879534A00B17ADD /* NavigationCoordinator.swift */; };
 		6E9811BA287962F600B17ADD /* ErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9811B9287962F600B17ADD /* ErrorPresenter.swift */; };
 		6EA795C82875AB7300F3FA19 /* HintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA795C72875AB7300F3FA19 /* HintViewController.swift */; };
@@ -165,7 +164,6 @@
 		6E92C76227DA210500E77F6F /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		6E9811B128785B8D00B17ADD /* LoginError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginError.swift; sourceTree = "<group>"; };
 		6E9811B32878624B00B17ADD /* PostServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServiceError.swift; sourceTree = "<group>"; };
-		6E9811B5287870E200B17ADD /* UserServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceError.swift; sourceTree = "<group>"; };
 		6E9811B72879534A00B17ADD /* NavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCoordinator.swift; sourceTree = "<group>"; };
 		6E9811B9287962F600B17ADD /* ErrorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenter.swift; sourceTree = "<group>"; };
 		6EA795C72875AB7300F3FA19 /* HintViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintViewController.swift; sourceTree = "<group>"; };
@@ -366,7 +364,6 @@
 		6E4234E7286497B700440F46 /* UserService */ = {
 			isa = PBXGroup;
 			children = (
-				6E9811B5287870E200B17ADD /* UserServiceError.swift */,
 				6E3E489A2858C35000EB849C /* UserService.swift */,
 				6E3E489C2858C49400EB849C /* CurrentUserService.swift */,
 				6E3E489E2859FE7900EB849C /* TestUserService.swift */,
@@ -852,7 +849,6 @@
 				6E0290A92866AE6900365562 /* FeedCoordinator.swift in Sources */,
 				6E3E48982858C1CE00EB849C /* User.swift in Sources */,
 				6E2859D9286DBDC900383EA8 /* LoginInspectorFactory.swift in Sources */,
-				6E9811B6287870E200B17ADD /* UserServiceError.swift in Sources */,
 				6ECC429527D4709900E5E608 /* SceneDelegate.swift in Sources */,
 				6E2859D7286DB49300383EA8 /* LoginDelegate.swift in Sources */,
 				6E9811BA287962F600B17ADD /* ErrorPresenter.swift in Sources */,

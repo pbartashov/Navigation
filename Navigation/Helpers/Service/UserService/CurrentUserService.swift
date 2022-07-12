@@ -14,8 +14,7 @@ final class CurrentUserService: UserService {
         self.currentUser = currentUser
     }
 
-    func getUser(byName name: String) throws -> User {
-        guard name == currentUser.name else { throw UserServiceError.wrongUserName }
-        return currentUser
+    func getUser(byName name: String) -> User? {
+        name == currentUser.name ? currentUser : nil
     }    
 }

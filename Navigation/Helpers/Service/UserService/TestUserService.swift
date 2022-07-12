@@ -11,7 +11,7 @@ final class TestUserService: UserService {
     private let testUser = User(name: "Test",
                                 status: "Test")
 
-    func getUser(byName name: String) throws -> User {
-        throw UserServiceError.wrongUserName
+    func getUser(byName name: String) -> User? {
+        testUser
     }
 }

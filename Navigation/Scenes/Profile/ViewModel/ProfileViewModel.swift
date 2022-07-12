@@ -23,7 +23,7 @@ protocol ProfileViewModelProtocol: ViewModelProtocol
           Action == ProfileAction {
 
     var posts: [Post] { get }
-    func getUser() throws -> User
+    var user: User? { get }
 }
 
 final class ProfileViewModel: ViewModel<ProfileState, ProfileAction>,
@@ -34,8 +34,8 @@ final class ProfileViewModel: ViewModel<ProfileState, ProfileAction>,
 
     private let userService: UserService
     private let userName: String
-    func getUser() throws -> User {
-        try userService.getUser(byName: userName)
+    var user: User? {
+        userService.getUser(byName: userName)
     }
 
     private let postService: PostServiceProtocol
