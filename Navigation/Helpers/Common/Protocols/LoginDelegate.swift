@@ -6,5 +6,5 @@
 //
 
 protocol LoginDelegate: AnyObject {
-    func authPassedFor(login: String, password: String) -> Bool
+    func checkAuthFor(login: String, password: String) throws
 }
