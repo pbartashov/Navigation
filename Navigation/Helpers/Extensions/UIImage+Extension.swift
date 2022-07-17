@@ -13,4 +13,11 @@ extension UIImage {
             draw(in: CGRect(origin: .zero, size: size), blendMode: .normal, alpha: a)
         }
     }
+
+    func withTintColor(_ color: UIColor?) -> UIImage {
+        if let color = color {
+            return withTintColor(color, renderingMode: .alwaysOriginal)
+        }
+        return self
+    }
 }
