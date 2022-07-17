@@ -33,14 +33,27 @@ final class MainCoordinator: MainCoordinatorProtocol {
         let feedViewController = ViewControllerFactory.create.feedViewController(tag: 0)
         feedViewController.coordinator = feedCoordinator
 
+        let musicViewController = ViewControllerFactory.create.musicViewController(tag: 1)
+
+        let videoViewController = ViewControllerFactory.create.videoViewController(tag: 2)
+
+        let recorderViewController = ViewControllerFactory.create.recorderViewController(tag: 3)
+
         let loginViewController = ViewControllerFactory.create.loginViewController(loginDelegate: loginInspector,
                                                                                    coordinator: loginCoordinator,
-                                                                                   tag: 1)
+                                                                                   tag: 4)
 
         feedNavigationController.setViewControllers([feedViewController], animated: false)
         loginNavigationController.setViewControllers([loginViewController], animated: false)
 
-        let tabBarController = ViewControllerFactory.create.tabBarController(with: [feedNavigationController, loginNavigationController])
+        let tabBarController = ViewControllerFactory.create.tabBarController(with: [
+            feedNavigationController,
+            musicViewController,
+            videoViewController,
+            recorderViewController,
+            loginNavigationController
+        ])
+        
         ErrorPresenter.shared.initialize(with: tabBarController)
 
         return tabBarController

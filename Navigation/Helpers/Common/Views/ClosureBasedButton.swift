@@ -43,6 +43,20 @@ final class ClosureBasedButton: UIButton {
         setImage(image, for: .normal)
     }
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    @objc private func tap() {
+        tapAction?()
+    }
+
+    @objc private func tapWithSender() {
+        tapActionWithSender?(self)
+    }
+}
+
+extension ClosureBasedButton {
     convenience init(title: String? = nil,
                      titleColor: UIColor? = nil,
                      backgroundColor: UIColor? = nil,
@@ -67,17 +81,5 @@ final class ClosureBasedButton: UIButton {
         defer { // need to trigger didSet
             self.tapActionWithSender = tapAction
         }
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    @objc private func tap() {
-        tapAction?()
-    }
-
-    @objc private func tapWithSender() {
-        tapActionWithSender?(self)
     }
 }

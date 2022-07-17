@@ -32,7 +32,7 @@ final class HintViewModel: ViewModel<HintState, HintAction>,
 
     weak var coordinator: NavigationCoordinator?
 
-    private var model = HintModel()
+    private var model = HintModel(collection: HintModel.demoHints)
 
     private weak var timer: Timer?
     private var counter: TimeInterval = 0.0
@@ -107,4 +107,3 @@ final class HintViewModel: ViewModel<HintState, HintAction>,
         timer = nil
     }
 }
-

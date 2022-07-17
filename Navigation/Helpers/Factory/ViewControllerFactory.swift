@@ -44,4 +44,39 @@ struct ViewControllerFactory {
                                                       tag: tag)
         return loginViewController
     }
+
+    func musicViewController(tag: Int) -> UIViewController {
+        let musicStorage = MusicStorage(collection: MusicStorage.demoMusicTracks)
+        let musicPlayer = MusicPlayer()
+
+        let musicViewModel = MusicViewModel(storage: musicStorage, player: musicPlayer)
+
+        let musicViewController = MusicViewController(viewModel: musicViewModel)
+        musicViewController.tabBarItem = UITabBarItem(title: "Music",
+                                                      image: UIImage(systemName: "music.note"),
+                                                      tag: tag)
+        return musicViewController
+    }
+
+    func videoViewController(tag: Int) -> UIViewController {
+        let videoViewController = VideoViewController(viewModel: VideoTrack.demoVideos)
+        videoViewController.tabBarItem = UITabBarItem(title: "Video",
+                                                      image: UIImage(systemName: "film"),
+                                                      tag: tag)
+        return videoViewController
+    }
+    
+    func recorderViewController(tag: Int) -> UIViewController {
+        let recorder = AudioRecorder()
+        let player = MusicPlayer()
+
+        let viewModel = RecorderViewModel(recorder: recorder, player: player)
+
+        let recorderViewController = RecorderViewController(viewModel: viewModel)
+
+        recorderViewController.tabBarItem = UITabBarItem(title: "Recorder",
+                                                         image: UIImage(systemName: "recordingtape"),
+                                                         tag: tag)
+        return recorderViewController
+    }
 }
