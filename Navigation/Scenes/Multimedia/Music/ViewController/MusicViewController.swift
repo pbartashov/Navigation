@@ -21,7 +21,6 @@ final class MusicViewController<ViewModelType: MusicViewModelProtocol>: UIViewCo
 
     init(viewModel: ViewModelType) {
         self.viewModel = viewModel
-
         super.init(nibName: nil, bundle: nil)
     }
 

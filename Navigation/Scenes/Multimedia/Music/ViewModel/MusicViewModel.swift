@@ -2,7 +2,7 @@
 //  MusicViewModel.swift
 //  Navigation
 //
-//  Created by Павел Барташов on 12.07.2022.
+//  Created by Павел Барташов on 14.07.2022.
 //
 
 import Foundation
