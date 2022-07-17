@@ -17,6 +17,7 @@ extension RecorderError : LocalizedError {
         switch self {
             case .noPermission:
                 return NSLocalizedString("Требуется разрешение на доступ к микрофону.", comment: "")
+
             case .fileCreationError:
                 return NSLocalizedString("Ошибка при создании файла с записью.", comment: "")
         }
