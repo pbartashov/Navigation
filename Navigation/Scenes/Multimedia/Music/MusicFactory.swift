@@ -13,11 +13,13 @@ struct MusicFactory {
     }
 
     func createButton(imageSystemNameForNormal: String,
+                      imageSystemNameForSelected: String? = nil,
                       buttonType: MusicView.Buttons,
                       buttonImageColor: UIColor? = nil,
                       delegate: ViewWithButtonDelegate?
     ) -> UIButton {
         ViewFactory.create.button(imageSystemNameForNormal: imageSystemNameForNormal,
+                                  imageSystemNameForSelected: imageSystemNameForSelected,
                                   buttonType: buttonType,
                                   buttonImageColor: buttonImageColor,
                                   buttonSize: Constants.buttonSize,

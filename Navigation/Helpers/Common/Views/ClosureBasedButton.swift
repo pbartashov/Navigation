@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ClosureBasedButton: UIButton {
+class ClosureBasedButton: UIButton {
 
     var tapAction: (() -> Void)? {
         didSet {

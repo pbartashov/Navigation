@@ -73,11 +73,8 @@ extension MusicViewController: ViewWithButtonDelegate {
             case MusicView.Buttons.previous.hashValue:
                 viewModel.perfomAction(.backward)
 
-            case MusicView.Buttons.play.hashValue:
-                viewModel.perfomAction(.play)
-
-            case MusicView.Buttons.pause.hashValue:
-                viewModel.perfomAction(.pause)
+            case MusicView.Buttons.playOrPause.hashValue:
+                viewModel.perfomAction(.playOrPause)
 
             case MusicView.Buttons.stop.hashValue:
                 viewModel.perfomAction(.stop)

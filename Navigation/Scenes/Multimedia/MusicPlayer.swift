@@ -18,6 +18,10 @@ final class MusicPlayer: NSObject {
         player?.isPlaying == true
     }
 
+    var isPaused: Bool {
+        !(player == nil || isPlaying)
+    }
+
     //MARK: - Metods
 
     func play(_ track: MusicTrack?) throws {
@@ -38,11 +42,11 @@ final class MusicPlayer: NSObject {
     }
 
     func pause() {
-        if isPlaying {
-            player?.pause()
-        } else {
-            player?.play()
-        }
+        player?.pause()
+    }
+
+    func play() {
+        player?.play()
     }
 
     func stop() {

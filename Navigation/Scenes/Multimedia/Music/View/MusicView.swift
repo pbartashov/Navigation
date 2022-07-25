@@ -10,8 +10,7 @@ import UIKit
 final class MusicView: UIView {
 
     enum Buttons: String {
-        case play = "play.fill"
-        case pause = "pause.fill"
+        case playOrPause = "play.fill"
         case stop = "stop.fill"
         case previous = "chevron.backward.2"
         case next = "chevron.forward.2"
@@ -72,15 +71,10 @@ final class MusicView: UIView {
                                     delegate: delegate)
     }()
 
-    private lazy var playButton: UIButton = {
-        MusicFactory().createButton(imageSystemNameForNormal: Buttons.play.rawValue,
-                                    buttonType: Buttons.play,
-                                    delegate: delegate)
-    }()
-
-    private lazy var pauseButton: UIButton = {
-        MusicFactory().createButton(imageSystemNameForNormal: Buttons.pause.rawValue,
-                                    buttonType: Buttons.pause,
+    private lazy var playOrPauseButton: UIButton = {
+        MusicFactory().createButton(imageSystemNameForNormal: Buttons.playOrPause.rawValue,
+                                    imageSystemNameForSelected: "pause.fill",
+                                    buttonType: Buttons.playOrPause,
                                     delegate: delegate)
     }()
 
@@ -117,10 +111,10 @@ final class MusicView: UIView {
         let buttonStack = UIStackView()
         buttonStack.spacing = 36
         buttonStack.alignment = .center
+        buttonStack.distribution = .equalCentering
 
         [previousButton,
-         playButton,
-         pauseButton,
+         playOrPauseButton,
          stopButton,
          nextButton
         ].forEach {
@@ -186,18 +180,15 @@ final class MusicView: UIView {
     func updatePlayBackButtons(with state: MusicState) {
         switch state {
             case .playing:
-                playButton.isEnabled = false
-                pauseButton.isEnabled = true
+                playOrPauseButton.isSelected = true
                 stopButton.isEnabled = true
 
             case .paused:
-                playButton.isEnabled = false
-                pauseButton.isEnabled = true
+                playOrPauseButton.isSelected = false
                 stopButton.isEnabled = true
                 
             case .stopped:
-                playButton.isEnabled = true
-                pauseButton.isEnabled = false
+                playOrPauseButton.isSelected = false
                 stopButton.isEnabled = false
 
             case .loaded:

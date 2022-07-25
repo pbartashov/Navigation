@@ -8,9 +8,8 @@
 import Foundation
 
 enum MusicAction {
-    case play
+    case playOrPause
     case stop
-    case pause
     case backward
     case forward
     case reset
@@ -63,12 +62,16 @@ final class MusicViewModel: ViewModel<MusicState, MusicAction>,
 
     override func perfomAction(_ action: MusicAction) {
         switch action {
-            case .play:
-                play(storage.current)
-
-            case .pause:
-                player.pause()
-                state = .paused
+            case .playOrPause:
+                if player.isPlaying {
+                    player.pause()
+                    state = .paused
+                } else if player.isPaused {
+                    player.play()
+                    state = .playing
+                } else {
+                    play(storage.current)
+                }
 
             case .stop:
                 stop()
