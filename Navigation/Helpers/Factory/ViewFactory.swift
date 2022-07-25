@@ -8,7 +8,12 @@
 import UIKit
 
 struct ViewFactory {
+
+    // MARK: - Properties
+
     static var create = ViewFactory()
+
+    // MARK: - Metods
 
     func button(withTitle title: String) -> ClosureBasedButton {
         let button = ClosureBasedButton(title: title, titleColor: .white, backgroundColor: .systemBlue)
@@ -19,6 +24,28 @@ struct ViewFactory {
         button.layer.shadowRadius = 4
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOpacity = 0.7
+
+        return button
+    }
+
+    func button<ButtonType: Hashable>(imageSystemNameForNormal: String,
+                                      imageSystemNameForSelected: String? = nil,
+                                      buttonType: ButtonType,
+                                      buttonImageColor: UIColor? = nil,
+                                      buttonSize: CGFloat,
+                                      delegate: ViewWithButtonDelegate?
+    ) -> UIButton {
+        let config = UIImage.SymbolConfiguration(pointSize: buttonSize)
+        var image = UIImage(systemName: imageSystemNameForNormal, withConfiguration: config)
+
+        let button = ShadowOnTapButton(image: image?.withTintColor(buttonImageColor),
+                                        tapAction: { [weak delegate] in delegate?.buttonTapped(sender: $0) })
+        button.tag = buttonType.hashValue
+
+        if let imageSystemNameForSelected = imageSystemNameForSelected {
+            image = UIImage(systemName: imageSystemNameForSelected, withConfiguration: config)
+            button.setImage(image?.withTintColor(buttonImageColor), for: .selected)
+        }
 
         return button
     }

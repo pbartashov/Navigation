@@ -37,6 +37,7 @@ final class LoginCoordinator: NavigationCoordinator {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             let hintViewModel = HintViewModel(coordinator: self.hintCoordinator)
             let hintViewController = HintViewController(viewModel: hintViewModel)
+            //            hintViewController.modalPresentationStyle = .overFullScreen
 
             self.navigationController?.present(hintViewController, animated: true)
         }

@@ -170,13 +170,13 @@ final class HintView: UIStackView {
         }
 
         hintLabel.text = hint
-
+        
         UIView.animate(withDuration: 0.5) {
             self.hintLabel.isHidden = false
         }
     }
 
-    func updateButtons(with position: Position) {
+    func updateButtons(with position: CollectionPosition) {
         switch position {
             case .first:
                 previousButton.hideWithAnimation()
