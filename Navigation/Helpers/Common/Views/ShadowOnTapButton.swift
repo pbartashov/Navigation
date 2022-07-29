@@ -33,6 +33,11 @@ final class ShadowOnTapButton: ClosureBasedButton {
         initialize()
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        adjustShadowFrame()
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -67,7 +72,6 @@ final class ShadowOnTapButton: ClosureBasedButton {
     }
 
     @objc private func touchedDown() {
-        adjustShadowFrame()
         shadowLayer.opacity = shadowOpacity
 
         imageView?.layer.transform = CATransform3DMakeScale(imageViewDownScale, imageViewDownScale, 0.0)
