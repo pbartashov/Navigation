@@ -11,7 +11,7 @@ enum PostServiceError: Error {
     case networkFailure
 }
 
-extension PostServiceError : LocalizedError {
+extension PostServiceError: LocalizedError {
     public var errorDescription: String? {
         switch self {
             case .networkFailure:

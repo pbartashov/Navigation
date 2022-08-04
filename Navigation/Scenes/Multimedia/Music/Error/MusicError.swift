@@ -11,7 +11,7 @@ enum MusicError: Error {
     case trackNotFound
 }
 
-extension MusicError : LocalizedError {
+extension MusicError: LocalizedError {
     public var errorDescription: String? {
         switch self {
             case .trackNotFound:

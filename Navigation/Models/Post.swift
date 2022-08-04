@@ -12,7 +12,12 @@ public struct Post {
     public let likes: Int
     public let views: Int
 
-    public init(author: String, description: String, image: String, likes: Int, views: Int) {
+    public init(author: String = "",
+                description: String = "",
+                image: String = "",
+                likes: Int = 0,
+                views: Int = 0) {
+        
         self.author = author
         self.description = description
         self.image = image
