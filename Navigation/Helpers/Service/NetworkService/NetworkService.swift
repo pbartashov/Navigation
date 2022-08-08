@@ -46,4 +46,35 @@ struct NetworkService: NetworkServiceProtocol {
 
         task.resume()
     }
+
+    func request(with urlString: String,
+                 completionHandler: @escaping (Result<Data, NetworkServiceError>) -> Void) {
+
+        guard let url = URL(string: urlString) else {
+            completionHandler(.failure(.wrongURL))
+            return
+        }
+
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completionHandler(.failure(.init(error)))
+                return
+            }
+
+            guard let response = response as? HTTPURLResponse,
+                  response.statusCode == 200 else {
+
+                completionHandler(.failure(.wrongServerResponse))
+                return
+            }
+
+            if let data = data {
+                completionHandler(.success(data))
+            } else {
+                completionHandler(.failure(.noData))
+            }
+        }
+
+        task.resume()
+    }
 }

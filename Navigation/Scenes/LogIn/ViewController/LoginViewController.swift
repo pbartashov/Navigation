@@ -92,7 +92,7 @@ final class LoginViewController<ViewModelType: LoginViewModelProtocol>: UIViewCo
     
     //MARK: - Metods
     
-    func setupLayout() {
+    private func setupLayout() {
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }

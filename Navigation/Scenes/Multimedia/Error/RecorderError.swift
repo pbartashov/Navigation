@@ -12,7 +12,7 @@ enum RecorderError: Error {
     case fileCreationError
 }
 
-extension RecorderError : LocalizedError {
+extension RecorderError: LocalizedError {
     public var errorDescription: String? {
         switch self {
             case .noPermission:
