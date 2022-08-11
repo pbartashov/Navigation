@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseCore
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -13,7 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     private let mainCoordinator = MainCoordinator()
-    private var appConfiguration: AppConfiguration?
+    //private var appConfiguration: AppConfiguration?
 
     //MARK: - LifeCicle
     
@@ -23,18 +25,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
-//        let appConfiguration = AppConfiguration.random()
-//        NetworkService.request(for: appConfiguration)
-//        self.appConfiguration = appConfiguration
+        //        let appConfiguration = AppConfiguration.random()
+        //        NetworkService.request(for: appConfiguration)
+        //        self.appConfiguration = appConfiguration
+        FirebaseApp.configure()
 
         let window = UIWindow(windowScene: windowScene)
-
-        let infoViewController = InfoViewController()
-        window.rootViewController = infoViewController//mainCoordinator.start()
-        ErrorPresenter.shared.initialize(with: infoViewController)
-
+        window.rootViewController = mainCoordinator.start()
         window.makeKeyAndVisible()
         self.window = window
+
+        signOutFireBase()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -42,6 +43,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
+
+        signOutFireBase()
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
@@ -63,5 +66,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+    }
+}
+
+extension SceneDelegate {
+    private func signOutFireBase() {
+        guard Auth.auth().currentUser != nil else { return }
+
+        do {
+            try Auth.auth().signOut()
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
     }
 }

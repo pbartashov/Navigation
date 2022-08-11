@@ -132,8 +132,8 @@ final class LoginView: UIView {
         initialize()
 
         //DEBUGG
-        loginTextField.text = "Octopus"
-        passwordTextField.text = "123"
+        loginTextField.text = "Octopus@mail.ru"
+        //        passwordTextField.text = "123"
     }
 
     required init?(coder: NSCoder) {
@@ -146,8 +146,9 @@ final class LoginView: UIView {
         [logoImageView,
          loginTextField,
          passwordTextField,
-         loginButton,
-         brutePasswordButton].forEach {
+        //         brutePasswordButton,
+         loginButton
+        ].forEach {
             self.addSubview($0)
         }
 
@@ -173,13 +174,13 @@ final class LoginView: UIView {
             make.leading.trailing.height.equalTo(loginTextField)
         }
 
-        brutePasswordButton.snp.makeConstraints { make in
-            make.top.equalTo(passwordTextField.snp.bottom)
-            make.centerX.equalTo(loginTextField)
-        }
+        //        brutePasswordButton.snp.makeConstraints { make in
+        //            make.top.equalTo(passwordTextField.snp.bottom)
+        //            make.centerX.equalTo(loginTextField)
+        //        }
 
         loginButton.snp.makeConstraints { make in
-            make.top.equalTo(brutePasswordButton.snp.bottom).offset(Constants.padding)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(Constants.padding)
             make.leading.trailing.height.equalTo(loginTextField)
             make.bottom.equalToSuperview().offset(-Constants.padding)
         }

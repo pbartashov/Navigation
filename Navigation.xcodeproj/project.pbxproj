@@ -107,6 +107,9 @@
 		6EAD21692897F3B900266C94 /* SWAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAD21682897F3B900266C94 /* SWAPIService.swift */; };
 		6EAD216B2899459800266C94 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAD216A2899459800266C94 /* Person.swift */; };
 		6EAE3949285F2D5700B63225 /* DemoPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE3947285F2CDE00B63225 /* DemoPosts.swift */; };
+		6EBC10FC28A1351900ACEAA7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EBC10FB28A1351900ACEAA7 /* GoogleService-Info.plist */; };
+		6EBC10FE28A13C6A00ACEAA7 /* CheckerServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBC10FD28A13C6A00ACEAA7 /* CheckerServiceProtocol.swift */; };
+		6EBC110128A13CC800ACEAA7 /* CheckerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBC110028A13CC800ACEAA7 /* CheckerService.swift */; };
 		6ECC429327D4709900E5E608 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECC429227D4709900E5E608 /* AppDelegate.swift */; };
 		6ECC429527D4709900E5E608 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECC429427D4709900E5E608 /* SceneDelegate.swift */; };
 		6ECC429F27D4709A00E5E608 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC429D27D4709A00E5E608 /* LaunchScreen.storyboard */; };
@@ -249,6 +252,9 @@
 		6EAD21682897F3B900266C94 /* SWAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SWAPIService.swift; sourceTree = "<group>"; };
 		6EAD216A2899459800266C94 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		6EAE3947285F2CDE00B63225 /* DemoPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPosts.swift; sourceTree = "<group>"; };
+		6EBC10FB28A1351900ACEAA7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6EBC10FD28A13C6A00ACEAA7 /* CheckerServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckerServiceProtocol.swift; sourceTree = "<group>"; };
+		6EBC110028A13CC800ACEAA7 /* CheckerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckerService.swift; sourceTree = "<group>"; };
 		6ECC428F27D4709900E5E608 /* Navigation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Navigation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ECC429227D4709900E5E608 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6ECC429427D4709900E5E608 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -386,12 +392,11 @@
 		6E3E48992858C33B00EB849C /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				6EAD214728915F6E00266C94 /* NetworkService */,
 				6E1D5573287159860066A519 /* BruteForce */,
+				6EBC10FF28A13C6D00ACEAA7 /* CheckerService */,
+				6EAD214728915F6E00266C94 /* NetworkService */,
 				6E0290BD2866D71100365562 /* PostService */,
 				6E4234E7286497B700440F46 /* UserService */,
-				6E3E48A2285A1B3700EB849C /* AuthChecker.swift */,
-				6E4234E42861FA2A00440F46 /* ObservationToken.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -832,6 +837,16 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		6EBC10FF28A13C6D00ACEAA7 /* CheckerService */ = {
+			isa = PBXGroup;
+			children = (
+				6EBC10FD28A13C6A00ACEAA7 /* CheckerServiceProtocol.swift */,
+				6EBC110028A13CC800ACEAA7 /* CheckerService.swift */,
+				6E3E48A2285A1B3700EB849C /* AuthChecker.swift */,
+			);
+			path = CheckerService;
+			sourceTree = "<group>";
+		};
 		6ECC428627D4709900E5E608 = {
 			isa = PBXGroup;
 			children = (
@@ -863,6 +878,7 @@
 				6ECC429B27D4709A00E5E608 /* Assets.xcassets */,
 				6ECC429D27D4709A00E5E608 /* LaunchScreen.storyboard */,
 				6ECC42A027D4709A00E5E608 /* Info.plist */,
+				6EBC10FB28A1351900ACEAA7 /* GoogleService-Info.plist */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -881,6 +897,7 @@
 				6E4234E62864973600440F46 /* Common */,
 				6E5E42B5285DDE58002EA082 /* Factory */,
 				6E3E48992858C33B00EB849C /* Service */,
+				6E4234E42861FA2A00440F46 /* ObservationToken.swift */,
 				6EAE394E285F335800B63225 /* Extensions */,
 				6EE039C927DE035000057A45 /* Constants.swift */,
 				6E71CA2728745C9F002435D3 /* Print.swift */,
@@ -1014,6 +1031,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E9C79472880381C003CDF04 /* 42671.mp3 in Resources */,
+				6EBC10FC28A1351900ACEAA7 /* GoogleService-Info.plist in Resources */,
 				6E10C90D27EDFE1C0019AC66 /* Assets.xcassets in Resources */,
 				6E9C795128803A7B003CDF04 /* 33535.mp3 in Resources */,
 				6E9C794D288039AD003CDF04 /* f3cf9c52dcde49b9de8679ebf220d3be5fc4c2c7b805e07a6049de91d0a19399.mp3 in Resources */,
@@ -1108,6 +1126,7 @@
 				6E2859D0286C7E1F00383EA8 /* GCDBruteForceService.swift in Sources */,
 				6E9C79702883FB60003CDF04 /* AudioRecorder.swift in Sources */,
 				6E1D55842871D3CE0066A519 /* BruteForcerV2.swift in Sources */,
+				6EBC10FE28A13C6A00ACEAA7 /* CheckerServiceProtocol.swift in Sources */,
 				6E6272EE27EC8F3600D151B5 /* PhotosViewController.swift in Sources */,
 				6E9C793D287DA5CE003CDF04 /* MusicPlayer.swift in Sources */,
 				6E1D557B287198710066A519 /* BruteForceOperation.swift in Sources */,
@@ -1169,6 +1188,7 @@
 				6EAD21652897F30200266C94 /* PlanetModel.swift in Sources */,
 				6E9C79672883F5AD003CDF04 /* MusicFactory.swift in Sources */,
 				6E9C79692883F6C6003CDF04 /* RecordFactory.swift in Sources */,
+				6EBC110128A13CC800ACEAA7 /* CheckerService.swift in Sources */,
 				6E0290BF2866D73700365562 /* PostServiceProtocol.swift in Sources */,
 				6E0290AB2866AF2300365562 /* ProfileCoordinator.swift in Sources */,
 				6E3E489D2858C49400EB849C /* CurrentUserService.swift in Sources */,
@@ -1373,7 +1393,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = pB.Navigation;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pB.Navigation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1403,7 +1423,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = pB.Navigation;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pB.Navigation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

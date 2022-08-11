@@ -11,7 +11,7 @@ protocol LoginInspectorFactory {
 
 struct LoginInspectorFactoryImp: LoginInspectorFactory {
     func createLoginInspector() -> LoginInspector {
-        LoginInspector()
+        LoginInspector(checker: CheckerService())
     }
 }
 

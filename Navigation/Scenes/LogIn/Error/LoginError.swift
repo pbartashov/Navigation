@@ -10,7 +10,12 @@ import Foundation
 enum LoginError: Error {
     case missingLogin
     case missingPassword
-    case authFailed
+    case invalidEmail
+    case wrongPassword
+    case weakPassword
+    case userNotFound
+    case networkError
+    case unknown
 }
 
 extension LoginError : LocalizedError {
@@ -22,8 +27,23 @@ extension LoginError : LocalizedError {
             case .missingPassword:
                 return NSLocalizedString("Введите пароль.", comment: "")
 
-            case .authFailed:
+            case .invalidEmail:
+                return NSLocalizedString("Неверный адрес электронной почты.", comment: "")
+
+            case .wrongPassword:
                 return NSLocalizedString("Неверный логин или пароль.", comment: "")
+
+            case .weakPassword:
+                return NSLocalizedString("Пароль должен содержать не менее 6 символов.", comment: "")
+
+            case .userNotFound:
+                return NSLocalizedString("Пользователь не найден.", comment: "")
+
+            case .networkError:
+                return NSLocalizedString("Нет подключения к сети.", comment: "")
+
+            case .unknown:
+                return NSLocalizedString("Ошибка при авторизации. Попробуйте еще раз.", comment: "")
         }
     }
 }
