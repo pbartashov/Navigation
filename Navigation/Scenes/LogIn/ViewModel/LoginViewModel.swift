@@ -17,7 +17,7 @@ enum LoginAction {
 enum LoginState {
     case initial
     case missingLogin
-    case missingPassword
+    case wrongPassword
     case authFailed
     case bruteForceFinishedWith(password: String)
     case bruteForceCancelled
@@ -74,24 +74,7 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
     override func perfomAction(_ action: LoginAction) {
         switch action {
             case let .authWith(login: login, password: password):
-                guard let delegate = loginDelegate else { return }
-                
-                do {
-                    try delegate.checkAuthFor(login: login, password: password)
-                    coordinator?.showProfile(for: login)
-                    
-                } catch LoginError.missingLogin {
-                    state = .missingLogin
-                    ErrorPresenter.shared.show(error: LoginError.missingLogin)
-                    
-                } catch LoginError.missingPassword {
-                    state = .missingPassword
-                    ErrorPresenter.shared.show(error: LoginError.missingPassword)
-                    
-                } catch {
-                    state = .authFailed
-                    ErrorPresenter.shared.show(error: error)
-                }
+                checkAuth(forLogin: login, password: password)
                 
             case .bruteForce:
                 let randomPassword = Random.randomString(length: 4)
@@ -103,5 +86,49 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
             case .startHintTimer:
                 coordinator?.startHintTimer()
         }
+    }
+
+    private func checkAuth(forLogin login: String, password: String) {
+        loginDelegate?.checkCredentials(login: login, password: password) { [weak self] result in
+            self?.handle(result: result, login: login, password: password)
+        }
+    }
+
+    private func signUp(withLogin login: String, password: String) {
+        coordinator?.showCreateAccount(for: login) { [weak self] in
+            self?.loginDelegate?.signUp(login: login, password: password) { [weak self] result in
+                self?.handle(result: result, login: login, password: password)
+            }
+        }
+    }
+
+    private func handle(result: Result<String, Error>,
+                        login: String,
+                        password:  String
+    ) {
+        switch result {
+            case .failure(LoginError.missingLogin):
+                handle(error: LoginError.missingLogin, state: .missingLogin)
+
+            case .failure(LoginError.missingPassword):
+                handle(error: LoginError.missingPassword, state: .wrongPassword)
+
+            case .failure(LoginError.weakPassword):
+                handle(error: LoginError.weakPassword, state: .wrongPassword)
+
+            case .failure(LoginError.userNotFound):
+                signUp(withLogin: login, password: password)
+                
+            case .failure(let error):
+                handle(error: error, state: .authFailed)
+
+            case.success(let userName):
+                coordinator?.showProfile(for: userName)
+        }
+    }
+
+    private func handle(error: Error, state: LoginState) {
+        self.state = state
+        ErrorPresenter.shared.show(error: error)
     }
 }

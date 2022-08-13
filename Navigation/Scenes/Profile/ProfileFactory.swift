@@ -22,7 +22,7 @@ struct ProfileFactory {
 #if DEBUG
         let userService = TestUserService()
 #else
-        let user = User(name: "Octopus",
+        let user = User(name: userName,
                         avatar: (UIImage(named: "profileImage") ?? UIImage(systemName: "person"))!,
                         status: "Hardly coding")
         let userService = CurrentUserService(currentUser: user)

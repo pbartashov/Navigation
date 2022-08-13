@@ -6,5 +6,11 @@
 //
 
 protocol LoginDelegate: AnyObject {
-    func checkAuthFor(login: String, password: String) throws
+    func checkCredentials(login: String,
+                          password: String,
+                          completion: ((Result<String, Error>) -> Void)?)
+
+    func signUp(login: String,
+                password: String,
+                completion: ((Result<String, Error>) -> Void)?)
 }

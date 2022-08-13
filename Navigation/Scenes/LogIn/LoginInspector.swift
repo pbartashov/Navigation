@@ -6,19 +6,34 @@
 //
 
 final class LoginInspector: LoginDelegate {
-    func checkAuthFor(login: String, password: String) throws {
+
+    // MARK: - Properties
+
+    private let checker: CheckerServiceProtocol
+
+    // MARK: - LifeCicle
+
+    init(checker: CheckerServiceProtocol) {
+        self.checker = checker
+    }
+
+    // MARK: - Metods
+
+    func checkCredentials(login: String, password: String, completion: ((Result<String, Error>) -> Void)?) {
         if login.isEmpty {
-            throw LoginError.missingLogin
+            completion?(.failure(LoginError.missingLogin))
+            return
         }
 
         if password.isEmpty {
-            throw LoginError.missingPassword
+            completion?(.failure(LoginError.missingPassword))
+            return
         }
 
-        let authPassed = AuthChecker.shared.areValid(loginHash: login.hash, passwordHash: password.hash)
+        checker.checkCredentials(email: login, password: password, completion: completion)
+    }
 
-        if !authPassed {
-            throw LoginError.authFailed
-        }
+    func signUp(login: String, password: String, completion: ((Result<String, Error>) -> Void)?) {
+        checker.signUp(email: login, password: password, completion: completion)
     }
 }
