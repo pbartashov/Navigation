@@ -12,6 +12,7 @@ enum LoginAction {
     case bruteForce
     case cancelBruteForce
     case startHintTimer
+    case autoLogin
 }
 
 enum LoginState {
@@ -19,6 +20,7 @@ enum LoginState {
     case missingLogin
     case wrongPassword
     case authFailed
+    case processing(login: String, password: String)
     case bruteForceFinishedWith(password: String)
     case bruteForceCancelled
     case bruteForceProgress(password: String)
@@ -33,19 +35,22 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
                             LoginViewModelProtocol {
     //MARK: - Properties
     
-    weak var loginDelegate: LoginDelegate?
-    weak var coordinator: LoginCoordinator?
-    var bruteForceService: BruteForceServiceProtocol?
+    private weak var loginDelegate: LoginDelegate?
+    private weak var coordinator: LoginCoordinator?
+    private var bruteForceService: BruteForceServiceProtocol?
+    private var credentialStorage: CredentialStorageService?
     
     //MARK: - LifeCicle
     
     init(loginDelegate: LoginDelegate,
          coordinator: LoginCoordinator,
-         bruteForceService: BruteForceServiceProtocol) {
+         bruteForceService: BruteForceServiceProtocol,
+         credentialStorage: CredentialStorageService) {
         
         self.loginDelegate = loginDelegate
         self.coordinator = coordinator
         self.bruteForceService = bruteForceService
+        self.credentialStorage = credentialStorage
         super.init(state: .initial)
         
         setupBruteForceService()
@@ -85,10 +90,15 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
                 
             case .startHintTimer:
                 coordinator?.startHintTimer()
+
+            case .autoLogin:
+                perfomAutoLogin()
         }
     }
 
     private func checkAuth(forLogin login: String, password: String) {
+        state = .processing(login: login, password: password)
+
         loginDelegate?.checkCredentials(login: login, password: password) { [weak self] result in
             self?.handle(result: result, login: login, password: password)
         }
@@ -122,7 +132,8 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
             case .failure(let error):
                 handle(error: error, state: .authFailed)
 
-            case.success(let userName):
+            case .success(let userName):
+                try? credentialStorage?.persist(login: login, password: password)
                 coordinator?.showProfile(for: userName)
         }
     }
@@ -130,5 +141,11 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
     private func handle(error: Error, state: LoginState) {
         self.state = state
         ErrorPresenter.shared.show(error: error)
+    }
+
+    private func perfomAutoLogin() {
+        if let (login, password) = try? credentialStorage?.retrieve() {
+            checkAuth(forLogin: login, password: password)
+        }
     }
 }

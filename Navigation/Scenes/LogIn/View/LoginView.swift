@@ -21,15 +21,34 @@ final class LoginView: UIView {
     private let logoImageView = UIImageView(image: UIImage(named: "logo"))
 
     var login: String {
-        loginTextField.text ?? ""
+        get {
+            loginTextField.text ?? ""
+        }
+        set {
+            loginTextField.text = newValue
+        }
     }
 
     var password: String {
-        passwordTextField.text ?? ""
+        get {
+            passwordTextField.text ?? ""
+        }
+        set {
+            passwordTextField.text = newValue
+        }
     }
 
     var loginButtonFrame: CGRect {
         loginButton.frame
+    }
+
+    var isBusy: Bool {
+        get {
+            !loginActivity.isHidden
+        }
+        set {
+            loginActivity.isHidden = !newValue
+        }
     }
 
     //MARK: - Views
@@ -99,7 +118,6 @@ final class LoginView: UIView {
         return activity
     }()
 
-
     private lazy var bruteDashBoard: UIStackView = {
         let stack = UIStackView()
         stack.distribution = .equalSpacing
@@ -124,6 +142,14 @@ final class LoginView: UIView {
         return stack
     }()
 
+    private lazy var loginActivity: UIActivityIndicatorView = {
+        let activity = UIActivityIndicatorView(style: .large)
+        activity.startAnimating()
+        activity.isHidden = true
+
+        return activity
+    }()
+
     //MARK: - LifeCicle
 
     override init(frame: CGRect) {
@@ -132,7 +158,7 @@ final class LoginView: UIView {
         initialize()
 
         //DEBUGG
-        loginTextField.text = "Octopus@mail.ru"
+        //        loginTextField.text = "Octopus@mail.ru"
         //        passwordTextField.text = "123"
     }
 
@@ -146,8 +172,9 @@ final class LoginView: UIView {
         [logoImageView,
          loginTextField,
          passwordTextField,
-        //         brutePasswordButton,
-         loginButton
+         //         brutePasswordButton,
+         loginButton,
+         loginActivity
         ].forEach {
             self.addSubview($0)
         }
@@ -183,6 +210,11 @@ final class LoginView: UIView {
             make.top.equalTo(passwordTextField.snp.bottom).offset(Constants.padding)
             make.leading.trailing.height.equalTo(loginTextField)
             make.bottom.equalToSuperview().offset(-Constants.padding)
+        }
+
+        loginActivity.snp.makeConstraints { make in
+            make.centerY.equalTo(loginTextField.snp.bottom)
+            make.centerX.equalToSuperview()
         }
     }
 

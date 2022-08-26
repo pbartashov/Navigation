@@ -15,6 +15,7 @@ struct LoginFactory {
 
         return LoginViewModel(loginDelegate: loginDelegate,
                               coordinator: coordinator,
-                              bruteForceService: bruteForceService)
+                              bruteForceService: bruteForceService,
+                              credentialStorage: CredentialStorageService())
     }
 }
