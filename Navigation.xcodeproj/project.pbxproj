@@ -56,6 +56,12 @@
 		6E67C4EC285F377C00A1C159 /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 6E67C4EB285F377C00A1C159 /* iOSIntPackage */; };
 		6E6DB52E2873034D00FB3D5B /* MultiOperationBruteForceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6DB52D2873034D00FB3D5B /* MultiOperationBruteForceService.swift */; };
 		6E71CA2828745C9F002435D3 /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71CA2728745C9F002435D3 /* Print.swift */; };
+		6E8A995328B7B67A00F72DDE /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 6E8A995228B7B67A00F72DDE /* Realm */; };
+		6E8A995528B7B67A00F72DDE /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6E8A995428B7B67A00F72DDE /* RealmSwift */; };
+		6E8A995828B7BAA500F72DDE /* CredentialStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8A995728B7BAA500F72DDE /* CredentialStorageService.swift */; };
+		6E8A995A28B8E7C000F72DDE /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8A995928B8E7C000F72DDE /* Credentials.swift */; };
+		6E8A995C28B8E8F700F72DDE /* CredentialStorageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8A995B28B8E8F700F72DDE /* CredentialStorageProtocol.swift */; };
+		6E8A995E28B9019800F72DDE /* KeychainKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8A995D28B9019800F72DDE /* KeychainKeyStorage.swift */; };
 		6E92C75527D48E1800E77F6F /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E92C75427D48E1800E77F6F /* FeedViewController.swift */; };
 		6E92C75E27D4996E00E77F6F /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E92C75D27D4996E00E77F6F /* InfoViewController.swift */; };
 		6E92C76127DA20D400E77F6F /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E92C76027DA20D400E77F6F /* ProfileHeaderView.swift */; };
@@ -199,6 +205,10 @@
 		6E6272EF27EC8F8500D151B5 /* PhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		6E6DB52D2873034D00FB3D5B /* MultiOperationBruteForceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiOperationBruteForceService.swift; sourceTree = "<group>"; };
 		6E71CA2728745C9F002435D3 /* Print.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Print.swift; sourceTree = "<group>"; };
+		6E8A995728B7BAA500F72DDE /* CredentialStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialStorageService.swift; sourceTree = "<group>"; };
+		6E8A995928B8E7C000F72DDE /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
+		6E8A995B28B8E8F700F72DDE /* CredentialStorageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialStorageProtocol.swift; sourceTree = "<group>"; };
+		6E8A995D28B9019800F72DDE /* KeychainKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainKeyStorage.swift; sourceTree = "<group>"; };
 		6E92C75427D48E1800E77F6F /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		6E92C75827D48E7F00E77F6F /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		6E92C75B27D4966500E77F6F /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -278,10 +288,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E8A995528B7B67A00F72DDE /* RealmSwift in Frameworks */,
 				6E3E48962850CC0800EB849C /* iOSIntPackage in Frameworks */,
 				6ED9368D283E30E900D39146 /* StorageService.framework in Frameworks */,
 				395BAAEB7CC3193271C1A731 /* Pods_Navigation.framework in Frameworks */,
 				6E67C4EC285F377C00A1C159 /* iOSIntPackage in Frameworks */,
+				6E8A995328B7B67A00F72DDE /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +406,7 @@
 			children = (
 				6E1D5573287159860066A519 /* BruteForce */,
 				6EBC10FF28A13C6D00ACEAA7 /* CheckerService */,
+				6E8A995628B7BA4D00F72DDE /* CredentialStorageService */,
 				6EAD214728915F6E00266C94 /* NetworkService */,
 				6E0290BD2866D71100365562 /* PostService */,
 				6E4234E7286497B700440F46 /* UserService */,
@@ -516,6 +529,17 @@
 				6E1D5578287197020066A519 /* OperationBruteForceService.swift */,
 			);
 			path = SingleOperation;
+			sourceTree = "<group>";
+		};
+		6E8A995628B7BA4D00F72DDE /* CredentialStorageService */ = {
+			isa = PBXGroup;
+			children = (
+				6E8A995928B8E7C000F72DDE /* Credentials.swift */,
+				6E8A995B28B8E8F700F72DDE /* CredentialStorageProtocol.swift */,
+				6E8A995728B7BAA500F72DDE /* CredentialStorageService.swift */,
+				6E8A995D28B9019800F72DDE /* KeychainKeyStorage.swift */,
+			);
+			path = CredentialStorageService;
 			sourceTree = "<group>";
 		};
 		6E92C75327D48E0100E77F6F /* Info */ = {
@@ -960,6 +984,8 @@
 			packageProductDependencies = (
 				6E3E48952850CC0800EB849C /* iOSIntPackage */,
 				6E67C4EB285F377C00A1C159 /* iOSIntPackage */,
+				6E8A995228B7B67A00F72DDE /* Realm */,
+				6E8A995428B7B67A00F72DDE /* RealmSwift */,
 			);
 			productName = Navigation;
 			productReference = 6ECC428F27D4709900E5E608 /* Navigation.app */;
@@ -1014,6 +1040,7 @@
 			packageReferences = (
 				6E3E48942850CC0800EB849C /* XCRemoteSwiftPackageReference "iOSIntPackage" */,
 				6E67C4EA285F377C00A1C159 /* XCRemoteSwiftPackageReference "iOSIntPackage" */,
+				6E8A995128B7B67A00F72DDE /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 6ECC429027D4709900E5E608 /* Products */;
 			projectDirPath = "";
@@ -1180,6 +1207,7 @@
 				6EAD214D2891600600266C94 /* AppConfiguration.swift in Sources */,
 				6E2859D9286DBDC900383EA8 /* LoginInspectorFactory.swift in Sources */,
 				6ECC429527D4709900E5E608 /* SceneDelegate.swift in Sources */,
+				6E8A995E28B9019800F72DDE /* KeychainKeyStorage.swift in Sources */,
 				6E2859D7286DB49300383EA8 /* LoginDelegate.swift in Sources */,
 				6E9811BA287962F600B17ADD /* ErrorPresenter.swift in Sources */,
 				6EAD214928915F7700266C94 /* NetworkService.swift in Sources */,
@@ -1189,6 +1217,7 @@
 				6E9C79672883F5AD003CDF04 /* MusicFactory.swift in Sources */,
 				6E9C79692883F6C6003CDF04 /* RecordFactory.swift in Sources */,
 				6EBC110128A13CC800ACEAA7 /* CheckerService.swift in Sources */,
+				6E8A995C28B8E8F700F72DDE /* CredentialStorageProtocol.swift in Sources */,
 				6E0290BF2866D73700365562 /* PostServiceProtocol.swift in Sources */,
 				6E0290AB2866AF2300365562 /* ProfileCoordinator.swift in Sources */,
 				6E3E489D2858C49400EB849C /* CurrentUserService.swift in Sources */,
@@ -1197,6 +1226,7 @@
 				6EA795CC2875BB0400F3FA19 /* HintView.swift in Sources */,
 				6E9C795A28822C92003CDF04 /* VideoTrack.swift in Sources */,
 				6E9811B82879534A00B17ADD /* NavigationCoordinator.swift in Sources */,
+				6E8A995A28B8E7C000F72DDE /* Credentials.swift in Sources */,
 				6EAD21692897F3B900266C94 /* SWAPIService.swift in Sources */,
 				6E6272F027EC8F8500D151B5 /* PhotosCollectionViewCell.swift in Sources */,
 				6E92C76127DA20D400E77F6F /* ProfileHeaderView.swift in Sources */,
@@ -1218,6 +1248,7 @@
 				6E0290B52866D15900365562 /* ProfileFactory.swift in Sources */,
 				6E1D5575287160EE0066A519 /* BruteForceServiceProtocol.swift in Sources */,
 				6E03A0EF2886DC480054759A /* ShadowOnTapButton.swift in Sources */,
+				6E8A995828B7BAA500F72DDE /* CredentialStorageService.swift in Sources */,
 				6E3E48A7285B4DFE00EB849C /* LoginInspector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1544,6 +1575,14 @@
 				kind = branch;
 			};
 		};
+		6E8A995128B7B67A00F72DDE /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 10.28.6;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1556,6 +1595,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6E67C4EA285F377C00A1C159 /* XCRemoteSwiftPackageReference "iOSIntPackage" */;
 			productName = iOSIntPackage;
+		};
+		6E8A995228B7B67A00F72DDE /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E8A995128B7B67A00F72DDE /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		6E8A995428B7B67A00F72DDE /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E8A995128B7B67A00F72DDE /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

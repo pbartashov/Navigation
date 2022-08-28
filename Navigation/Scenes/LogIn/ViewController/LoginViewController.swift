@@ -51,6 +51,7 @@ final class LoginViewController<ViewModelType: LoginViewModelProtocol>: UIViewCo
         setupViewModel()
 
         //        viewModel.perfomAction(.startHintTimer)
+        viewModel.perfomAction(.autoLogin)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,6 +107,8 @@ final class LoginViewController<ViewModelType: LoginViewModelProtocol>: UIViewCo
     private func setupViewModel() {
         viewModel.stateChanged = { [weak self] state in
             DispatchQueue.main.async {
+                self?.loginView.isBusy = false
+
                 switch state {
                     case .initial:
                         break
@@ -117,6 +120,11 @@ final class LoginViewController<ViewModelType: LoginViewModelProtocol>: UIViewCo
 
                     case .authFailed:
                         self?.loginView.shakeLoginButton()
+
+                    case let .processing(login, password):
+                        self?.loginView.isBusy = true
+                        self?.loginView.login = login
+                        self?.loginView.password = password
                         
                     case .bruteForceFinishedWith(password: let password):
                         self?.loginView.finishBrutePassword(with: password)
