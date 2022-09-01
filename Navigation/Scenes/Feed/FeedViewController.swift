@@ -70,7 +70,7 @@ extension FeedViewController: ViewWithButtonDelegate {
             case FeedView.Buttons.post1.hashValue:
                 fallthrough
             case FeedView.Buttons.post2.hashValue:
-                let post = Post(author: sender.currentTitle ?? "New post")
+                let post = Post(url: "0", author: sender.currentTitle ?? "New post")
 
                 coordinator?.showPost(post)
                 

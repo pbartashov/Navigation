@@ -16,6 +16,13 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
 
     private var viewModel: ViewModelType
 
+
+
+
+
+    private let favoritesPostStorageService = StorageService()
+
+
     private var isAvatarPresenting: Bool = false {
         didSet {
             tableView.isUserInteractionEnabled = !isAvatarPresenting
@@ -54,6 +61,12 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
 #else
         tableView.backgroundColor = .systemOrange
 #endif
+
+
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
+        doubleTap.numberOfTapsRequired = 2
+        tableView.addGestureRecognizer(doubleTap)
+
 
         return tableView
     }()
@@ -221,6 +234,39 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
             isAvatarPresenting = false
         }
         )
+    }
+
+    @objc func handleDoubleTap(recognizer: UIGestureRecognizer) {
+        let tappedPoint = recognizer.location(in: tableView)
+
+        if let indexPath = tableView.indexPathForRow(at: tappedPoint) {
+            tableView.deselectRow(at: indexPath, animated: true)
+            Task {
+                let object = viewModel.posts[indexPath.row]
+                try? await favoritesPostStorageService.save(object: object)
+
+
+//                let results: [Post] = try! await favoritesPostStorageService.fetchAll()
+//                results.forEach {
+//                    print($0)
+//                }
+            }
+        }
+
+
+
+//        favoritesPostStorageService.fetchAll() { result in
+//            switch result {
+//                case .success(let array):
+//                    array.map { Post(from: $0) }
+//                        .forEach {
+//                            print($0)
+//                        }
+//
+//                case .failure(let error):
+//                    break
+//            }
+//        }
     }
 
     // MARK: - UITableViewDataSource methods
