@@ -28,3 +28,5 @@ public struct Post {
         self.views = views
     }
 }
+
+extension Post: Hashable { }

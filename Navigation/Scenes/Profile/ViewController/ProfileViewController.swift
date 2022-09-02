@@ -10,8 +10,16 @@ import StorageService
 import iOSIntPackage
 
 final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIViewController,
-                                                                            UITableViewDataSource,
                                                                             UITableViewDelegate {
+    private enum Section {
+        case profile, posts
+    }
+
+    private enum Cell: Hashable {
+        case profile(PhotosTableViewCell)
+        case post(Post)
+    }
+
     //MARK: - Properties
 
     private var viewModel: ViewModelType
@@ -36,14 +44,58 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
 
     var isProfileHidden = false {
         didSet {
-            view.setNeedsLayout()
+            if isViewLoaded {
+                view.setNeedsLayout()
+            }
         }
     }
 
     var isPhotoCellHidden = false {
         didSet {
-            view.setNeedsLayout()
+            if isViewLoaded {
+                view.setNeedsLayout()
+            }
         }
+    }
+
+    private lazy var tableViewDataSource: UITableViewDiffableDataSource<Section, Cell> = {
+        let tableViewDataSource = UITableViewDiffableDataSource<Section, Cell>(
+            tableView: tableView,
+            cellProvider: { [weak self] (tableView, indexPath, cell) -> UITableViewCell? in
+                guard let self = self else { return nil }
+
+                switch cell {
+                    case .profile(let profileCell):
+                        return self.isPhotoCellHidden ? nil : profileCell
+
+                    case .post(let post):
+                        let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
+                                                                 for: indexPath)
+                        as! PostTableViewCell
+
+                        cell.setup(with: post,
+                                   filter: self.currentColorFilter)
+                        return cell
+                }
+            })
+
+        return tableViewDataSource
+    }()
+
+    private var postsSnapshot: NSDiffableDataSourceSnapshot<Section, Cell> {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Cell>()
+
+        if isPhotoCellHidden {
+            snapshot.appendSections([.posts])
+        } else {
+            snapshot.appendSections([.profile, .posts])
+            snapshot.appendItems([.profile(photosTableViewCell)], toSection: .profile)
+        }
+
+        let cells = viewModel.posts.map { Cell.post($0) }
+        snapshot.appendItems(cells, toSection: .posts)
+
+        return snapshot
     }
 
     //MARK: - Views
@@ -58,7 +110,6 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
         tableView.register(PostTableViewCell.self,
                            forCellReuseIdentifier: PostTableViewCell.identifier)
 
-        tableView.dataSource = self
         tableView.delegate = self
 
 #if DEBUG
@@ -67,11 +118,9 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
         tableView.backgroundColor = .systemOrange
 #endif
 
-
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
         doubleTap.numberOfTapsRequired = 2
         tableView.addGestureRecognizer(doubleTap)
-
 
         return tableView
     }()
@@ -135,6 +184,10 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
         viewModel.perfomAction(.requstPosts)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        tableViewDataSource.apply(postsSnapshot)
+    }
+
     override func viewSafeAreaInsetsDidChange() {
         if isAvatarPresenting {
             moveAndScaleAvatarToCenter()
@@ -150,7 +203,8 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
                     break
                 case .loaded(_):
                     DispatchQueue.main.async {
-                        self?.tableView.reloadData()
+                        guard let self = self else { return }
+                        self.tableViewDataSource.apply(self.postsSnapshot)
                     }
             }
         }
@@ -250,29 +304,6 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
             let post = viewModel.posts[indexPath.row]
             viewModel.perfomAction(.selected(post: post))
         }
-    }
-
-    // MARK: - UITableViewDataSource methods
-    func numberOfSections(in tableView: UITableView) -> Int {
-        isProfileHidden ? 1 : 2
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        (isProfileHidden || section > 0) ? viewModel.posts.count : 1
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0, isPhotoCellHidden == false {
-            return photosTableViewCell
-        }
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
-                                                 for: indexPath)
-        as! PostTableViewCell
-
-        cell.setup(with: viewModel.posts[indexPath.row], filter: currentColorFilter)
-
-        return cell
     }
 
     // MARK: - UITableViewDelegate methods
