@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     //MARK: - Properties
 
     var window: UIWindow?
-    private let mainCoordinator = MainCoordinator()
+    private var mainCoordinator: MainCoordinator?
     //private var appConfiguration: AppConfiguration?
 
     //MARK: - LifeCicle
@@ -31,9 +31,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         FirebaseApp.configure()
 
         let window = UIWindow(windowScene: windowScene)
+        let mainCoordinator = MainCoordinator(window: window)
         window.rootViewController = mainCoordinator.start()
         window.makeKeyAndVisible()
         self.window = window
+        self.mainCoordinator = mainCoordinator
 
         signOutFireBase()
     }

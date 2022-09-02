@@ -6,18 +6,21 @@
 //
 
 public struct Post {
+    public let url: String
     public let author: String
     public let description: String
     public let image: String
     public let likes: Int
     public let views: Int
 
-    public init(author: String = "",
+    public init(url: String,
+                author: String = "",
                 description: String = "",
                 image: String = "",
                 likes: Int = 0,
                 views: Int = 0) {
         
+        self.url = url
         self.author = author
         self.description = description
         self.image = image
@@ -25,3 +28,5 @@ public struct Post {
         self.views = views
     }
 }
+
+extension Post: Hashable { }

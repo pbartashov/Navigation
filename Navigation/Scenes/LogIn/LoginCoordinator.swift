@@ -11,26 +11,24 @@ final class LoginCoordinator: NavigationCoordinator {
 
     //MARK: - Properties
 
-    private let profileCoordinator: ProfileCoordinator
     private let hintCoordinator: NavigationCoordinator
+    private let switchToMainScene: (String) -> Void
 
     //MARK: - LifeCicle
 
-    override init(navigationController: UINavigationController) {
-        self.profileCoordinator = ProfileCoordinator(navigationController: navigationController)
+    init(navigationController: UINavigationController,
+         switchToMainScene: @escaping (String) -> Void) {
+
         self.hintCoordinator = NavigationCoordinator(navigationController: navigationController)
+        self.switchToMainScene = switchToMainScene
         super.init(navigationController: navigationController)
+        self.navigationController = navigationController
     }
 
     //MARK: - Metods
 
-    func showProfile(for userName: String) {
-        let profileViewModel = ProfileFactory.create.viewModelWith(coordinator: profileCoordinator,
-                                                                   userName: userName)
-
-        let profileViewController = ProfileFactory.create.viewControllerWith(viewModel: profileViewModel)
-        
-        navigationController?.pushViewController(profileViewController, animated: true)
+    func showMainScene(for userName: String) {
+        switchToMainScene(userName)
     }
 
     func startHintTimer() {

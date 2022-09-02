@@ -134,7 +134,7 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
 
             case .success(let userName):
                 try? credentialStorage?.persist(login: login, password: password)
-                coordinator?.showProfile(for: userName)
+                coordinator?.showMainScene(for: userName)
         }
     }
 
