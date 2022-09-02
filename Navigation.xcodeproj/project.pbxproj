@@ -48,6 +48,18 @@
 		6E4234E32861F1C600440F46 /* ViewWithButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4234E22861F1C600440F46 /* ViewWithButtonDelegate.swift */; };
 		6E4234E52861FA2A00440F46 /* ObservationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4234E42861FA2A00440F46 /* ObservationToken.swift */; };
 		6E4C02D428BE268500EA8142 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C02D328BE268500EA8142 /* StorageService.swift */; };
+		6E4C02D628C0CE5300EA8142 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C02D528C0CE5300EA8142 /* Storage.swift */; };
+		6E4C02D828C0CE8F00EA8142 /* RealmDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C02D728C0CE8F00EA8142 /* RealmDatabase.swift */; };
+		6E4C02DA28C0CEBD00EA8142 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C02D928C0CEBD00EA8142 /* StorageService.swift */; };
+		6E4C02DC28C0CF2400EA8142 /* DatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C02DB28C0CF2400EA8142 /* DatabaseProtocol.swift */; };
+		6E4C02DE28C0CF8000EA8142 /* CoreDataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C02DD28C0CF8000EA8142 /* CoreDataBase.swift */; };
+		6E4C02E028C0CFFB00EA8142 /* Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C02DF28C0CFFB00EA8142 /* Storable.swift */; };
+		6E4C02E228C0D02C00EA8142 /* CoreDataStorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C02E128C0D02C00EA8142 /* CoreDataStorable.swift */; };
+		6E4C02E428C0D04500EA8142 /* RealmStorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C02E328C0D04500EA8142 /* RealmStorable.swift */; };
+		6E4C02E628C0D07000EA8142 /* StorageServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C02E528C0D07000EA8142 /* StorageServiceProtocol.swift */; };
+		6E4C02E828C0D4ED00EA8142 /* DataBaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C02E728C0D4ED00EA8142 /* DataBaseError.swift */; };
+		6E4C02EA28C0D6B900EA8142 /* Post+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C02E928C0D6B900EA8142 /* Post+.swift */; };
+		6E4C02EB28C0D72E00EA8142 /* Navigation.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6EBB782728BB72BD006A090E /* Navigation.xcdatamodeld */; };
 		6E5E42B4285CD6AB002EA082 /* LoginFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5E42B3285CD6AB002EA082 /* LoginFactory.swift */; };
 		6E5E42B7285DDE74002EA082 /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5E42B6285DDE74002EA082 /* ViewControllerFactory.swift */; };
 		6E6272E927EB3BCA00D151B5 /* PhotosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6272E827EB3BCA00D151B5 /* PhotosTableViewCell.swift */; };
@@ -205,6 +217,17 @@
 		6E4234E22861F1C600440F46 /* ViewWithButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWithButtonDelegate.swift; sourceTree = "<group>"; };
 		6E4234E42861FA2A00440F46 /* ObservationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationToken.swift; sourceTree = "<group>"; };
 		6E4C02D328BE268500EA8142 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		6E4C02D528C0CE5300EA8142 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		6E4C02D728C0CE8F00EA8142 /* RealmDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDatabase.swift; sourceTree = "<group>"; };
+		6E4C02D928C0CEBD00EA8142 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		6E4C02DB28C0CF2400EA8142 /* DatabaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseProtocol.swift; sourceTree = "<group>"; };
+		6E4C02DD28C0CF8000EA8142 /* CoreDataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataBase.swift; sourceTree = "<group>"; };
+		6E4C02DF28C0CFFB00EA8142 /* Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storable.swift; sourceTree = "<group>"; };
+		6E4C02E128C0D02C00EA8142 /* CoreDataStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorable.swift; sourceTree = "<group>"; };
+		6E4C02E328C0D04500EA8142 /* RealmStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmStorable.swift; sourceTree = "<group>"; };
+		6E4C02E528C0D07000EA8142 /* StorageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageServiceProtocol.swift; sourceTree = "<group>"; };
+		6E4C02E728C0D4ED00EA8142 /* DataBaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseError.swift; sourceTree = "<group>"; };
+		6E4C02E928C0D6B900EA8142 /* Post+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+.swift"; sourceTree = "<group>"; };
 		6E5E42B3285CD6AB002EA082 /* LoginFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFactory.swift; sourceTree = "<group>"; };
 		6E5E42B6285DDE74002EA082 /* ViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
 		6E6272E827EB3BCA00D151B5 /* PhotosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosTableViewCell.swift; sourceTree = "<group>"; };
@@ -963,7 +986,18 @@
 		6ED93688283E30E900D39146 /* StorageService */ = {
 			isa = PBXGroup;
 			children = (
+				6E4C02DD28C0CF8000EA8142 /* CoreDataBase.swift */,
+				6E4C02E928C0D6B900EA8142 /* Post+.swift */,
+				6E4C02E128C0D02C00EA8142 /* CoreDataStorable.swift */,
+				6E4C02DB28C0CF2400EA8142 /* DatabaseProtocol.swift */,
+				6E4C02D728C0CE8F00EA8142 /* RealmDatabase.swift */,
+				6E4C02E328C0D04500EA8142 /* RealmStorable.swift */,
+				6E4C02DF28C0CFFB00EA8142 /* Storable.swift */,
+				6E4C02D528C0CE5300EA8142 /* Storage.swift */,
 				6ED93689283E30E900D39146 /* StorageService.h */,
+				6E4C02D928C0CEBD00EA8142 /* StorageService.swift */,
+				6E4C02E528C0D07000EA8142 /* StorageServiceProtocol.swift */,
+				6E4C02E728C0D4ED00EA8142 /* DataBaseError.swift */,
 			);
 			path = StorageService;
 			sourceTree = "<group>";
@@ -1317,8 +1351,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E4C02DE28C0CF8000EA8142 /* CoreDataBase.swift in Sources */,
+				6E4C02E828C0D4ED00EA8142 /* DataBaseError.swift in Sources */,
+				6E4C02DA28C0CEBD00EA8142 /* StorageService.swift in Sources */,
+				6E4C02EB28C0D72E00EA8142 /* Navigation.xcdatamodeld in Sources */,
+				6E4C02E228C0D02C00EA8142 /* CoreDataStorable.swift in Sources */,
+				6E4C02D828C0CE8F00EA8142 /* RealmDatabase.swift in Sources */,
+				6E4C02DC28C0CF2400EA8142 /* DatabaseProtocol.swift in Sources */,
 				6EAE3949285F2D5700B63225 /* DemoPosts.swift in Sources */,
+				6E4C02EA28C0D6B900EA8142 /* Post+.swift in Sources */,
+				6E4C02E028C0CFFB00EA8142 /* Storable.swift in Sources */,
 				6ED93697283E326200D39146 /* Post.swift in Sources */,
+				6E4C02D628C0CE5300EA8142 /* Storage.swift in Sources */,
+				6E4C02E628C0D07000EA8142 /* StorageServiceProtocol.swift in Sources */,
+				6E4C02E428C0D04500EA8142 /* RealmStorable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
