@@ -228,181 +228,181 @@ final class CoreDataService {
 //
 //
 //}
-
-
-final class RealmService {
-}
-
-//extension RealmService: DatabaseProtocol1{
-//    func save<T>(object: DBStorable) -> T where T : DatabaseObject {
-//
-//    }
-//
-//    func fetchAll<T>() -> T where T : DatabaseObject {
-//
-//    }
 //
 //
+//final class RealmService {
+//}
 //
-//    typealias DBStorable = CoreDataStorable
+////extension RealmService: DatabaseProtocol1{
+////    func save<T>(object: DBStorable) -> T where T : DatabaseObject {
+////
+////    }
+////
+////    func fetchAll<T>() -> T where T : DatabaseObject {
+////
+////    }
+////
+////
+////
+////    typealias DBStorable = CoreDataStorable
+////
+////}
+//
+//
+//protocol DatabaseProtocol1 {
+//    //    associatedtype DBObject
+//    associatedtype DBStorable
+//
+//    func fetchAll<T: DatabaseObject>() -> T
+//    func save<T: DatabaseObject>(object: DBStorable) -> T
+//
 //
 //}
-
-
-protocol DatabaseProtocol1 {
-    //    associatedtype DBObject
-    associatedtype DBStorable
-
-    func fetchAll<T: DatabaseObject>() -> T
-    func save<T: DatabaseObject>(object: DBStorable) -> T
-
-
-}
-
-
-protocol DatabaseProtocol2 {
-    //    associatedtype DBObject
-    associatedtype DBStorable
-
-    func fetchAll(objectOfType: DBStorable.Type)
-
-    func fetchAll(objectOfType: DBStorable)
-    func create(object: DBStorable) async throws
-
-}
-
-
-
-//extension CoreDataService: DatabaseProtocol2 {
-//    func fetchAll(objectOfType: DBStorable) {
-//        ()
+//
+//
+//protocol DatabaseProtocol2 {
+//    //    associatedtype DBObject
+//    associatedtype DBStorable
+//
+//    func fetchAll(objectOfType: DBStorable.Type)
+//
+//    func fetchAll(objectOfType: DBStorable)
+//    func create(object: DBStorable) async throws
+//
+//}
+//
+//
+//
+////extension CoreDataService: DatabaseProtocol2 {
+////    func fetchAll(objectOfType: DBStorable) {
+////        ()
+////    }
+////
+////    typealias DBStorable = CoreDataStorable
+////
+////
+////    func fetchAll(objectOfType: DBStorable.Type) {
+////
+////        objectOfType.getAssociatedDatabaseType().fetchRequest()
+////
+////
+////    }
+////
+////    func fetchAll(objectOfType: DBStorable.Protocol) {
+////
+////    }
+////
+////
+////
+////    func create(object: DBStorable) async throws {
+////        try await mainContext.perform { [weak self] in
+////            guard let self = self else { return }
+////
+////
+////            let entity = object.createManagedObject(for: self.mainContext)
+////
+////            guard self.mainContext.hasChanges else {
+////                throw DatabaseError.store(model: String(describing: entity.self))
+////            }
+////
+////            do {
+////                try self.mainContext.save()
+////            } catch let error {
+////                throw DatabaseError.error(desription: "Unable to save changes of main context.\nError - \(error.localizedDescription)")
+////            }
+////        }
+////    }
+////
+////
+////
+////
+////}
+//
+//
+//protocol DatabaseProtocol3 {
+//    //    associatedtype DBObject
+////    associatedtype DBStorable
+//
+////    func fetchAll<T: Storable>(objectOfType: T.Type)
+//    func fetch<T: Storable>(ofType objectType: T.Type, with predicate: NSPredicate?) async throws -> [DatabaseObject]
+//    func fetchAll<T: Storable>(ofType: T.Type) async throws -> [DatabaseObject]
+//
+//
+//    func create(_ object: Storable) async throws -> DatabaseObject
+//    func update(_ databaseObject: DatabaseObject) async throws -> DatabaseObject
+//
+//}
+//
+//
+//extension CoreDataService: DatabaseProtocol3 {
+//    func update(_ databaseObject: DatabaseObject) async throws -> DatabaseObject {
+//PostEntity()
 //    }
 //
-//    typealias DBStorable = CoreDataStorable
+//    
 //
-//
-//    func fetchAll(objectOfType: DBStorable.Type) {
-//
-//        objectOfType.getAssociatedDatabaseType().fetchRequest()
-//
-//
+//    func fetchAll<T>(ofType objectType: T.Type) async throws -> [DatabaseObject] where T : Storable {
+//        try await fetch(ofType: objectType, with: nil)
 //    }
 //
-//    func fetchAll(objectOfType: DBStorable.Protocol) {
-//
-//    }
-//
-//
-//
-//    func create(object: DBStorable) async throws {
+//    func fetch<T>(ofType objectType: T.Type, with predicate: NSPredicate?) async throws -> [DatabaseObject] where T : Storable {
 //        try await mainContext.perform { [weak self] in
-//            guard let self = self else { return }
-//
-//
-//            let entity = object.createManagedObject(for: self.mainContext)
-//
-//            guard self.mainContext.hasChanges else {
-//                throw DatabaseError.store(model: String(describing: entity.self))
+//            guard
+//                let self = self,
+//                let objectType = objectType as? CoreDataStorable.Type
+//            else {
+//                throw DatabaseError.wrongModel
 //            }
 //
-//            do {
-//                try self.mainContext.save()
-//            } catch let error {
-//                throw DatabaseError.error(desription: "Unable to save changes of main context.\nError - \(error.localizedDescription)")
+////            let request = objectType.init(from: PostEntity())!.associatedDatabaseType.fetchRequest()
+//            let request = NSFetchRequest<NSFetchRequestResult>.init(entityName: String(describing: PostEntity.self))
+//            request.predicate = predicate
+//
+//            guard
+//                let fetchRequestResult = try? self.mainContext.fetch(request),
+//                let fetchedObjects = fetchRequestResult as? [DatabaseObject]
+//            else {
+//                throw DatabaseError.wrongModel
 //            }
+//
+//            return fetchedObjects
 //        }
 //    }
 //
 //
 //
 //
+//
+//    func create(_ object: Storable) async throws -> DatabaseObject {
+//        try await mainContext.perform { [weak self] in
+//            guard
+//                let self = self,
+//                let object = object as? CoreDataStorable
+//            else {
+//                throw DatabaseError.wrongModel
+//            }
+//
+//            let entity = object.associatedDatabaseType.init(context: self.mainContext)
+//
+//            try self.saveContext()
+//
+//            return entity
+//        }
+//    }
+//
+//
+//    private func saveContext() throws {
+//        guard self.mainContext.hasChanges else {
+//            throw DatabaseError.store(model: modelName)
+//        }
+//
+//        do {
+//            try self.mainContext.save()
+//        } catch let error {
+//            throw DatabaseError.error(desription: "Unable to save changes of main context.\nError - \(error.localizedDescription)")
+//        }
+//    }
+//
+//
+//
 //}
-
-
-protocol DatabaseProtocol3 {
-    //    associatedtype DBObject
-//    associatedtype DBStorable
-
-//    func fetchAll<T: Storable>(objectOfType: T.Type)
-    func fetch<T: Storable>(ofType objectType: T.Type, with predicate: NSPredicate?) async throws -> [DatabaseObject]
-    func fetchAll<T: Storable>(ofType: T.Type) async throws -> [DatabaseObject]
-
-
-    func create(_ object: Storable) async throws -> DatabaseObject
-    func update(_ databaseObject: DatabaseObject) async throws -> DatabaseObject
-
-}
-
-
-extension CoreDataService: DatabaseProtocol3 {
-    func update(_ databaseObject: DatabaseObject) async throws -> DatabaseObject {
-PostEntity()
-    }
-
-    
-
-    func fetchAll<T>(ofType objectType: T.Type) async throws -> [DatabaseObject] where T : Storable {
-        try await fetch(ofType: objectType, with: nil)
-    }
-
-    func fetch<T>(ofType objectType: T.Type, with predicate: NSPredicate?) async throws -> [DatabaseObject] where T : Storable {
-        try await mainContext.perform { [weak self] in
-            guard
-                let self = self,
-                let objectType = objectType as? CoreDataStorable.Type
-            else {
-                throw DatabaseError.wrongModel
-            }
-
-//            let request = objectType.init(from: PostEntity())!.associatedDatabaseType.fetchRequest()
-            let request = NSFetchRequest<NSFetchRequestResult>.init(entityName: String(describing: PostEntity.self))
-            request.predicate = predicate
-
-            guard
-                let fetchRequestResult = try? self.mainContext.fetch(request),
-                let fetchedObjects = fetchRequestResult as? [DatabaseObject]
-            else {
-                throw DatabaseError.wrongModel
-            }
-
-            return fetchedObjects
-        }
-    }
-
-
-
-
-
-    func create(_ object: Storable) async throws -> DatabaseObject {
-        try await mainContext.perform { [weak self] in
-            guard
-                let self = self,
-                let object = object as? CoreDataStorable
-            else {
-                throw DatabaseError.wrongModel
-            }
-
-            let entity = object.associatedDatabaseType.init(context: self.mainContext)
-
-            try self.saveContext()
-
-            return entity
-        }
-    }
-
-
-    private func saveContext() throws {
-        guard self.mainContext.hasChanges else {
-            throw DatabaseError.store(model: modelName)
-        }
-
-        do {
-            try self.mainContext.save()
-        } catch let error {
-            throw DatabaseError.error(desription: "Unable to save changes of main context.\nError - \(error.localizedDescription)")
-        }
-    }
-
-
-
-}

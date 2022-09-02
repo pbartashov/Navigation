@@ -12,9 +12,11 @@ enum DatabaseError: Error {
     /// Невозможно добавить данные в хранилище.
     case store(model: String)
     /// Не найдена модель объекта.
-    case wrongModel
+    case invalidManagedObjectType
     /// Кастомная ошибка.
     case error(desription: String)
+    /// Объект не найден.
+    case notFound
     /// Неизвестная ошибка.
     case unknown(error: Error)
 }
@@ -25,11 +27,14 @@ extension DatabaseError: LocalizedError {
             case .store(let model):
                 return NSLocalizedString("Невозможно добавить данные в хранилище: \(model).", comment: "")
 
-            case .wrongModel:
+            case .invalidManagedObjectType:
                 return NSLocalizedString("Не найдена модель объекта.", comment: "")
 
             case .error(let description):
                 return NSLocalizedString(description, comment: "")
+
+            case .notFound:
+                return NSLocalizedString("Объект не найден", comment: "")
 
             case .unknown(let error as LocalizedError):
                 return error.errorDescription

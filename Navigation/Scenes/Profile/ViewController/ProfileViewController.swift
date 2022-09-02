@@ -16,13 +16,6 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
 
     private var viewModel: ViewModelType
 
-
-
-
-
-    private let favoritesPostStorageService = StorageService()
-
-
     private var isAvatarPresenting: Bool = false {
         didSet {
             tableView.isUserInteractionEnabled = !isAvatarPresenting
@@ -241,32 +234,10 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
 
         if let indexPath = tableView.indexPathForRow(at: tappedPoint) {
             tableView.deselectRow(at: indexPath, animated: true)
-            Task {
-                let object = viewModel.posts[indexPath.row]
-                try? await favoritesPostStorageService.save(object: object)
 
-
-//                let results: [Post] = try! await favoritesPostStorageService.fetchAll()
-//                results.forEach {
-//                    print($0)
-//                }
-            }
+            let post = viewModel.posts[indexPath.row]
+            viewModel.perfomAction(.store(post: post))
         }
-
-
-
-//        favoritesPostStorageService.fetchAll() { result in
-//            switch result {
-//                case .success(let array):
-//                    array.map { Post(from: $0) }
-//                        .forEach {
-//                            print($0)
-//                        }
-//
-//                case .failure(let error):
-//                    break
-//            }
-//        }
     }
 
     // MARK: - UITableViewDataSource methods

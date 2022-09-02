@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import StorageService
 
 struct ProfileFactory {
 
@@ -28,11 +29,15 @@ struct ProfileFactory {
         let userService = CurrentUserService(currentUser: user)
 #endif
         let postService = TestPostService()
+        let contextProvider = CoreDataContextProvider()
+
+        let postRepository = PostRepository(context: contextProvider.viewContext)
         
         return ProfileViewModel(postService: postService,
                                 coordinator: coordinator,
                                 userService: userService,
-                                userName: userName)
+                                userName: userName,
+                                postRepository: postRepository)
     }
     
     func viewControllerWith(viewModel: ProfileViewModel) -> UIViewController {
