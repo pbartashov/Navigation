@@ -25,12 +25,24 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
     private var currentColorFilter: ColorFilter? {
         didSet {
             for (i, post) in viewModel.posts.enumerated() {
-                let indexPath = IndexPath(row: i, section: 1)
+                let indexPath = IndexPath(row: i, section: isProfileHidden ? 0 : 1)
 
                 if let cell = tableView.cellForRow(at: indexPath) as? PostTableViewCell {
                     cell.setup(with: post, filter: currentColorFilter)
                 }
             }
+        }
+    }
+
+    var isProfileHidden = false {
+        didSet {
+            view.setNeedsLayout()
+        }
+    }
+
+    var isPhotoCellHidden = false {
+        didSet {
+            view.setNeedsLayout()
         }
     }
 
@@ -114,13 +126,13 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
         setupLayout()
 
         setupViewModel()
-
-        viewModel.perfomAction(.requstPosts)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         let photos = Photos.randomPhotos(ofCount: photosTableViewCell.photosCount)
         photosTableViewCell.setup(with: photos)
+
+        viewModel.perfomAction(.requstPosts)
     }
 
     override func viewSafeAreaInsetsDidChange() {
@@ -236,21 +248,21 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
             tableView.deselectRow(at: indexPath, animated: true)
 
             let post = viewModel.posts[indexPath.row]
-            viewModel.perfomAction(.store(post: post))
+            viewModel.perfomAction(.selected(post: post))
         }
     }
 
     // MARK: - UITableViewDataSource methods
     func numberOfSections(in tableView: UITableView) -> Int {
-        2
+        isProfileHidden ? 1 : 2
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? 1 : viewModel.posts.count
+        (isProfileHidden || section > 0) ? viewModel.posts.count : 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        if indexPath.section == 0, isPhotoCellHidden == false {
             return photosTableViewCell
         }
 
@@ -265,13 +277,13 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
 
     // MARK: - UITableViewDelegate methods
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        section == 0 ? profileHeaderView : nil
+        (isProfileHidden || section > 0) ? nil : profileHeaderView
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath == IndexPath(row: 0, section: 0) {
-            tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
 
+        if indexPath == IndexPath(row: 0, section: 0) {
             viewModel.perfomAction(.showPhotos)
         }
     }

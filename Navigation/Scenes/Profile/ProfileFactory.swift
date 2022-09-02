@@ -16,7 +16,7 @@ struct ProfileFactory {
 
     //MARK: - Metods
 
-    func viewModelWith(coordinator: ProfileCoordinator,
+    func viewModelWith(coordinator: ProfileCoordinator?,
                        userName: String
     ) -> ProfileViewModel {
 
@@ -29,8 +29,8 @@ struct ProfileFactory {
         let userService = CurrentUserService(currentUser: user)
 #endif
         let postService = TestPostService()
-        let contextProvider = CoreDataContextProvider()
 
+        let contextProvider = CoreDataContextProvider.shared
         let postRepository = PostRepository(context: contextProvider.viewContext)
         
         return ProfileViewModel(postService: postService,

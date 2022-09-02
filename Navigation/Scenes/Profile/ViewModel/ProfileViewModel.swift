@@ -10,7 +10,7 @@ import StorageService
 enum ProfileAction {
     case requstPosts
     case showPhotos
-    case store(post: Post)
+    case selected(post: Post)
     case showError(Error)
 }
 
@@ -20,8 +20,8 @@ enum ProfileState {
 }
 
 protocol ProfileViewModelProtocol: ViewModelProtocol
-    where State == ProfileState,
-          Action == ProfileAction {
+where State == ProfileState,
+      Action == ProfileAction {
 
     var posts: [Post] { get }
     var user: User? { get }
@@ -51,7 +51,7 @@ final class ProfileViewModel: ViewModel<ProfileState, ProfileAction>,
     //MARK: - LifeCicle
 
     init(postService: PostServiceProtocol,
-         coordinator: ProfileCoordinator,
+         coordinator: ProfileCoordinator?,
          userService: UserService,
          userName: String,
          postRepository: PostRepositoryInterface) {
@@ -82,16 +82,12 @@ final class ProfileViewModel: ViewModel<ProfileState, ProfileAction>,
             case .showPhotos:
                 coordinator?.showPhotos()
 
-            case .store(let post):
-                store(post: post)
+            case .selected(let post):
+                favoritesPostRepository.save(post: post)
+                favoritesPostRepository.saveChanges()
 
             case .showError(let error):
                 ErrorPresenter.shared.show(error: error)
         }
-    }
-
-    private func store(post: Post) {
-        favoritesPostRepository.save(post: post)
-        favoritesPostRepository.saveChanges()
     }
 }

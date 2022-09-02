@@ -47,7 +47,7 @@ extension PostRepository: PostRepositoryInterface {
 
                 return .success(posts)
             case .failure(let error):
-                // Return the Core Data error.
+                // Return the Database error.
                 return .failure(error)
         }
     }
@@ -62,7 +62,7 @@ extension PostRepository: PostRepositoryInterface {
                 return .success(true)
 
             case .failure(let error):
-                // Return the Core Data error.
+                // Return the Database error.
                 return .failure(error)
         }
     }
@@ -75,7 +75,7 @@ extension PostRepository: PostRepositoryInterface {
                 // Delete the PostEntity.
                 return repository.delete(entity: postEntity)
             case .failure(let error):
-                // Return the Core Data error.
+                // Return the Database error.
                 return .failure(error)
         }
     }
@@ -93,7 +93,7 @@ extension PostRepository: PostRepositoryInterface {
                     // Create the PostEntity.
                     return create(post: post)
                 }
-                // Return the Core Data error.
+                // Return the Database error.
                 return .failure(error)
         }
     }
@@ -109,7 +109,7 @@ extension PostRepository: PostRepositoryInterface {
                 // Return PostEntity.
                 return .success(postEntity)
             case .failure(let error):
-                // Return the Core Data error.
+                // Return the Database error.
                 return .failure(error)
         }
     }
@@ -119,6 +119,3 @@ extension PostRepository: PostRepositoryInterface {
         repository.saveChanges()
     }
 }
-
-
-#warning("Return the Core Data error")

@@ -9,6 +9,9 @@
 import CoreData
 
 public final class CoreDataContextProvider {
+
+    public static let shared = CoreDataContextProvider()
+
     // Returns the current container view context
     public var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
@@ -19,7 +22,14 @@ public final class CoreDataContextProvider {
     
     public init(completionClosure: ((Error?) -> Void)? = nil) {
         // Create a persistent container
-        persistentContainer = NSPersistentContainer(name: "Navigation")
+        guard let bundle = Bundle(identifier: "pB.StorageService"),
+              let url = bundle.url(forResource: "Navigation", withExtension: "momd"),
+              let model = NSManagedObjectModel(contentsOf: url)
+        else {
+            fatalError("Failed to load Core Data model")
+        }
+
+        persistentContainer = NSPersistentContainer(name: "Navigation", managedObjectModel: model)
         persistentContainer.loadPersistentStores() { (description, error) in
             if let error = error {
                 fatalError("Failed to load Core Data stack: \(error)")

@@ -79,4 +79,25 @@ struct ViewControllerFactory {
                                                          tag: tag)
         return recorderViewController
     }
+
+    func profileViewController(userName: String, coordinator: ProfileCoordinator?, tag: Int) -> UIViewController {
+        let profileViewModel = ProfileFactory.create.viewModelWith(coordinator: coordinator,
+                                                                   userName: userName)
+        let profileViewController = ProfileFactory.create.viewControllerWith(viewModel: profileViewModel)
+
+        profileViewController.tabBarItem = UITabBarItem(title: "Profile",
+                                                        image: UIImage(systemName: "person.fill"),
+                                                        tag: tag)
+        return profileViewController
+    }
+
+    func favoritesViewController(tag: Int) -> UIViewController {
+        let favoritesViewModel = FavoritesFactory.create.viewModelWith()
+        let favoritesViewController = FavoritesFactory.create.viewControllerWith(viewModel: favoritesViewModel)
+
+        favoritesViewController.tabBarItem = UITabBarItem(title: "Favorites",
+                                                          image: UIImage(systemName: "heart.fill"),
+                                                          tag: tag)
+        return favoritesViewController
+    }
 }
