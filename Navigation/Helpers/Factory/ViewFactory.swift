@@ -39,7 +39,7 @@ struct ViewFactory {
         var image = UIImage(systemName: imageSystemNameForNormal, withConfiguration: config)
 
         let button = ShadowOnTapButton(image: image?.withTintColor(buttonImageColor),
-                                        tapAction: { [weak delegate] in delegate?.buttonTapped(sender: $0) })
+                                       tapAction: { [weak delegate] in delegate?.buttonTapped(sender: $0) })
         button.tag = buttonType.hashValue
 
         if let imageSystemNameForSelected = imageSystemNameForSelected {
@@ -73,5 +73,3 @@ struct ViewFactory {
         return textField
     }
 }
-
-

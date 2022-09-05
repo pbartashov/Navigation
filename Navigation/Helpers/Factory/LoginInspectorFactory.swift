@@ -14,4 +14,3 @@ struct LoginInspectorFactoryImp: LoginInspectorFactory {
         LoginInspector(checker: CheckerService())
     }
 }
-

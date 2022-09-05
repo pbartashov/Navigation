@@ -18,7 +18,7 @@ struct ProfileFactory {
 
     func viewModelWith(coordinator: ProfileCoordinator?,
                        userName: String
-    ) -> ProfileViewModel {
+    ) -> ProfileViewModel<PostsViewModel> {
 
 #if DEBUG
         let userService = TestUserService()
@@ -37,10 +37,11 @@ struct ProfileFactory {
                                 coordinator: coordinator,
                                 userService: userService,
                                 userName: userName,
-                                postRepository: postRepository)
+                                postRepository: postRepository,
+                                postsViewModel: PostsViewModel())
     }
     
-    func viewControllerWith(viewModel: ProfileViewModel) -> UIViewController {
-        ProfileViewController(viewModel: viewModel)
+    func viewControllerWith<T>(viewModel: ProfileViewModel<T>) -> UIViewController where T: PostsViewModelProtocol {
+        ProfileViewController<ProfileViewModel<T>, T>(viewModel: viewModel)
     }
 }
