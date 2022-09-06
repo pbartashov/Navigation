@@ -8,14 +8,6 @@
 import CoreData
 
 //https://www.userdesk.io/blog/repository-pattern-using-core-data-and-swift/
-/// Enum for CoreData related errors
-//enum CoreDataError: Error {
-//    case invalidManagedObjectType
-//}
-
-
-
-
 /// Generic class for handling NSManagedObject subclasses.
 final class CoreDataRepository<T: NSManagedObject>: Repository {
     typealias Entity = T

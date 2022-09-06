@@ -44,8 +44,8 @@ extension PostRepository: PostRepositoryInterface {
                 let posts = postEntity.map { PostEntity -> Post in
                     return PostEntity.toDomainModel()
                 }
-
                 return .success(posts)
+
             case .failure(let error):
                 // Return the Database error.
                 return .failure(error)
@@ -74,6 +74,7 @@ extension PostRepository: PostRepositoryInterface {
             case .success(let postEntity):
                 // Delete the PostEntity.
                 return repository.delete(entity: postEntity)
+
             case .failure(let error):
                 // Return the Database error.
                 return .failure(error)
@@ -88,6 +89,7 @@ extension PostRepository: PostRepositoryInterface {
                 // Update the Post properties.
                 postEntity.copyDomainModel(model: post)
                 return .success(true)
+
             case .failure(let error):
                 if case DatabaseError.notFound = error {
                     // Create the PostEntity.
@@ -108,6 +110,7 @@ extension PostRepository: PostRepositoryInterface {
                 }
                 // Return PostEntity.
                 return .success(postEntity)
+
             case .failure(let error):
                 // Return the Database error.
                 return .failure(error)

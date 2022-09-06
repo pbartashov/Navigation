@@ -7,15 +7,16 @@
 
 import UIKit
 import StorageService
-import iOSIntPackage
 
 extension PostSectionType {
     static let profile = PostSectionType(rawValue: "profile")
 }
 
 final class ProfileViewController<T, U>: PostsViewController<U>,
-                                         UITableViewDelegate where T: ProfileViewModelProtocol,
-                                                                   U == T.PostsViewModelType {
+                                         UITableViewDelegate
+where T: ProfileViewModelProtocol,
+      U == T.PostsViewModelType {
+
     typealias ViewModelType = T
     typealias SectionType = PostsViewController<U>.SectionType
 
@@ -26,7 +27,7 @@ final class ProfileViewController<T, U>: PostsViewController<U>,
 
     //MARK: - Properties
 
-    private var viewModel: ViewModelType
+    private var profileViewModel: ViewModelType
 
     private var isAvatarPresenting: Bool = false {
         didSet {
@@ -74,7 +75,7 @@ final class ProfileViewController<T, U>: PostsViewController<U>,
     private lazy var profileHeaderView: ProfileHeaderView = {
 
         let profileHeaderView = ProfileHeaderView(delegate: self)
-        profileHeaderView.setup(with: viewModel.user)
+        profileHeaderView.setup(with: profileViewModel.user)
 
         return profileHeaderView
     }()
@@ -84,8 +85,8 @@ final class ProfileViewController<T, U>: PostsViewController<U>,
     //MARK: - LifeCicle
 
     init(viewModel: ViewModelType) {
-        self.viewModel = viewModel
-        super.init(viewModel: viewModel.postsViewModel)
+        self.profileViewModel = viewModel
+        super.init(viewModel: profileViewModel.postsViewModel)
     }
 
     required init?(coder: NSCoder) {
@@ -103,7 +104,7 @@ final class ProfileViewController<T, U>: PostsViewController<U>,
         let photos = Photos.randomPhotos(ofCount: photosTableViewCell.photosCount)
         photosTableViewCell.setup(with: photos)
 
-        viewModel.perfomAction(.posts(action: .requstPosts))
+        profileViewModel.perfomAction(.posts(action: .requstPosts))
     }
 
     override func viewSafeAreaInsetsDidChange() {
@@ -197,11 +198,11 @@ final class ProfileViewController<T, U>: PostsViewController<U>,
         section > 0 ? nil : profileHeaderView
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
         if indexPath == IndexPath(row: 0, section: 0) {
-            viewModel.perfomAction(.showPhotos)
+            profileViewModel.perfomAction(.showPhotos)
         }
     }
 }
@@ -209,8 +210,8 @@ final class ProfileViewController<T, U>: PostsViewController<U>,
 // MARK: - ProfileHeaderViewDelegate methods
 extension ProfileViewController: ProfileHeaderViewDelegate {
     func statusButtonTapped() {
-        viewModel.user?.status = profileHeaderView.statusText
-        profileHeaderView.setup(with: viewModel.user)
+        profileViewModel.user?.status = profileHeaderView.statusText
+        profileHeaderView.setup(with: profileViewModel.user)
     }
 
     func avatarTapped(sender: UIView) {

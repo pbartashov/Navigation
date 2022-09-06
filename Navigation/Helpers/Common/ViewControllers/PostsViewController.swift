@@ -23,7 +23,7 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
 
     //MARK: - Properties
 
-    private var viewModel: ViewModelType
+    private(set) var viewModel: ViewModelType
 
     var postsSectionNumber = 0
     private var currentColorFilter: ColorFilter? {
@@ -75,7 +75,6 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
 #else
         tableView.backgroundColor = .systemOrange
 #endif
-
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
         doubleTap.numberOfTapsRequired = 2
         tableView.addGestureRecognizer(doubleTap)
@@ -122,6 +121,7 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
 
         setupLayout()
         setupViewModel()
+        setupBarItems()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -156,17 +156,30 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
         }
     }
 
-    @objc func handleDoubleTap(recognizer: UIGestureRecognizer) {
-        let tappedPoint = recognizer.location(in: tableView)
-
-        if let indexPath = tableView.indexPathForRow(at: tappedPoint) {
-            tableView.deselectRow(at: indexPath, animated: true)
-
-            let post = viewModel.posts[indexPath.row]
-            viewModel.perfomAction(.selected(post: post))
+    private func setupBarItems() {
+        let searchAction = UIAction { [weak self] _ in
+            self?.showSearchPromt()
         }
+
+        let searchItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"),
+                                          primaryAction: searchAction)
+
+        let clearAction = UIAction { _ in
+            ()
+        }
+
+        let clearItem = UIBarButtonItem(image: UIImage(systemName: "return"),
+                                         primaryAction: clearAction)
+
+        clearItem.isEnabled = false
+
+        navigationItem.setRightBarButtonItems([clearItem, searchItem], animated: false)
     }
 
+    private func showSearchPromt() {
+        viewModel.perfomAction(.showSearchPromt)
+    }
+    
     func getPostCell(indexPath: IndexPath, post: Post) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
                                                  for: indexPath)
@@ -179,5 +192,16 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
 
     func applySnapshot() {
         postsDataSource.apply(postsSnapshot)
+    }
+
+    @objc func handleDoubleTap(recognizer: UIGestureRecognizer) {
+        let tappedPoint = recognizer.location(in: tableView)
+
+        if let indexPath = tableView.indexPathForRow(at: tappedPoint) {
+            tableView.deselectRow(at: indexPath, animated: true)
+
+            let post = viewModel.posts[indexPath.row]
+            viewModel.perfomAction(.selected(post: post))
+        }
     }
 }

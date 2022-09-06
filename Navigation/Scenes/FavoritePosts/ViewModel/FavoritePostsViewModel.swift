@@ -15,9 +15,11 @@ final class FavoritesViewModel: PostsViewModel {
 
     //MARK: - LifeCicle
 
-    init(postRepository: PostRepositoryInterface) {
+    init(postRepository: PostRepositoryInterface,
+         coordinator: PostsCoordinator?) {
+        
         self.favoritesPostRepository = postRepository
-        super.init()
+        super.init(coordinator: coordinator)
 
         setupHandlers()
     }
@@ -38,7 +40,7 @@ final class FavoritesViewModel: PostsViewModel {
             }
         }
 
-        onPostSelected = { [weak self] post in
+        deletePost = { [weak self] post in
             self?.favoritesPostRepository.delete(post: post)
             self?.favoritesPostRepository.saveChanges()
             self?.requstPosts?()
