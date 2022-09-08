@@ -62,7 +62,7 @@ final class CoreDataRepository<T: NSManagedObject>: Repository {
     /// Deletes a NSManagedObject entity.
     /// - Parameter entity: The NSManagedObject to be deleted.
     /// - Returns: A result consisting of either a Bool set to true or an Error.
-    func delete(entity: Entity) async throws {
+    func delete(entity: Entity) async {
         await context.perform { [weak self] in
             self?.context.delete(entity)
         }

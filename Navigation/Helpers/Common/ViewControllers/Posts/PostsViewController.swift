@@ -151,13 +151,6 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
                             self?.cancelSearchBarItem?.isEnabled = false
                             self?.navigationItem.title = nil
                         }
-
-
-//                        if flag {
-//                            self?.tableView.setNoDataPlaceholder("Ничего не нашли...🤷")
-//                        } else {
-//                            self?.tableView.removeNoDataPlaceholder()
-//                        }
                 }
             }
         }
@@ -180,14 +173,14 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
         }
 
         let searchItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"),
-                                          primaryAction: searchAction)
+                                         primaryAction: searchAction)
 
         let clearAction = UIAction { [weak self] _ in
             self?.viewModel.perfomAction(.cancelSearch)
         }
 
         let cancelSearchItem = UIBarButtonItem(image: UIImage(systemName: "return"),
-                                         primaryAction: clearAction)
+                                               primaryAction: clearAction)
         cancelSearchItem.isEnabled = false
 
         navigationItem.setRightBarButtonItems([cancelSearchItem, searchItem], animated: false)
@@ -219,27 +212,3 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
         }
     }
 }
-
-//https://blog.kulman.sk/simple-bindable-no-data-placeholder/
-//extension UITableView {
-//    func setNoDataPlaceholder(_ message: String) {
-//        let label = UILabel(frame: CGRect(x: 0,
-//                                          y: 0,
-//                                          width: self.bounds.size.width,
-//                                          height: 100))
-//        label.text = message
-//        // styling
-//        label.sizeToFit()
-//
-//        self.isScrollEnabled = false
-//        self.backgroundView = label
-//        self.separatorStyle = .none
-//    }
-//
-//    func removeNoDataPlaceholder() {
-//        self.isScrollEnabled = true
-//        self.backgroundView = nil
-//        self.separatorStyle = .singleLine
-//    }
-//
-//}

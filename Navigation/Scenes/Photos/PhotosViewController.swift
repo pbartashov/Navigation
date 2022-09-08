@@ -43,7 +43,7 @@ final class PhotosViewController: UIViewController {
         view.addSubviewsToAutoLayout(collectionView)
 
         setupLayout()
- }
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         imagePublisherFacade.subscribe(self)
@@ -52,7 +52,7 @@ final class PhotosViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         imagePublisherFacade.removeSubscription(for: self)
-//        imagePublisherFacade.rechargeImageLibrary()
+        //        imagePublisherFacade.rechargeImageLibrary()
     }
 
     //MARK: - Metods
@@ -65,7 +65,7 @@ final class PhotosViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
- }
+}
 
 // MARK: - UICollectionViewDataSource methods
 extension PhotosViewController: UICollectionViewDataSource {
@@ -76,7 +76,7 @@ extension PhotosViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.identifier,
                                                       for: indexPath)
-            as! PhotosCollectionViewCell
+        as! PhotosCollectionViewCell
 
         cell.setup(with: photos[indexPath.row])
 

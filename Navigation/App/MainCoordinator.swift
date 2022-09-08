@@ -85,8 +85,6 @@ final class MainCoordinator: MainCoordinatorProtocol {
             favoritesNavigationController
         ])
 
-        tabBarController.selectedIndex = 1
-
         ErrorPresenter.shared.initialize(with: tabBarController)
 
         return tabBarController

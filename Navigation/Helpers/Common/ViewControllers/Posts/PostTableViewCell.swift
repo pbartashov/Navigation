@@ -142,7 +142,7 @@ final class PostTableViewCell: UITableViewCell {
                     ImageProcessor()
                         .processImage(sourceImage: image, filter: filter) { processed in
                             continuation.resume(returning: processed)
-                    }
+                        }
                 }
             }
             .value

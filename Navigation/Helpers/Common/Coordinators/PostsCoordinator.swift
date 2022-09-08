@@ -28,7 +28,7 @@ final class PostsCoordinator: NavigationCoordinator {
             } else {
                 textField.placeholder = "Имя автора"
             }
-
+            
             searchTextField = textField
         }
 

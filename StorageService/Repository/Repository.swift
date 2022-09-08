@@ -23,7 +23,7 @@ protocol Repository {
 
     /// Deletes an entity.
     /// - Parameter entity: The entity to be deleted.
-    func delete(entity: Entity) async throws
+    func delete(entity: Entity) async
 
     /// Saves changes to Repository.
     func saveChanges() async throws

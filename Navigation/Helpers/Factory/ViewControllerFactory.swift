@@ -21,7 +21,7 @@ struct ViewControllerFactory {
         
         tabBarController.setViewControllers(viewControllers, animated: true)
         
-        tabBarController.selectedIndex = 4
+        tabBarController.selectedIndex = 1
         
         return tabBarController
     }

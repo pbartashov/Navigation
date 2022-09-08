@@ -10,21 +10,21 @@ import CoreData
 //https://www.userdesk.io/blog/repository-pattern-using-core-data-and-swift/
 /// Protocol that describes a Post repository.
 public protocol PostRepositoryInterface {
-    // Get a post using a predicate
+    /// Get a post using a predicate
     func getPosts(predicate: NSPredicate?) async throws -> [Post]
-    // Creates a Post on the persistance layer.
+    /// Creates a Post on the persistance layer.
     func create(post: Post) async throws
-    // Creates or Updates existing Post on the persistance layer.
+    /// Creates or Updates existing Post on the persistance layer.
     func save(post: Post) async throws
-    // Deletes a Post from the persistance layer.
+    /// Deletes a Post from the persistance layer.
     func delete(post: Post) async throws
     /// Saves changes to Repository.
     func saveChanges() async throws
 }
 
-// Post Repository class.
+/// Post Repository class.
 public final class PostRepository {
-    // The Core Data Post repository.
+    /// The Core Data Post repository.
     private let repository: CoreDataRepository<PostEntity>
 
     /// Designated initializer
@@ -35,7 +35,7 @@ public final class PostRepository {
 }
 
 extension PostRepository: PostRepositoryInterface {
-    // Get Posts using a predicate
+    /// Get Posts using a predicate
     public func getPosts(predicate: NSPredicate?) async throws -> [Post] {
         let postEntity = try await repository.get(predicate: predicate, sortDescriptors: nil)
         // Transform the NSManagedObject objects to domain objects
@@ -45,21 +45,19 @@ extension PostRepository: PostRepositoryInterface {
         return posts
     }
 
-    // Creates a Post on the persistance layer.
+    /// Creates a Post on the persistance layer.
     public func create(post: Post) async throws {
         let postEntity = try await repository.create()
-        // Update the Post properties.
         postEntity.copyDomainModel(model: post)
     }
 
-    // Deletes a Post from the persistance layer.
+    /// Deletes a Post from the persistance layer.
     public func delete(post: Post) async throws {
         let postEntity = try await getPostEntity(for: post)
-        // Delete the PostEntity.
-        try await repository.delete(entity: postEntity)
+        await repository.delete(entity: postEntity)
     }
 
-    // Creates or Updates existing Post on the persistance layer.
+    /// Creates or Updates existing Post on the persistance layer.
     public func save(post: Post) async throws {
         try await create(post: post)
     }
