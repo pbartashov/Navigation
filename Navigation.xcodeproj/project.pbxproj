@@ -533,7 +533,6 @@
 			isa = PBXGroup;
 			children = (
 				6E92C75827D48E7F00E77F6F /* PostViewController.swift */,
-				6EE039CF27E70F9F00057A45 /* PostTableViewCell.swift */,
 				6E0290B22866C32B00365562 /* PostCoordinator.swift */,
 			);
 			path = Post;
@@ -959,7 +958,7 @@
 		6EB9CADB28C6B74D0085AA3B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				6EB9CAD728C363530085AA3B /* PostsViewController.swift */,
+				6EB9CAE328C9610F0085AA3B /* Posts */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -987,6 +986,15 @@
 				6E9811B72879534A00B17ADD /* NavigationCoordinator.swift */,
 			);
 			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		6EB9CAE328C9610F0085AA3B /* Posts */ = {
+			isa = PBXGroup;
+			children = (
+				6EE039CF27E70F9F00057A45 /* PostTableViewCell.swift */,
+				6EB9CAD728C363530085AA3B /* PostsViewController.swift */,
+			);
+			path = Posts;
 			sourceTree = "<group>";
 		};
 		6EBC10FF28A13C6D00ACEAA7 /* CheckerService */ = {

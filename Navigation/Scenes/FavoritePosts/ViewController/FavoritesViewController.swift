@@ -16,12 +16,11 @@ final class FavoritesViewController<T>: PostsViewController<T>,
         super.viewDidLoad()
         tableView.delegate = self
     }
-
+    
     // MARK: - UITableViewDelegate methods
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] (_, _, completionHandler) in
-            guard let post = self?.postItems[indexPath.row] else { return }
-            self?.viewModel.perfomAction(.delete(post: post))
+            self?.viewModel.perfomAction(.deletePost(at: indexPath))
 
             completionHandler(true)
         }

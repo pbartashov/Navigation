@@ -11,15 +11,15 @@ import CoreData
 /// Protocol that describes a Post repository.
 public protocol PostRepositoryInterface {
     // Get a post using a predicate
-    func getPosts(predicate: NSPredicate?) -> Result<[Post], Error>
+    func getPosts(predicate: NSPredicate?) async throws -> [Post]
     // Creates a Post on the persistance layer.
-    @discardableResult func create(post: Post) -> Result<Bool, Error>
+    func create(post: Post) async throws
     // Creates or Updates existing Post on the persistance layer.
-    @discardableResult func save(post: Post) -> Result<Bool, Error>
+    func save(post: Post) async throws
     // Deletes a Post from the persistance layer.
-    @discardableResult func delete(post: Post) -> Result<Bool, Error>
+    func delete(post: Post) async throws
     /// Saves changes to Repository.
-    @discardableResult func saveChanges() -> Result<Bool, Error>
+    func saveChanges() async throws
 }
 
 // Post Repository class.
@@ -36,89 +36,45 @@ public final class PostRepository {
 
 extension PostRepository: PostRepositoryInterface {
     // Get Posts using a predicate
-    public func getPosts(predicate: NSPredicate?) -> Result<[Post], Error> {
-        let result = repository.get(predicate: predicate, sortDescriptors: nil)
-        switch result {
-            case .success(let postEntity):
-                // Transform the NSManagedObject objects to domain objects
-                let posts = postEntity.map { PostEntity -> Post in
-                    return PostEntity.toDomainModel()
-                }
-                return .success(posts)
-
-            case .failure(let error):
-                // Return the Database error.
-                return .failure(error)
+    public func getPosts(predicate: NSPredicate?) async throws -> [Post] {
+        let postEntity = try await repository.get(predicate: predicate, sortDescriptors: nil)
+        // Transform the NSManagedObject objects to domain objects
+        let posts = postEntity.map { PostEntity -> Post in
+            return PostEntity.toDomainModel()
         }
+        return posts
     }
 
     // Creates a Post on the persistance layer.
-    @discardableResult public func create(post: Post) -> Result<Bool, Error> {
-        let result = repository.create()
-        switch result {
-            case .success(let postEntity):
-                // Update the Post properties.
-                postEntity.copyDomainModel(model: post)
-                return .success(true)
-
-            case .failure(let error):
-                // Return the Database error.
-                return .failure(error)
-        }
+    public func create(post: Post) async throws {
+        let postEntity = try await repository.create()
+        // Update the Post properties.
+        postEntity.copyDomainModel(model: post)
     }
 
     // Deletes a Post from the persistance layer.
-    @discardableResult public func delete(post: Post) -> Result<Bool, Error> {
-        let result = getPostEntity(for: post)
-        switch result {
-            case .success(let postEntity):
-                // Delete the PostEntity.
-                return repository.delete(entity: postEntity)
-
-            case .failure(let error):
-                // Return the Database error.
-                return .failure(error)
-        }
+    public func delete(post: Post) async throws {
+        let postEntity = try await getPostEntity(for: post)
+        // Delete the PostEntity.
+        try await repository.delete(entity: postEntity)
     }
 
     // Creates or Updates existing Post on the persistance layer.
-    @discardableResult public func save(post: Post) -> Result<Bool, Error> {
-        let result = getPostEntity(for: post)
-        switch result {
-            case .success(let postEntity):
-                // Update the Post properties.
-                postEntity.copyDomainModel(model: post)
-                return .success(true)
-
-            case .failure(let error):
-                if case DatabaseError.notFound = error {
-                    // Create the PostEntity.
-                    return create(post: post)
-                }
-                // Return the Database error.
-                return .failure(error)
-        }
+    public func save(post: Post) async throws {
+        try await create(post: post)
     }
 
-    private func getPostEntity(for post: Post) -> Result<PostEntity, Error> {
+    private func getPostEntity(for post: Post) async throws -> PostEntity {
         let predicate = NSPredicate(format: "url == %@", post.url)
-        let result = repository.get(predicate: predicate, sortDescriptors: nil)
-        switch result {
-            case .success(let postEntities):
-                guard let postEntity = postEntities.first else {
-                    return .failure(DatabaseError.notFound)
-                }
-                // Return PostEntity.
-                return .success(postEntity)
-
-            case .failure(let error):
-                // Return the Database error.
-                return .failure(error)
+        let postEntities = try await repository.get(predicate: predicate, sortDescriptors: nil)
+        guard let postEntity = postEntities.first else {
+            throw DatabaseError.notFound
         }
+        return postEntity
     }
 
     /// Save the NSManagedObjectContext.
-    @discardableResult public func saveChanges() -> Result<Bool, Error> {
-        repository.saveChanges()
+    public func saveChanges() async throws {
+        try await repository.saveChanges()
     }
 }

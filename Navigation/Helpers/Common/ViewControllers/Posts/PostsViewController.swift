@@ -99,6 +99,8 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
         return control
     }()
 
+    private var cancelSearchBarItem: UIBarButtonItem?
+
     //MARK: - LifeCicle
 
     init(viewModel: ViewModelType) {
@@ -132,15 +134,31 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
     //MARK: - Metods
 
     private func setupViewModel() {
-        viewModel.stateChanged = { [weak self] state in
-            switch state {
-                case .initial:
-                    break
-                    
-                case .loaded(_):
-                    DispatchQueue.main.async { [weak self] in
+        viewModel.stateChanged = { state in
+            DispatchQueue.main.async { [weak self] in
+                switch state {
+                    case .initial:
+                        break
+
+                    case .loaded(_):
                         self?.applySnapshot()
-                    }
+
+                    case .isFiltered(let text):
+                        if let text = text {
+                            self?.cancelSearchBarItem?.isEnabled = true
+                            self?.navigationItem.title = "Найдено для: \(text)"
+                        } else {
+                            self?.cancelSearchBarItem?.isEnabled = false
+                            self?.navigationItem.title = nil
+                        }
+
+
+//                        if flag {
+//                            self?.tableView.setNoDataPlaceholder("Ничего не нашли...🤷")
+//                        } else {
+//                            self?.tableView.removeNoDataPlaceholder()
+//                        }
+                }
             }
         }
     }
@@ -158,28 +176,24 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
 
     private func setupBarItems() {
         let searchAction = UIAction { [weak self] _ in
-            self?.showSearchPromt()
+            self?.viewModel.perfomAction(.showSearchPromt)
         }
 
         let searchItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"),
                                           primaryAction: searchAction)
 
-        let clearAction = UIAction { _ in
-            ()
+        let clearAction = UIAction { [weak self] _ in
+            self?.viewModel.perfomAction(.cancelSearch)
         }
 
-        let clearItem = UIBarButtonItem(image: UIImage(systemName: "return"),
+        let cancelSearchItem = UIBarButtonItem(image: UIImage(systemName: "return"),
                                          primaryAction: clearAction)
+        cancelSearchItem.isEnabled = false
 
-        clearItem.isEnabled = false
-
-        navigationItem.setRightBarButtonItems([clearItem, searchItem], animated: false)
+        navigationItem.setRightBarButtonItems([cancelSearchItem, searchItem], animated: false)
+        cancelSearchBarItem = cancelSearchItem
     }
 
-    private func showSearchPromt() {
-        viewModel.perfomAction(.showSearchPromt)
-    }
-    
     func getPostCell(indexPath: IndexPath, post: Post) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
                                                  for: indexPath)
@@ -205,3 +219,27 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
         }
     }
 }
+
+//https://blog.kulman.sk/simple-bindable-no-data-placeholder/
+//extension UITableView {
+//    func setNoDataPlaceholder(_ message: String) {
+//        let label = UILabel(frame: CGRect(x: 0,
+//                                          y: 0,
+//                                          width: self.bounds.size.width,
+//                                          height: 100))
+//        label.text = message
+//        // styling
+//        label.sizeToFit()
+//
+//        self.isScrollEnabled = false
+//        self.backgroundView = label
+//        self.separatorStyle = .none
+//    }
+//
+//    func removeNoDataPlaceholder() {
+//        self.isScrollEnabled = true
+//        self.backgroundView = nil
+//        self.separatorStyle = .singleLine
+//    }
+//
+//}

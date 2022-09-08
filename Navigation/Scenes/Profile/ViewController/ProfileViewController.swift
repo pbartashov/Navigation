@@ -95,7 +95,6 @@ where T: ProfileViewModelProtocol,
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         tableView.delegate = self
     }
 
@@ -184,7 +183,6 @@ where T: ProfileViewModelProtocol,
                 avatar.layer.cornerRadius = avatar.bounds.width / 2
             }
         }, completion: { [self] _ in
-
             coverView?.removeFromSuperview()
             closeAvatarPresentationButton?.removeFromSuperview()
             avatar = nil
@@ -198,7 +196,7 @@ where T: ProfileViewModelProtocol,
         section > 0 ? nil : profileHeaderView
     }
 
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
         if indexPath == IndexPath(row: 0, section: 0) {

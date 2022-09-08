@@ -46,15 +46,11 @@ final class PhotosViewController: UIViewController {
  }
 
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = false
-
         imagePublisherFacade.subscribe(self)
         imagePublisherFacade.addImagesWithTimer(time: 0.3, repeat: 15, userImages: Photos.allPhotos)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = true
-
         imagePublisherFacade.removeSubscription(for: self)
 //        imagePublisherFacade.rechargeImageLibrary()
     }

@@ -28,22 +28,34 @@ final class FavoritesViewModel: PostsViewModel {
 
     private func setupHandlers() {
         requstPosts = { [weak self] in
-            guard let self = self else { return }
-            let result = self.favoritesPostRepository.getPosts(predicate: nil)
-
-            switch result {
-                case .success(let posts):
-                    self.posts = posts
-
-                case .failure(let error):
+            Task { [weak self] in
+                guard let self = self else { return }
+                do {
+                    var predicate: NSPredicate? = nil
+                    if let text = self.searchText {
+                        predicate = NSPredicate(format: "author CONTAINS[c] %@", text)
+                    }
+                    self.posts = try await self.favoritesPostRepository.getPosts(predicate: predicate)
+                } catch {
                     ErrorPresenter.shared.show(error: error)
+                }
             }
         }
 
-        deletePost = { [weak self] post in
-            self?.favoritesPostRepository.delete(post: post)
-            self?.favoritesPostRepository.saveChanges()
-            self?.requstPosts?()
+        deletePost = { indexPath in
+            Task { [weak self] in
+                do {
+                    guard let self = self else { return }
+                    let post = self.posts[indexPath.row]
+                    try await self.favoritesPostRepository.delete(post: post)
+                    try await self.favoritesPostRepository.saveChanges()
+
+                    self.posts.remove(at: indexPath.row)
+                    self.state = .loaded(self.posts)
+                } catch {
+                    ErrorPresenter.shared.show(error: error)
+                }
+            }
         }
     }
 }

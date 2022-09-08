@@ -68,15 +68,25 @@ final class ProfileViewModel<T>: ViewModel<ProfileState, ProfileAction>,
     //MARK: - Metods
 
     private func setupViewModel() {
-        postsViewModel.onPostSelected = { [weak self] post in
-            self?.favoritesPostRepository.save(post: post)
-            self?.favoritesPostRepository.saveChanges()
+        postsViewModel.onPostSelected = { post in
+            Task { [weak self] in
+                do {
+                    try await self?.favoritesPostRepository.save(post: post)
+                    try await self?.favoritesPostRepository.saveChanges()
+                } catch {
+                    ErrorPresenter.shared.show(error: error)
+                }
+            }
         }
 
         postsViewModel.requstPosts = { [weak self] in
             self?.postService.getPosts { [weak self] result in
                 switch result {
-                    case .success(let posts):
+                    case .success(var posts):
+                        if var text = self?.postsViewModel.searchText {
+                            text = text.lowercased()
+                            posts = posts.filter { $0.author.lowercased().contains(text)}
+                        }
                         self?.postsViewModel.posts = posts
 
                     case .failure(let error):

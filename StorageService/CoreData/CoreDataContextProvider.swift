@@ -13,7 +13,7 @@ public final class CoreDataContextProvider {
     public static let shared = CoreDataContextProvider()
 
     /// Returns the current container view context
-    public var mainContext: NSManagedObjectContext {
+    public var viewContext: NSManagedObjectContext {
         persistentContainer.viewContext
     }
     
