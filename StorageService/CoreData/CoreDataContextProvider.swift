@@ -12,12 +12,12 @@ public final class CoreDataContextProvider {
 
     public static let shared = CoreDataContextProvider()
 
-    // Returns the current container view context
+    /// Returns the current container view context
     public var viewContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
+        persistentContainer.viewContext
     }
     
-    // The persistent container
+    /// The persistent container
     private var persistentContainer: NSPersistentContainer
     
     public init(completionClosure: ((Error?) -> Void)? = nil) {
@@ -38,8 +38,9 @@ public final class CoreDataContextProvider {
             completionClosure?(error)
         }
     }
-    // Creates a context for background work
-    func newBackgroundContext() -> NSManagedObjectContext {
-        return persistentContainer.newBackgroundContext()
+
+    /// Creates a context for background work
+    public func newBackgroundContext() -> NSManagedObjectContext {
+        persistentContainer.newBackgroundContext()
     }
 }

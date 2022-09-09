@@ -126,8 +126,8 @@ final class PostTableViewCell: UITableViewCell {
         likesLabel.text = "Likes: \(post.likes)"
         viewsLabel.text = "Views: \(post.views)"
 
-        guard let image = UIImage(named: post.image) else {
-            postImageView.image = nil
+        guard let image = post.image else {
+            postImageView.image = .placeholder
             return
         }
 
@@ -142,7 +142,7 @@ final class PostTableViewCell: UITableViewCell {
                     ImageProcessor()
                         .processImage(sourceImage: image, filter: filter) { processed in
                             continuation.resume(returning: processed)
-                    }
+                        }
                 }
             }
             .value

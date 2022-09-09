@@ -125,6 +125,10 @@
 		6EAD216B2899459800266C94 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAD216A2899459800266C94 /* Person.swift */; };
 		6EAE3949285F2D5700B63225 /* DemoPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE3947285F2CDE00B63225 /* DemoPosts.swift */; };
 		6EB9CAC628C24D490085AA3B /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E92C75B27D4966500E77F6F /* Post.swift */; };
+		6EB9CAD828C363530085AA3B /* PostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB9CAD728C363530085AA3B /* PostsViewController.swift */; };
+		6EB9CADA28C4E4180085AA3B /* PostsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB9CAD928C4E4180085AA3B /* PostsViewModel.swift */; };
+		6EB9CADF28C7614D0085AA3B /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB9CADE28C7614D0085AA3B /* FavoritesViewController.swift */; };
+		6EB9CAE228C78B8C0085AA3B /* PostsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB9CAE128C78B8C0085AA3B /* PostsCoordinator.swift */; };
 		6EBC10FC28A1351900ACEAA7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EBC10FB28A1351900ACEAA7 /* GoogleService-Info.plist */; };
 		6EBC10FE28A13C6A00ACEAA7 /* CheckerServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBC10FD28A13C6A00ACEAA7 /* CheckerServiceProtocol.swift */; };
 		6EBC110128A13CC800ACEAA7 /* CheckerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBC110028A13CC800ACEAA7 /* CheckerService.swift */; };
@@ -283,6 +287,10 @@
 		6EAD21682897F3B900266C94 /* SWAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SWAPIService.swift; sourceTree = "<group>"; };
 		6EAD216A2899459800266C94 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		6EAE3947285F2CDE00B63225 /* DemoPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPosts.swift; sourceTree = "<group>"; };
+		6EB9CAD728C363530085AA3B /* PostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewController.swift; sourceTree = "<group>"; };
+		6EB9CAD928C4E4180085AA3B /* PostsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewModel.swift; sourceTree = "<group>"; };
+		6EB9CADE28C7614D0085AA3B /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		6EB9CAE128C78B8C0085AA3B /* PostsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsCoordinator.swift; sourceTree = "<group>"; };
 		6EBB782828BB72BD006A090E /* Post.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Post.xcdatamodel; sourceTree = "<group>"; };
 		6EBC10FB28A1351900ACEAA7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6EBC10FD28A13C6A00ACEAA7 /* CheckerServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckerServiceProtocol.swift; sourceTree = "<group>"; };
@@ -457,6 +465,7 @@
 				6E6272EC27EC8F2400D151B5 /* Photos */,
 				6E6272E727EB3B7400D151B5 /* Post */,
 				6E92C75F27DA20A900E77F6F /* Profile */,
+				6EA4E5D828C239E300467017 /* FavoritePosts */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -475,9 +484,11 @@
 		6E4234E62864973600440F46 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				6EB9CAE028C78B770085AA3B /* Coordinators */,
 				6E4234E12861F1A400440F46 /* Protocols */,
 				6E2B02732860A454003D12DE /* Views */,
-				6E9811B72879534A00B17ADD /* NavigationCoordinator.swift */,
+				6EB9CADC28C6B7560085AA3B /* ViewModels */,
+				6EB9CADB28C6B74D0085AA3B /* ViewControllers */,
 				6E9811B9287962F600B17ADD /* ErrorPresenter.swift */,
 				6E9C7942287DB341003CDF04 /* IterableCollection.swift */,
 			);
@@ -522,7 +533,6 @@
 			isa = PBXGroup;
 			children = (
 				6E92C75827D48E7F00E77F6F /* PostViewController.swift */,
-				6EE039CF27E70F9F00057A45 /* PostTableViewCell.swift */,
 				6E0290B22866C32B00365562 /* PostCoordinator.swift */,
 			);
 			path = Post;
@@ -742,6 +752,7 @@
 		6EA4E5D828C239E300467017 /* FavoritePosts */ = {
 			isa = PBXGroup;
 			children = (
+				6EB9CADD28C761320085AA3B /* ViewController */,
 				6EA4E5DA28C23A2200467017 /* ViewModel */,
 				6EA4E5DD28C23BC400467017 /* FavoritesFactory.swift */,
 			);
@@ -944,6 +955,48 @@
 			path = Entity;
 			sourceTree = "<group>";
 		};
+		6EB9CADB28C6B74D0085AA3B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				6EB9CAE328C9610F0085AA3B /* Posts */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		6EB9CADC28C6B7560085AA3B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6EB9CAD928C4E4180085AA3B /* PostsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		6EB9CADD28C761320085AA3B /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6EB9CADE28C7614D0085AA3B /* FavoritesViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		6EB9CAE028C78B770085AA3B /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				6EB9CAE128C78B8C0085AA3B /* PostsCoordinator.swift */,
+				6E9811B72879534A00B17ADD /* NavigationCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		6EB9CAE328C9610F0085AA3B /* Posts */ = {
+			isa = PBXGroup;
+			children = (
+				6EE039CF27E70F9F00057A45 /* PostTableViewCell.swift */,
+				6EB9CAD728C363530085AA3B /* PostsViewController.swift */,
+			);
+			path = Posts;
+			sourceTree = "<group>";
+		};
 		6EBC10FF28A13C6D00ACEAA7 /* CheckerService */ = {
 			isa = PBXGroup;
 			children = (
@@ -980,7 +1033,6 @@
 				6EE039C627DDE17C00057A45 /* Helpers */,
 				6E92C75A27D4964F00E77F6F /* Models */,
 				6E4234E02861F18100440F46 /* Scenes */,
-				6EA4E5D828C239E300467017 /* FavoritePosts */,
 				6E0290A22866A45C00365562 /* App */,
 				6E9C7944287DB749003CDF04 /* Multimedia */,
 				6ECC429B27D4709A00E5E608 /* Assets.xcassets */,
@@ -1281,6 +1333,7 @@
 				6E4234DF2861E55B00440F46 /* FeedView.swift in Sources */,
 				6EAD21542896A10E00266C94 /* InfoViewModel.swift in Sources */,
 				6E6272EB27EB499800D151B5 /* Photos.swift in Sources */,
+				6EB9CAE228C78B8C0085AA3B /* PostsCoordinator.swift in Sources */,
 				6EA795C82875AB7300F3FA19 /* HintViewController.swift in Sources */,
 				6EAD21582896A81B00266C94 /* NetworkServiceError.swift in Sources */,
 				6EA795D02875CCA300F3FA19 /* Hint.swift in Sources */,
@@ -1296,6 +1349,7 @@
 				6E3E48982858C1CE00EB849C /* User.swift in Sources */,
 				6E9C796C2883F9E7003CDF04 /* RecordViewModel.swift in Sources */,
 				6EAD214D2891600600266C94 /* AppConfiguration.swift in Sources */,
+				6EB9CADF28C7614D0085AA3B /* FavoritesViewController.swift in Sources */,
 				6E2859D9286DBDC900383EA8 /* LoginInspectorFactory.swift in Sources */,
 				6ECC429527D4709900E5E608 /* SceneDelegate.swift in Sources */,
 				6E8A995E28B9019800F72DDE /* KeychainKeyStorage.swift in Sources */,
@@ -1318,6 +1372,7 @@
 				6E9C795A28822C92003CDF04 /* VideoTrack.swift in Sources */,
 				6E9811B82879534A00B17ADD /* NavigationCoordinator.swift in Sources */,
 				6E8A995A28B8E7C000F72DDE /* Credentials.swift in Sources */,
+				6EB9CAD828C363530085AA3B /* PostsViewController.swift in Sources */,
 				6EAD21692897F3B900266C94 /* SWAPIService.swift in Sources */,
 				6E6272F027EC8F8500D151B5 /* PhotosCollectionViewCell.swift in Sources */,
 				6E92C76127DA20D400E77F6F /* ProfileHeaderView.swift in Sources */,
@@ -1337,6 +1392,7 @@
 				6E9C793B287DA5B6003CDF04 /* MusicStorage.swift in Sources */,
 				6E4234E52861FA2A00440F46 /* ObservationToken.swift in Sources */,
 				6E0290B52866D15900365562 /* ProfileFactory.swift in Sources */,
+				6EB9CADA28C4E4180085AA3B /* PostsViewModel.swift in Sources */,
 				6E1D5575287160EE0066A519 /* BruteForceServiceProtocol.swift in Sources */,
 				6E03A0EF2886DC480054759A /* ShadowOnTapButton.swift in Sources */,
 				6E8A995828B7BAA500F72DDE /* CredentialStorageService.swift in Sources */,

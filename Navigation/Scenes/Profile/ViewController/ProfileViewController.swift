@@ -7,13 +7,18 @@
 
 import UIKit
 import StorageService
-import iOSIntPackage
 
-final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIViewController,
-                                                                            UITableViewDelegate {
-    private enum Section {
-        case profile, posts
-    }
+extension PostSectionType {
+    static let profile = PostSectionType(rawValue: "profile")
+}
+
+final class ProfileViewController<T, U>: PostsViewController<U>,
+                                         UITableViewDelegate
+where T: ProfileViewModelProtocol,
+      U == T.PostsViewModelType {
+
+    typealias ViewModelType = T
+    typealias SectionType = PostsViewController<U>.SectionType
 
     private enum Cell: Hashable {
         case profile(PhotosTableViewCell)
@@ -22,7 +27,7 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
 
     //MARK: - Properties
 
-    private var viewModel: ViewModelType
+    private var profileViewModel: ViewModelType
 
     private var isAvatarPresenting: Bool = false {
         didSet {
@@ -30,70 +35,33 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
         }
     }
 
-    private var currentColorFilter: ColorFilter? {
-        didSet {
-            for (i, post) in viewModel.posts.enumerated() {
-                let indexPath = IndexPath(row: i, section: isProfileHidden ? 0 : 1)
-
-                if let cell = tableView.cellForRow(at: indexPath) as? PostTableViewCell {
-                    cell.setup(with: post, filter: currentColorFilter)
-                }
-            }
-        }
-    }
-
-    var isProfileHidden = false {
-        didSet {
-            if isViewLoaded {
-                view.setNeedsLayout()
-            }
-        }
-    }
-
-    var isPhotoCellHidden = false {
-        didSet {
-            if isViewLoaded {
-                view.setNeedsLayout()
-            }
-        }
-    }
-
-    private lazy var tableViewDataSource: UITableViewDiffableDataSource<Section, Cell> = {
-        let tableViewDataSource = UITableViewDiffableDataSource<Section, Cell>(
+    private lazy var cellsDataSource: UITableViewDiffableDataSource<SectionType, Cell> = {
+        let tableViewDataSource = UITableViewDiffableDataSource<SectionType, Cell>(
             tableView: tableView,
             cellProvider: { [weak self] (tableView, indexPath, cell) -> UITableViewCell? in
                 guard let self = self else { return nil }
 
                 switch cell {
                     case .profile(let profileCell):
-                        return self.isPhotoCellHidden ? nil : profileCell
+                        return profileCell
 
                     case .post(let post):
-                        let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
-                                                                 for: indexPath)
-                        as! PostTableViewCell
-
-                        cell.setup(with: post,
-                                   filter: self.currentColorFilter)
-                        return cell
+                        return self.getPostCell(indexPath: indexPath, post: post)
                 }
             })
 
         return tableViewDataSource
     }()
 
-    private var postsSnapshot: NSDiffableDataSourceSnapshot<Section, Cell> {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Cell>()
+    private var cellsSnapshot: NSDiffableDataSourceSnapshot<SectionType, Cell> {
+        var snapshot = NSDiffableDataSourceSnapshot<SectionType, Cell>()
+        snapshot.appendSections([.profile])
+        snapshot.appendItems([.profile(photosTableViewCell)], toSection: .profile)
 
-        if isPhotoCellHidden {
-            snapshot.appendSections([.posts])
-        } else {
-            snapshot.appendSections([.profile, .posts])
-            snapshot.appendItems([.profile(photosTableViewCell)], toSection: .profile)
-        }
-
-        let cells = viewModel.posts.map { Cell.post($0) }
+        let cells = postItems.map { Cell.post($0) }
+        snapshot.appendSections(postSections)
         snapshot.appendItems(cells, toSection: .posts)
+        postsSectionNumber = 1
 
         return snapshot
     }
@@ -104,60 +72,21 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
     private weak var coverView: UIView?
     private weak var closeAvatarPresentationButton: UIButton?
 
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-
-        tableView.register(PostTableViewCell.self,
-                           forCellReuseIdentifier: PostTableViewCell.identifier)
-
-        tableView.delegate = self
-
-#if DEBUG
-        tableView.backgroundColor = .systemTeal
-#else
-        tableView.backgroundColor = .systemOrange
-#endif
-
-        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
-        doubleTap.numberOfTapsRequired = 2
-        tableView.addGestureRecognizer(doubleTap)
-
-        return tableView
-    }()
-
     private lazy var profileHeaderView: ProfileHeaderView = {
 
         let profileHeaderView = ProfileHeaderView(delegate: self)
-        profileHeaderView.setup(with: viewModel.user)
+        profileHeaderView.setup(with: profileViewModel.user)
 
         return profileHeaderView
     }()
 
     private lazy var photosTableViewCell = PhotosTableViewCell()
 
-    private lazy var colorFilterSelecor: UISegmentedControl = {
-        let off = UIAction(title: "Выкл") { _ in self.currentColorFilter = nil }
-        let chrome = UIAction(title: "Нуар") { _ in self.currentColorFilter = .noir }
-        let motionBlur = UIAction(title: "Размытие") { _ in
-            self.currentColorFilter = .motionBlur(radius: 10)
-        }
-        let fade = UIAction(title: "Инверсия") { _ in self.currentColorFilter = .colorInvert }
-
-        let control = UISegmentedControl(items: [off,
-                                                 chrome,
-                                                 motionBlur,
-                                                 fade])
-        control.selectedSegmentIndex = 0
-
-        return control
-    }()
-
     //MARK: - LifeCicle
 
     init(viewModel: ViewModelType) {
-        self.viewModel = viewModel
-
-        super.init(nibName: nil, bundle: nil)
+        self.profileViewModel = viewModel
+        super.init(viewModel: profileViewModel.postsViewModel)
     }
 
     required init?(coder: NSCoder) {
@@ -166,26 +95,15 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .systemGray6
-
-        view.addSubview(colorFilterSelecor)
-        view.addSubview(tableView)
-
-        setupLayout()
-
-        setupViewModel()
+        tableView.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         let photos = Photos.randomPhotos(ofCount: photosTableViewCell.photosCount)
         photosTableViewCell.setup(with: photos)
 
-        viewModel.perfomAction(.requstPosts)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        tableViewDataSource.apply(postsSnapshot)
+        profileViewModel.perfomAction(.posts(action: .requstPosts))
     }
 
     override func viewSafeAreaInsetsDidChange() {
@@ -196,29 +114,8 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
 
     //MARK: - Metods
 
-    private func setupViewModel() {
-        viewModel.stateChanged = { [weak self] state in
-            switch state {
-                case .initial:
-                    break
-                case .loaded(_):
-                    DispatchQueue.main.async {
-                        guard let self = self else { return }
-                        self.tableViewDataSource.apply(self.postsSnapshot)
-                    }
-            }
-        }
-    }
-
-    private func setupLayout() {
-        colorFilterSelecor.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-        }
-
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(colorFilterSelecor.snp.bottom)
-            make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
+    override func applySnapshot() {
+        cellsDataSource.apply(cellsSnapshot)
     }
 
     private func moveAndScaleAvatarToCenter() {
@@ -286,7 +183,6 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
                 avatar.layer.cornerRadius = avatar.bounds.width / 2
             }
         }, completion: { [self] _ in
-
             coverView?.removeFromSuperview()
             closeAvatarPresentationButton?.removeFromSuperview()
             avatar = nil
@@ -295,27 +191,16 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
         )
     }
 
-    @objc func handleDoubleTap(recognizer: UIGestureRecognizer) {
-        let tappedPoint = recognizer.location(in: tableView)
-
-        if let indexPath = tableView.indexPathForRow(at: tappedPoint) {
-            tableView.deselectRow(at: indexPath, animated: true)
-
-            let post = viewModel.posts[indexPath.row]
-            viewModel.perfomAction(.selected(post: post))
-        }
-    }
-
     // MARK: - UITableViewDelegate methods
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        (isProfileHidden || section > 0) ? nil : profileHeaderView
+        section > 0 ? nil : profileHeaderView
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
         if indexPath == IndexPath(row: 0, section: 0) {
-            viewModel.perfomAction(.showPhotos)
+            profileViewModel.perfomAction(.showPhotos)
         }
     }
 }
@@ -323,13 +208,13 @@ final class ProfileViewController<ViewModelType: ProfileViewModelProtocol>: UIVi
 // MARK: - ProfileHeaderViewDelegate methods
 extension ProfileViewController: ProfileHeaderViewDelegate {
     func statusButtonTapped() {
-        viewModel.user?.status = profileHeaderView.statusText
-        profileHeaderView.setup(with: viewModel.user)
+        profileViewModel.user?.status = profileHeaderView.statusText
+        profileHeaderView.setup(with: profileViewModel.user)
     }
-    
+
     func avatarTapped(sender: UIView) {
         isAvatarPresenting = true
-        
+
         createCover()
 
         avatar = sender

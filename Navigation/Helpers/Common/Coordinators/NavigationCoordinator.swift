@@ -29,4 +29,3 @@ class NavigationCoordinator {
         navigationController?.dismiss(animated: animated)
     }
 }
-

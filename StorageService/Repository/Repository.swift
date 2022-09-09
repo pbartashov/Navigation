@@ -16,15 +16,15 @@ protocol Repository {
     /// - Parameters:
     ///   - predicate: The predicate to be used for fetching the entities.
     ///   - sortDescriptors: The sort descriptors used for sorting the returned array of entities.
-    func get(predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> Result<[Entity], Error>
+    func get(predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) async throws -> [Entity]
 
     /// Creates an entity.
-    func create() -> Result<Entity, Error>
+    func create() async throws -> Entity
 
     /// Deletes an entity.
     /// - Parameter entity: The entity to be deleted.
-    func delete(entity: Entity) -> Result<Bool, Error>
+    func delete(entity: Entity) async
 
     /// Saves changes to Repository.
-    func saveChanges() -> Result<Bool, Error>
+    func saveChanges() async throws
 }

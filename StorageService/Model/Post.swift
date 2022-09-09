@@ -5,18 +5,20 @@
 //  Created by Павел Барташов on 06.03.2022.
 //
 
+import UIKit
+
 public struct Post {
     public let url: String
     public let author: String
     public let description: String
-    public let image: String
+    public let image: UIImage?
     public let likes: Int
     public let views: Int
 
     public init(url: String,
                 author: String = "",
                 description: String = "",
-                image: String = "",
+                image: UIImage? = nil,
                 likes: Int = 0,
                 views: Int = 0) {
         

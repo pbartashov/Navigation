@@ -22,6 +22,8 @@ final class MainCoordinator: MainCoordinatorProtocol {
     private var feedCoordinator: FeedCoordinator?
     private var loginCoordinator: LoginCoordinator?
     private var profileCoordinator: ProfileCoordinator?
+    private var profilePostsCoordinator: PostsCoordinator?
+    private var favoritesCoordinator: PostsCoordinator?
 
     // MARK: - LifeCicle
 
@@ -60,22 +62,28 @@ final class MainCoordinator: MainCoordinatorProtocol {
 
         let profileNavigationController = UINavigationController()
         profileCoordinator = ProfileCoordinator(navigationController: profileNavigationController)
+        profilePostsCoordinator = PostsCoordinator(navigationController: profileNavigationController)
 
-        let profileViewController = ViewControllerFactory.create.profileViewController(userName: userName,
-                                                                                       coordinator: profileCoordinator,
-                                                                                       tag: 1)
+        let profileViewController = ViewControllerFactory
+            .create.profileViewController(userName: userName,
+                                          profileCoordinator: profileCoordinator,
+                                          profilePostsCoordinator: profilePostsCoordinator,
+                                          tag: 1)
         profileNavigationController.setViewControllers([profileViewController], animated: false)
 
-        let favoritesViewController = ViewControllerFactory.create.favoritesViewController(tag: 2)
+        let favoritesNavigationController = UINavigationController()
+        favoritesCoordinator = PostsCoordinator(navigationController: favoritesNavigationController)
+        let favoritesViewController = ViewControllerFactory
+            .create.favoritesViewController(coordinator: favoritesCoordinator,
+                                            tag: 2)
+        favoritesNavigationController.setViewControllers([favoritesViewController], animated: false)
 
 
         let tabBarController = ViewControllerFactory.create.tabBarController(with: [
             feedNavigationController,
             profileNavigationController,
-            favoritesViewController
+            favoritesNavigationController
         ])
-
-        tabBarController.selectedIndex = 1
 
         ErrorPresenter.shared.initialize(with: tabBarController)
 

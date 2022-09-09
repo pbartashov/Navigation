@@ -16,9 +16,10 @@ struct ProfileFactory {
 
     //MARK: - Metods
 
-    func viewModelWith(coordinator: ProfileCoordinator?,
+    func viewModelWith(profileCoordinator: ProfileCoordinator?,
+                       postsCoordinator: PostsCoordinator?,
                        userName: String
-    ) -> ProfileViewModel {
+    ) -> ProfileViewModel<PostsViewModel> {
 
 #if DEBUG
         let userService = TestUserService()
@@ -31,16 +32,18 @@ struct ProfileFactory {
         let postService = TestPostService()
 
         let contextProvider = CoreDataContextProvider.shared
-        let postRepository = PostRepository(context: contextProvider.viewContext)
+        let postRepository = PostRepository(context: contextProvider.newBackgroundContext())
+        let postsViewModel = PostsViewModel(coordinator: postsCoordinator)
         
         return ProfileViewModel(postService: postService,
-                                coordinator: coordinator,
+                                coordinator: profileCoordinator,
                                 userService: userService,
                                 userName: userName,
-                                postRepository: postRepository)
+                                postRepository: postRepository,
+                                postsViewModel: postsViewModel)
     }
     
-    func viewControllerWith(viewModel: ProfileViewModel) -> UIViewController {
-        ProfileViewController(viewModel: viewModel)
+    func viewControllerWith<T>(viewModel: ProfileViewModel<T>) -> UIViewController where T: PostsViewModelProtocol {
+        ProfileViewController<ProfileViewModel<T>, T>(viewModel: viewModel)
     }
 }
