@@ -7,6 +7,10 @@
 
 import CoreData
 
+
+
+import UIKit
+
 //https://www.userdesk.io/blog/repository-pattern-using-core-data-and-swift/
 protocol Repository {
     /// The entity managed by the repository.
@@ -27,4 +31,13 @@ protocol Repository {
 
     /// Saves changes to Repository.
     func saveChanges() async throws
+
+    /// Automatic fetching results.
+    var fetchResults: [Entity] { get }
+
+    /// Sets up a FetchResultService with stateChanged handler.
+    func setupResultsControllerStateChangedHandler(stateChanged:((FetchResultServiceState) -> Void)?)
+
+    /// Starts fetching with given NSPredicate and array of NSSortDescriptors.
+    func startFetchingWith(predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) throws
 }

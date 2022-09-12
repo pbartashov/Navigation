@@ -32,7 +32,7 @@ struct ProfileFactory {
         let postService = TestPostService()
 
         let contextProvider = CoreDataContextProvider.shared
-        let postRepository = PostRepository(context: contextProvider.newBackgroundContext())
+        let postRepository = PostRepository(context: contextProvider.backgroundContext)
         let postsViewModel = PostsViewModel(coordinator: postsCoordinator)
         
         return ProfileViewModel(postService: postService,

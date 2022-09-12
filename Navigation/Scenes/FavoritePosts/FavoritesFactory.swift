@@ -18,7 +18,7 @@ struct FavoritesFactory {
 
     func viewModelWith(coordinator: PostsCoordinator?) -> FavoritesViewModel {
         let contextProvider = CoreDataContextProvider.shared
-        let postRepository = PostRepository(context: contextProvider.newBackgroundContext())
+        let postRepository = PostRepository(context: contextProvider.backgroundContext)
 
         return FavoritesViewModel(postRepository: postRepository, coordinator: coordinator)
     }

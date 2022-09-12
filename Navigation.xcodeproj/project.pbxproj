@@ -54,6 +54,7 @@
 		6E45C11328C209F30001D3E2 /* UnitOfWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E45C10C28C209F30001D3E2 /* UnitOfWork.swift */; };
 		6E45C11428C209F30001D3E2 /* DomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E45C10D28C209F30001D3E2 /* DomainModel.swift */; };
 		6E45C11528C209F30001D3E2 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E45C10E28C209F30001D3E2 /* Repository.swift */; };
+		6E46771328CB7A7900E24326 /* FetchResultService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E46771228CB7A7900E24326 /* FetchResultService.swift */; };
 		6E4C02E828C0D4ED00EA8142 /* DataBaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4C02E728C0D4ED00EA8142 /* DataBaseError.swift */; };
 		6E4C02EB28C0D72E00EA8142 /* Navigation.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6EBB782728BB72BD006A090E /* Navigation.xcdatamodeld */; };
 		6E5E42B4285CD6AB002EA082 /* LoginFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5E42B3285CD6AB002EA082 /* LoginFactory.swift */; };
@@ -219,6 +220,7 @@
 		6E45C10C28C209F30001D3E2 /* UnitOfWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitOfWork.swift; sourceTree = "<group>"; };
 		6E45C10D28C209F30001D3E2 /* DomainModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainModel.swift; sourceTree = "<group>"; };
 		6E45C10E28C209F30001D3E2 /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		6E46771228CB7A7900E24326 /* FetchResultService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchResultService.swift; sourceTree = "<group>"; };
 		6E4C02E728C0D4ED00EA8142 /* DataBaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseError.swift; sourceTree = "<group>"; };
 		6E5E42B3285CD6AB002EA082 /* LoginFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFactory.swift; sourceTree = "<group>"; };
 		6E5E42B6285DDE74002EA082 /* ViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
@@ -925,6 +927,7 @@
 				6EB9CAD328C257E80085AA3B /* Entity */,
 				6E45C10828C209F30001D3E2 /* CoreDataContextProvider.swift */,
 				6E45C10B28C209F30001D3E2 /* CoreDataRepository.swift */,
+				6E46771228CB7A7900E24326 /* FetchResultService.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -1405,6 +1408,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E45C11028C209F30001D3E2 /* PostEntity+.swift in Sources */,
+				6E46771328CB7A7900E24326 /* FetchResultService.swift in Sources */,
 				6EB9CAC628C24D490085AA3B /* Post.swift in Sources */,
 				6E45C11228C209F30001D3E2 /* CoreDataRepository.swift in Sources */,
 				6E4C02E828C0D4ED00EA8142 /* DataBaseError.swift in Sources */,

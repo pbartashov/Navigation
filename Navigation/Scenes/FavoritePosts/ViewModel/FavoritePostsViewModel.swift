@@ -35,7 +35,10 @@ final class FavoritesViewModel: PostsViewModel {
                     if let text = self.searchText {
                         predicate = NSPredicate(format: "author CONTAINS[c] %@", text)
                     }
-                    self.posts = try await self.favoritesPostRepository.getPosts(predicate: predicate)
+                    try self.favoritesPostRepository.startFetchingWith(predicate: predicate,
+                                                                       sortDescriptors: nil)
+
+                    self.posts = self.favoritesPostRepository.fetchResults
                 } catch {
                     ErrorPresenter.shared.show(error: error)
                 }
@@ -49,12 +52,20 @@ final class FavoritesViewModel: PostsViewModel {
                     let post = self.posts[indexPath.row]
                     try await self.favoritesPostRepository.delete(post: post)
                     try await self.favoritesPostRepository.saveChanges()
-
-                    self.posts.remove(at: indexPath.row)
-                    self.state = .loaded(self.posts)
                 } catch {
                     ErrorPresenter.shared.show(error: error)
                 }
+            }
+        }
+
+        favoritesPostRepository.setupResultsControllerStateChangedHandler { [weak self] state in
+            switch state {
+                case .didChangeContent:
+                    guard let self = self else { return }
+                    self.posts = self.favoritesPostRepository.fetchResults
+
+                default:
+                    break
             }
         }
     }
