@@ -7,9 +7,6 @@
 
 import CoreData
 
-
-import UIKit
-
 //https://www.userdesk.io/blog/repository-pattern-using-core-data-and-swift/
 /// Protocol that describes a Post repository.
 public protocol PostRepositoryInterface {

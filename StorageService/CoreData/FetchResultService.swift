@@ -7,13 +7,6 @@
 
 import CoreData
 
-
-
-
-
-import UIKit
-
-
 public enum FetchResultServiceState {
     case willChangeContent
     case insert(at: IndexPath)
