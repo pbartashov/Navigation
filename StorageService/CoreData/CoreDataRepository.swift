@@ -7,10 +7,6 @@
 
 import CoreData
 
-
-
-import UIKit
-
 //https://www.userdesk.io/blog/repository-pattern-using-core-data-and-swift/
 /// Generic class for handling NSManagedObject subclasses.
 final class CoreDataRepository<T: NSManagedObject>: Repository {
@@ -107,7 +103,7 @@ final class CoreDataRepository<T: NSManagedObject>: Repository {
         let fetchRequest = Entity.fetchRequest()
         fetchRequest.predicate = predicate
         fetchRequest.sortDescriptors = sortDescriptors
-        
+
         try fetchResultService.startFetching(with: fetchRequest)
     }
 }
