@@ -10,6 +10,10 @@ import RealmSwift
 
 struct CredentialStorageService: CredentialStorageProtocol {
 
+    // MARK: - Properties
+
+    private let config = Realm.Configuration(encryptionKey: KeychainKeyStorage.getKey())
+
     // MARK: - Metods
 
     func retrieve() throws -> (login: String, password: String)? {
@@ -29,11 +33,11 @@ struct CredentialStorageService: CredentialStorageProtocol {
     }
 
     private func retrieveCredentials() throws -> Credentials? {
-        try Realm().objects(Credentials.self).first
+        try Realm(configuration: config).objects(Credentials.self).first
     }
 
     private func createCredentials(withLogin login: String, password: String) throws {
-        let realm = try Realm()
+        let realm = try Realm(configuration: config)
 
         try realm.write {
             let credentials = Credentials(login: login, password: password)
@@ -42,7 +46,7 @@ struct CredentialStorageService: CredentialStorageProtocol {
     }
 
     private func update(credentials: Credentials, withLogin login: String, password: String) throws {
-        try Realm().write {
+        try Realm(configuration: config).write {
             credentials.login = login
             credentials.password = password
         }
