@@ -16,7 +16,10 @@ public final class CoreDataContextProvider {
     public var viewContext: NSManagedObjectContext {
         persistentContainer.viewContext
     }
-    
+
+    /// Returns  container background context
+    public let backgroundContext: NSManagedObjectContext
+
     /// The persistent container
     private var persistentContainer: NSPersistentContainer
     
@@ -37,8 +40,10 @@ public final class CoreDataContextProvider {
             }
             completionClosure?(error)
         }
-    }
 
+        backgroundContext = persistentContainer.newBackgroundContext()
+    }
+    
     /// Creates a context for background work
     public func newBackgroundContext() -> NSManagedObjectContext {
         persistentContainer.newBackgroundContext()

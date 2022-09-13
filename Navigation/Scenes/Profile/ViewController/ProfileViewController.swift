@@ -100,10 +100,9 @@ where T: ProfileViewModelProtocol,
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         let photos = Photos.randomPhotos(ofCount: photosTableViewCell.photosCount)
         photosTableViewCell.setup(with: photos)
-
-        profileViewModel.perfomAction(.posts(action: .requstPosts))
     }
 
     override func viewSafeAreaInsetsDidChange() {

@@ -124,11 +124,13 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
         setupLayout()
         setupViewModel()
         setupBarItems()
+
+        viewModel.perfomAction(.requstPosts)
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.perfomAction(.requstPosts)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        applySnapshot()
     }
 
     //MARK: - Metods
@@ -141,7 +143,9 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
                         break
 
                     case .loaded(_):
-                        self?.applySnapshot()
+                        if self?.view.window != nil {
+                            self?.applySnapshot()
+                        }
 
                     case .isFiltered(let text):
                         if let text = text {

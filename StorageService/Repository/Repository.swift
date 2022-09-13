@@ -27,4 +27,13 @@ protocol Repository {
 
     /// Saves changes to Repository.
     func saveChanges() async throws
+
+    /// Automatic fetching results.
+    var fetchResults: [Entity] { get }
+
+    /// Sets up a FetchResultService with stateChanged handler.
+    func setupResultsControllerStateChangedHandler(stateChanged:((FetchResultServiceState) -> Void)?)
+
+    /// Starts fetching with given NSPredicate and array of NSSortDescriptors.
+    func startFetchingWith(predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) throws
 }
