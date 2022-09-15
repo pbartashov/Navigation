@@ -2,7 +2,7 @@
 //  KeychainKeyStorage.swift
 //  Navigation
 //
-//  Created by Павел Барташов on 26.08.2022.
+//  Created by Павел Барташов on 27.08.2022.
 //
 
 import Foundation
@@ -12,8 +12,9 @@ struct KeychainKeyStorage {
     // Retrieve the existing encryption key for the app if it exists or create a new one
     static func getKey() -> Data {
         // Identifier for our keychain entry - should be unique for your application
-        let keychainIdentifier = "com.pB.Navigation.CredentialStorageEncryptionKey"
-        let keychainIdentifierData = keychainIdentifier.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+        let keychainIdentifier: [UInt8] = [99, 111, 109, 46, 112, 66, 46, 78, 97, 118, 105, 103, 97, 116, 105, 111, 110, 46, 67, 114, 101, 100, 101, 110, 116, 105, 97, 108, 83, 116, 111, 114, 97, 103, 101, 69, 110, 99, 114, 121, 112, 116, 105, 111, 110, 75, 101, 121]
+        let keychainIdentifierData = Data(keychainIdentifier)
+
         // First check in the keychain for an existing key
         var query: [NSString: AnyObject] = [
             kSecClass: kSecClassKey,
