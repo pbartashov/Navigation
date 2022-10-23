@@ -106,4 +106,13 @@ final class MainCoordinator: MainCoordinatorProtocol {
         let viewController = createMainViewController(for: userName)
         switchTo(viewController: viewController)
     }
+    
+    func startMaps() -> UIViewController {
+        let presenter = MapPresenter()
+        let manager = MapManager()
+        let viewController = MapViewController(presenter: presenter, manager: manager)
+        presenter.view = viewController
+
+        return viewController
+    }
 }
