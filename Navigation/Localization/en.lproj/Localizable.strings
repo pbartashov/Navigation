@@ -1,0 +1,110 @@
+/* 
+  Localizable.strings
+  Navigation
+
+  Created by Павел Барташов on 23.10.2022.
+  
+*/
+
+// RecorderError
+"permissionDeniedRecorderError" = "Microphone access denied.";
+"fileCreationErrorRecorderError" = "Record file creation error.";
+
+// RecorderState
+"permissionDeniedRecorderState" = "Microphone access denied.";
+"emptyRecorderState" = "No records yet";
+"recordingRecorderState" = "Recording...";
+"recordingPausedRecorderState" = "Record paused";
+"playingRecorderState" = "Playing...";
+"playingPausedRecorderState" = "Playing paused";
+"stoppedRecorderState" = "Stop";
+
+// MusicError
+"trackNotFoundMusicError" = "Music track not found.";
+
+// FeedViewController
+"newPostFeedViewController" = "New post";
+
+// FeedView
+"post1FeedView" = "Post 1";
+"post2FeedView" = "Post 2";
+"loginFeedView" = "Log in";
+"wrongLabelFeedView" = "Wrong";
+"rightLabelFeedView" = "Right";
+"passwordPlaceholderFeedView" = "Password";
+
+// HintView
+"closeButtonHintView" = "Close";
+
+// LoginError
+"missingLoginLoginError" = "Enter login.";
+"missingPasswordLoginError" = "Enter password.";
+"invalidEmailLoginError" = "Wrong email.";
+"wrongPasswordLoginError" = "Wrong login or password.";
+"weakPasswordLoginError" = "Password must contain at least 6 characters.";
+"userNotFoundLoginError" = "User not found.";
+"networkErrorLoginError" = "Network error.";
+"unknownLoginError" = "Login error. Please try again.";
+
+// LoginView
+"loginButtonLoginView" = "Log in";
+"brutePasswordButtonLoginView" = "Brute force";
+"cancelBrutePasswordButtonLoginView" = "Cancel";
+"loginTextFieldPlaceHolder" = "Telephone or email";
+"passwordTextFieldPlaceHolder" = "Password";
+
+// LoginCoordinator
+"createAccountPromptTitleLoginCoordinator" = "Create account?";
+"createAccountPromptMessageLoginCoordinator" = "Do you want to create user account for";
+"yesAnswerLoginCoordinator" = "Yes";
+"noAnswerLoginCoordinator" = "No";
+
+// PhotosViewController
+"titlePhotosViewController" = "Photos";
+
+// ProfileHeaderView
+"statusTextFieldPlaceholderProfileHeaderView" = "Set your status..";
+"setStatusButtonProfileHeaderView" = "Set status";
+
+// PostsViewController
+"offColorFilterPostsViewController" = "Off";
+"noirColorFilterPostsViewController" = "Noir";
+"motionBlurColorFilterPostsViewController" = "Blur";
+"invertColorFilterPostsViewController" = "Invert";
+
+// PhotosTableViewCell
+"titleLabelPhotosTableViewCell" = "Photos";
+
+// MapPresenter
+"waypointNameMapPresenter" = "Waypoint";
+
+// MapViewController
+"removeAllWaypointsButtonMapViewController" = "Clear";
+
+// MKMapType
+"standardMKMapType" = "Standard";
+"satelliteMKMapType" = "Satellite";
+"hybridMKMapType" = "Hybrid";
+"satelliteFlyoverMKMapType" = "Satellite Flyover";
+"hybridFlyoverMKMapType" = "Hybrid Flyover";
+"mutedStandardMKMapType" = "Muted Standard";
+"unknownMKMapType" = "Unknown";
+
+// ViewControllerFactory
+"feedViewControllerFactory" = "Fees";
+"musicViewControllerFactory" = "Music";
+"videoViewControllerFactory" = "Video";
+"recorderViewControllerFactory" = "Recorder";
+"profileViewControllerFactory" = "Profile";
+"favoritesViewControllerFactory" = "Favorites";
+"mapViewControllerFactory" = "Map";
+
+// PostsCoordinator
+"searchTextFieldPlaceholderPostsCoordinator" = "Author name";
+"searchActionTitlePostsCoordinator" = "Search";
+"cancelActionTitlePostsCoordinator" = "Cancel";
+
+// PostsViewModel
+"searchPromptTitlePostsViewModel" = "Search by autor";
+"retryPromptTitlePostsViewModel" = "Nothing found...🤷";
+"retryPromptMessagePostsViewModel" = "Try again, please";

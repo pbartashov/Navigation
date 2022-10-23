@@ -33,6 +33,3 @@ final class FeedCoordinator: NavigationCoordinator {
         navigationController?.pushViewController(postViewController, animated: true)
     }
 }
-
-
-

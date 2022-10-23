@@ -9,10 +9,20 @@ import UIKit
 
 final class HintView: UIStackView {
 
-    enum Buttons: String {
-        case close = "Закрыть"
+    enum Buttons {
+        case close
         case previous
         case next
+
+        var title: String {
+            switch self {
+                case .close:
+                    return "closeButtonHintView".localized
+
+                default:
+                    return ""
+            }
+        }
     }
 
     //MARK: - Properties
@@ -47,7 +57,7 @@ final class HintView: UIStackView {
     }()
 
     private lazy var closeButton: ClosureBasedButton = {
-        let button = ClosureBasedButton(title: Buttons.close.rawValue,
+        let button = ClosureBasedButton(title: Buttons.close.title,
                                         titleColor: .tintColor,
                                         tapAction: { [weak self] in self?.buttonTapped(sender: $0) })
         button.tag = Buttons.close.hashValue

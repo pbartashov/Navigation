@@ -22,28 +22,28 @@ extension LoginError : LocalizedError {
     public var errorDescription: String? {
         switch self {
             case .missingLogin:
-                return NSLocalizedString("Введите логин.", comment: "")
+                return "missingLoginLoginError".localized
 
             case .missingPassword:
-                return NSLocalizedString("Введите пароль.", comment: "")
+                return "missingPasswordLoginError".localized
 
             case .invalidEmail:
-                return NSLocalizedString("Неверный адрес электронной почты.", comment: "")
+                return "invalidEmailLoginError".localized
 
             case .wrongPassword:
-                return NSLocalizedString("Неверный логин или пароль.", comment: "")
+                return "wrongPasswordLoginError".localized
 
             case .weakPassword:
-                return NSLocalizedString("Пароль должен содержать не менее 6 символов.", comment: "")
+                return "weakPasswordLoginError".localized
 
             case .userNotFound:
-                return NSLocalizedString("Пользователь не найден.", comment: "")
+                return "userNotFoundLoginError".localized
 
             case .networkError:
-                return NSLocalizedString("Нет подключения к сети.", comment: "")
+                return "networkErrorLoginError".localized
 
             case .unknown:
-                return NSLocalizedString("Ошибка при авторизации. Попробуйте еще раз.", comment: "")
+                return "unknownLoginError".localized
         }
     }
 }

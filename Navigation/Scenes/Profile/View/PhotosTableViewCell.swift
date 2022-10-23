@@ -20,7 +20,7 @@ class PhotosTableViewCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
 
-        label.text = "Photos"
+        label.text = "titleLabelPhotosTableViewCell".localized
         label.textColor = .black
         label.font = .systemFont(ofSize: 24, weight: .bold)
 

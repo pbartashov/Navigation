@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  Navigation
+
+  Created by Павел Барташов on 23.10.2022.
+  
+*/
+
+NSLocationWhenInUseUsageDescription = "Доступ к локации нужен для построения маршрута";
+NSMicrophoneUsageDescription = "Для записи требуется доступ к микрофону";

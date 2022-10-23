@@ -16,18 +16,41 @@ enum RecorderAction {
     case stopPlaying
 }
 
-enum RecorderState: String {
-    case permissionDenied = "Нет разрешения на использование микрофона"
+enum RecorderState {
+    case permissionDenied
 
-    case empty = "Записи пока нет"
+    case empty
 
-    case recording = "Идет запись..."
-    case recordingPaused = "Запись на паузе"
+    case recording
+    case recordingPaused
 
-    case playing = "Воспроизведение..."
-    case playingPaused = "Воспроизведение на паузе"
+    case playing
+    case playingPaused
 
-    case stopped = "Стоп"
+    case stopped
+
+    var title: String {
+        switch self {
+            case .permissionDenied:
+                return "permissionDeniedRecorderState".localized
+            case .empty:
+                return "emptyRecorderState".localized
+            case .recording:
+                return "recordingRecorderState".localized
+
+            case .recordingPaused:
+                return "recordingPausedRecorderState".localized
+
+            case .playing:
+                return "playingRecorderState".localized
+
+            case .playingPaused:
+                return "playingPausedRecorderState".localized
+
+            case .stopped:
+                return "stoppedRecorderState".localized
+        }
+    }
 }
 
 protocol RecorderViewModelProtocol: ViewModelProtocol
@@ -116,7 +139,7 @@ final class RecorderViewModel: ViewModel<RecorderState, RecorderAction>,
                     self?.state = .empty
                 } else {
                     self?.state = .permissionDenied
-                    ErrorPresenter.shared.show(error: RecorderError.noPermission)
+                    ErrorPresenter.shared.show(error: RecorderError.permissionDenied)
                 }
             }
         } catch {
@@ -165,4 +188,3 @@ final class RecorderViewModel: ViewModel<RecorderState, RecorderAction>,
         state = .stopped
     }
 }
-

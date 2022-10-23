@@ -45,14 +45,14 @@ final class LoginCoordinator: NavigationCoordinator {
     func showCreateAccount(for login: String,
                            completion: (()-> Void)? = nil) {
 
-        let alert = UIAlertController(title: "Создать аккаунт?",
-                                      message: "Вы хотите создать аккаунт для пользователя \(login)?",
+        let alert = UIAlertController(title: "createAccountPromptTitleLoginCoordinator".localized,
+                                      message: "\("createAccountPromptMessageLoginCoordinator".localized) \(login)?",
                                       preferredStyle: .alert)
 
-        let yes = UIAlertAction(title: "Да",
+        let yes = UIAlertAction(title: "yesAnswerLoginCoordinator".localized,
                                 style: .default,
                                 handler: { _ in completion?() })
-        let no = UIAlertAction(title: "Нет",
+        let no = UIAlertAction(title: "noAnswerLoginCoordinator".localized,
                                style: .cancel)
         alert.addAction(yes)
         alert.addAction(no)

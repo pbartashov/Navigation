@@ -32,7 +32,7 @@ final class MapPresenter: MapPresenterProtocol {
     }
     
     func addLocations(latitude: Double, longitude: Double) {
-        let location = Location(name: "Waypoint \(locations.count + 1)",
+        let location = Location(name: "\("waypointNameMapPresenter".localized) \(locations.count + 1)",
                                 latitude: latitude,
                                 longitude: longitude)
         locations.append(location)

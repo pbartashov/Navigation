@@ -72,7 +72,7 @@ class PostsViewModel: ViewModel<PostsState, PostsAction>,
                 requstPosts?()
 
             case .showSearchPromt:
-                coordinator?.showSearchPrompt(title: "Поиск по автору",
+                coordinator?.showSearchPrompt(title: "searchPromptTitlePostsViewModel".localized,
                                               searchComletion: { [weak self] text in
                     self?.handleSearch(with: text)
                 })
@@ -100,8 +100,8 @@ class PostsViewModel: ViewModel<PostsState, PostsAction>,
     }
 
     private func showRetrySearch() {
-        coordinator?.showSearchPrompt(title: "Ничего не нашли...🤷",
-                                      message: "Попробуйте еще",
+        coordinator?.showSearchPrompt(title: "retryPromptTitlePostsViewModel".localized,
+                                      message: "retryPromptMessagePostsViewModel".localized,
                                       text: searchText,
                                       searchComletion: { [weak self] text in
             self?.handleSearch(with: text)

@@ -8,17 +8,17 @@
 import Foundation
 
 enum RecorderError: Error {
-    case noPermission
+    case permissionDenied
     case fileCreationError
 }
 
 extension RecorderError: LocalizedError {
     public var errorDescription: String? {
         switch self {
-            case .noPermission:
-                return NSLocalizedString("Требуется разрешение на доступ к микрофону.", comment: "")
+            case .permissionDenied:
+                return "permissionDeniedRecorderError".localized
             case .fileCreationError:
-                return NSLocalizedString("Ошибка при создании файла с записью.", comment: "")
+                return "fileCreationErrorRecorderError".localized
         }
     }
 }

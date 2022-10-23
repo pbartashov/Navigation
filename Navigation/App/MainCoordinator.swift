@@ -78,11 +78,13 @@ final class MainCoordinator: MainCoordinatorProtocol {
                                             tag: 2)
         favoritesNavigationController.setViewControllers([favoritesViewController], animated: false)
 
+        let mapViewController = ViewControllerFactory.create.mapViewController(tag: 3)
 
         let tabBarController = ViewControllerFactory.create.tabBarController(with: [
             feedNavigationController,
             profileNavigationController,
-            favoritesNavigationController
+            favoritesNavigationController,
+            mapViewController
         ])
 
         ErrorPresenter.shared.initialize(with: tabBarController)
@@ -106,13 +108,4 @@ final class MainCoordinator: MainCoordinatorProtocol {
         let viewController = createMainViewController(for: userName)
         switchTo(viewController: viewController)
     }
-    
-    func startMaps() -> UIViewController {
-        let presenter = MapPresenter()
-        let manager = MapManager()
-        let viewController = MapViewController(presenter: presenter, manager: manager)
-        presenter.view = viewController
-
-        return viewController
-    }
-}
+ }
