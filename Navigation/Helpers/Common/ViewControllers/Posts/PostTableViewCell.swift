@@ -17,7 +17,7 @@ final class PostTableViewCell: UITableViewCell {
         let label = UILabel()
 
         label.font = .systemFont(ofSize: 20, weight: .bold)
-        label.textColor = .black
+        label.textColor = .textColor
         label.numberOfLines = 2
 
         return label
@@ -36,7 +36,7 @@ final class PostTableViewCell: UITableViewCell {
         let label = UILabel()
 
         label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .systemGray
+        label.textColor = .secondaryTextColor
         label.numberOfLines = 0
 
         return label
@@ -46,7 +46,7 @@ final class PostTableViewCell: UITableViewCell {
         let label = UILabel()
 
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = .black
+        label.textColor = .textColor
 
         return label
     }()
@@ -55,7 +55,7 @@ final class PostTableViewCell: UITableViewCell {
         let label = UILabel()
 
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = .black
+        label.textColor = .textColor
         label.textAlignment = .right
 
         return label

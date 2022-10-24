@@ -67,6 +67,7 @@
 "setStatusButtonProfileHeaderView" = "Установить статус";
 
 // PostsViewController
+"foundedResultsPostsViewController" = "Найдено для";
 "offColorFilterPostsViewController" = "Выкл";
 "noirColorFilterPostsViewController" = "Нуар";
 "motionBlurColorFilterPostsViewController" = "Размытие";

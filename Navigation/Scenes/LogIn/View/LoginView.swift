@@ -89,6 +89,7 @@ final class LoginView: UIView {
         let button = ClosureBasedButton(title: Buttons.login.title,
                                         titleColor: .white,
                                         tapAction: { [weak self] in self?.buttonTapped(sender: $0) })
+        button.setTitleColor(.lightTextColor, for: .normal)
 
         let backgroundImage = UIImage(named: "blue_pixel")
         button.setBackgroundImage(backgroundImage, for: .normal)

@@ -27,7 +27,7 @@ final class PhotosViewController: UIViewController {
 
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .backgroundColor
 
         return collectionView
     }()
@@ -39,7 +39,7 @@ final class PhotosViewController: UIViewController {
 
         title = "titlePhotosViewController".localized
 
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .backgroundColor
         view.addSubviewsToAutoLayout(collectionView)
 
         setupLayout()

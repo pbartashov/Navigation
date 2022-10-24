@@ -70,11 +70,9 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
 
         tableView.register(PostTableViewCell.self,
                            forCellReuseIdentifier: PostTableViewCell.identifier)
-#if DEBUG
-        tableView.backgroundColor = .systemTeal
-#else
-        tableView.backgroundColor = .systemOrange
-#endif
+
+        tableView.backgroundColor = .backgroundColor
+
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
         doubleTap.numberOfTapsRequired = 2
         tableView.addGestureRecognizer(doubleTap)
@@ -125,7 +123,7 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .backgroundColor
 
         view.addSubview(colorFilterSelecor)
         view.addSubview(tableView)
@@ -159,7 +157,7 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
                     case .isFiltered(let text):
                         if let text = text {
                             self?.cancelSearchBarItem?.isEnabled = true
-                            self?.navigationItem.title = "Найдено для: \(text)"
+                            self?.navigationItem.title = "\("foundedResultsPostsViewController".localized): \(text)"
                         } else {
                             self?.cancelSearchBarItem?.isEnabled = false
                             self?.navigationItem.title = nil
