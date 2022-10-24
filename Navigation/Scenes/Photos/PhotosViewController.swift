@@ -37,7 +37,7 @@ final class PhotosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Photo Gallery"
+        title = "titlePhotosViewController".localized
 
         view.backgroundColor = .systemGray6
         view.addSubviewsToAutoLayout(collectionView)

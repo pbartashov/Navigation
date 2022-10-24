@@ -1,0 +1,110 @@
+/* 
+  Localizable.strings
+  Navigation
+
+  Created by Павел Барташов on 23.10.2022.
+  
+*/
+
+// RecorderError
+"permissionDeniedRecorderError" = "Требуется разрешение на доступ к микрофону.";
+"fileCreationErrorRecorderError" = "Ошибка при создании файла с записью.";
+
+// RecorderState
+"permissionDeniedRecorderState" = "Требуется разрешение на доступ к микрофону.";
+"emptyRecorderState" = "Записи пока нет";
+"recordingRecorderState" = "Идет запись...";
+"recordingPausedRecorderState" = "Запись на паузе";
+"playingRecorderState" = "Воспроизведение...";
+"playingPausedRecorderState" = "Воспроизведение на паузе";
+"stoppedRecorderState" = "Стоп";
+
+// MusicError
+"trackNotFoundMusicError" = "Музыкальный трек не найден.";
+
+// FeedViewController
+"newPostFeedViewController" = "Новый пост";
+
+// FeedView
+"post1FeedView" = "Пост 1";
+"post2FeedView" = "Пост 2";
+"loginFeedView" = "Войти";
+"wrongLabelFeedView" = "Неверно";
+"rightLabelFeedView" = "Верно";
+"passwordPlaceholderFeedView" = "Пароль";
+
+// HintView
+"closeButtonHintView" = "Закрыть";
+
+// LoginError
+"missingLoginLoginError" = "Введите логин.";
+"missingPasswordLoginError" = "Введите пароль.";
+"invalidEmailLoginError" = "Неверный адрес электронной почты.";
+"wrongPasswordLoginError" = "Неверный логин или пароль.";
+"weakPasswordLoginError" = "Пароль должен содержать не менее 6 символов.";
+"userNotFoundLoginError" = "Пользователь не найден.";
+"networkErrorLoginError" = "Нет подключения к сети.";
+"unknownLoginError" = "Ошибка при авторизации. Попробуйте еще раз.";
+
+// LoginView
+"loginButtonLoginView" = "Войти";
+"brutePasswordButtonLoginView" = "Подобрать пароль";
+"cancelBrutePasswordButtonLoginView" = "Отменить";
+"loginTextFieldPlaceHolder" = "Телефон или почта";
+"passwordTextFieldPlaceHolder" = "Пароль";
+
+// LoginCoordinator
+"createAccountPromptTitleLoginCoordinator" = "Создать аккаунт?";
+"createAccountPromptMessageLoginCoordinator" = "Вы хотите создать аккаунт для пользователя";
+"yesAnswerLoginCoordinator" = "Да";
+"noAnswerLoginCoordinator" = "Нет";
+
+// PhotosViewController
+"titlePhotosViewController" = "Фото галлерея";
+
+// ProfileHeaderView
+"statusTextFieldPlaceholderProfileHeaderView" = "Установите ваш статус..";
+"setStatusButtonProfileHeaderView" = "Установить статус";
+
+// PostsViewController
+"offColorFilterPostsViewController" = "Выкл";
+"noirColorFilterPostsViewController" = "Нуар";
+"motionBlurColorFilterPostsViewController" = "Размытие";
+"invertColorFilterPostsViewController" = "Инверсия";
+
+// PhotosTableViewCell
+"titleLabelPhotosTableViewCell" = "Фото";
+
+// MapPresenter
+"waypointNameMapPresenter" = "Точка";
+
+// MapViewController
+"removeAllWaypointsButtonMapViewController" = "Очистить";
+
+// MKMapType
+"standardMKMapType" = "Схема";
+"satelliteMKMapType" = "Спутник";
+"hybridMKMapType" = "Гибрид";
+"satelliteFlyoverMKMapType" = "Спутник+";
+"hybridFlyoverMKMapType" = "Гибрид+";
+"mutedStandardMKMapType" = "Простая схема";
+"unknownMKMapType" = "Неизвестно";
+
+// ViewControllerFactory
+"feedViewControllerFactory" = "Лента";
+"musicViewControllerFactory" = "Музыка";
+"videoViewControllerFactory" = "Видео";
+"recorderViewControllerFactory" = "Рекордер";
+"profileViewControllerFactory" = "Профиль";
+"favoritesViewControllerFactory" = "Избранное";
+"mapViewControllerFactory" = "Карта";
+
+// PostsCoordinator
+"searchTextFieldPlaceholderPostsCoordinator" = "Имя автора";
+"searchActionTitlePostsCoordinator" = "Искать";
+"cancelActionTitlePostsCoordinator" = "Отменить поиск";
+
+// PostsViewModel
+"searchPromptTitlePostsViewModel" = "Поиск по автору";
+"retryPromptTitlePostsViewModel" = "Ничего не нашли...🤷";
+"retryPromptMessagePostsViewModel" = "Попробуйте еще";

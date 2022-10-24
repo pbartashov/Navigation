@@ -143,7 +143,7 @@ final class RecorderView: UIView {
     }
 
     func updateState(with state: RecorderState) {
-        statusLabel.text = state.rawValue
+        statusLabel.text = state.title
         
         resetButtons(isEnabled: false)
 

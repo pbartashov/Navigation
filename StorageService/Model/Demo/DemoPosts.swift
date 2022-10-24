@@ -28,7 +28,7 @@ extension Post {
               description: "Жизненный цикл UIViewController",
               image: UIImage(named: "postImage-3"),
               likes: 560,
-              views: 869),
+              views: 861),
 
          Post(url: "4",
               author: "trucoruva",

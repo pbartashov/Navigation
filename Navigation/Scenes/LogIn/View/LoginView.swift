@@ -9,10 +9,23 @@ import UIKit
 
 final class LoginView: UIView {
 
-    enum Buttons: String {
-        case login = "Log in"
-        case brutePassword = "Подобрать пароль"
-        case cancelBrutePassword = "Отменить"
+    enum Buttons {
+        case login
+        case brutePassword
+        case cancelBrutePassword
+
+        var title: String {
+            switch self {
+                case .login:
+                    return "loginButtonLoginView".localized
+
+                case .brutePassword:
+                    return "brutePasswordButtonLoginView".localized
+
+                case .cancelBrutePassword:
+                    return "cancelBrutePasswordButtonLoginView".localized
+            }
+        }
     }
     
     //MARK: - Properties
@@ -56,7 +69,7 @@ final class LoginView: UIView {
     private lazy var loginTextField: UITextField = {
         let textField = ViewFactory.create.textField()
 
-        textField.placeholder = "Email or phone"
+        textField.placeholder = "loginTextFieldPlaceHolder".localized
         textField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
         return textField
@@ -65,7 +78,7 @@ final class LoginView: UIView {
     private lazy var passwordTextField: UITextField = {
         let textField = ViewFactory.create.textField()
 
-        textField.placeholder = "Password"
+        textField.placeholder = "passwordTextFieldPlaceHolder".localized
         textField.isSecureTextEntry = true
         textField.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
 
@@ -73,7 +86,7 @@ final class LoginView: UIView {
     }()
 
     private lazy var loginButton: ClosureBasedButton = {
-        let button = ClosureBasedButton(title: Buttons.login.rawValue,
+        let button = ClosureBasedButton(title: Buttons.login.title,
                                         titleColor: .white,
                                         tapAction: { [weak self] in self?.buttonTapped(sender: $0) })
 
@@ -94,7 +107,7 @@ final class LoginView: UIView {
     }()
 
     private lazy var brutePasswordButton: ClosureBasedButton = {
-        let button = ClosureBasedButton(title: Buttons.brutePassword.rawValue,
+        let button = ClosureBasedButton(title: Buttons.brutePassword.title,
                                         titleColor: .tintColor,
                                         tapAction: { [weak self] in self?.buttonTapped(sender: $0) })
 
@@ -125,7 +138,7 @@ final class LoginView: UIView {
         stack.alpha = 0
         stack.backgroundColor = passwordTextField.backgroundColor
 
-        let button = ClosureBasedButton(title: Buttons.cancelBrutePassword.rawValue,
+        let button = ClosureBasedButton(title: Buttons.cancelBrutePassword.title,
                                         titleColor: .tintColor,
                                         tapAction: { [weak self] in self?.buttonTapped(sender: $0) })
 
@@ -154,12 +167,7 @@ final class LoginView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         initialize()
-
-        //DEBUGG
-        //        loginTextField.text = "Octopus@mail.ru"
-        //        passwordTextField.text = "123"
     }
 
     required init?(coder: NSCoder) {

@@ -8,10 +8,23 @@
 import UIKit
 
 final class FeedView: UIStackView {
-    enum Buttons: String {
-        case post1 = "Post 1"
-        case post2 = "Post 2"
-        case login = "Log in"
+    enum Buttons {
+        case post1
+        case post2
+        case login
+
+        var title: String {
+            switch self {
+                case .post1:
+                    return "post1FeedView".localized
+
+                case .post2:
+                    return "post2FeedView".localized
+
+                case .login:
+                    return "loginFeedView".localized
+            }
+        }
     }
 
     enum State {
@@ -57,7 +70,7 @@ final class FeedView: UIStackView {
     //MARK: - Views
 
     private lazy var showPost1Button: ClosureBasedButton = {
-        let button = ViewFactory.create.button(withTitle: Buttons.post1.rawValue)
+        let button = ViewFactory.create.button(withTitle: Buttons.post1.title)
         button.tapActionWithSender = { [weak self] in self?.buttonTapped(sender: $0) }
         button.tag = Buttons.post1.hashValue
 
@@ -65,7 +78,7 @@ final class FeedView: UIStackView {
     }()
 
     private lazy var showPost2Button: ClosureBasedButton = {
-        let button = ViewFactory.create.button(withTitle: Buttons.post2.rawValue)
+        let button = ViewFactory.create.button(withTitle: Buttons.post2.title)
         button.tapActionWithSender = { [weak self] in self?.buttonTapped(sender: $0) }
         button.tag = Buttons.post2.hashValue
 
@@ -74,7 +87,7 @@ final class FeedView: UIStackView {
 
     private let wrongAnswerLabel: UILabel = {
         let label = UILabel()
-        label.text = "Wrong"
+        label.text = "wrongLabelFeedView".localized
         label.alpha = 0
         label.textColor = .red
         label.textAlignment = .center
@@ -83,7 +96,7 @@ final class FeedView: UIStackView {
 
     private let rightAnswerLabel: UILabel = {
         let label = UILabel()
-        label.text = "Right"
+        label.text = "rightLabelFeedView".localized
         label.alpha = 0
         label.textColor = .green
         label.textAlignment = .center
@@ -93,13 +106,13 @@ final class FeedView: UIStackView {
     private lazy var passwordTextField: UITextField = {
         let textField = ViewFactory.create.textField()
 
-        textField.placeholder = "Password"
+        textField.placeholder = "passwordPlaceholderFeedView".localized
 
         return textField
     }()
 
     private lazy var loginButton: ClosureBasedButton = {
-        let button =  ViewFactory.create.button(withTitle: Buttons.login.rawValue)
+        let button =  ViewFactory.create.button(withTitle: Buttons.login.title)
         button.tapActionWithSender = { [weak self] in self?.buttonTapped(sender: $0) }
         button.tag = Buttons.login.hashValue
 

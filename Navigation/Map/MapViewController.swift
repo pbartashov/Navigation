@@ -54,7 +54,7 @@ final class MapViewController: UIViewController, UIGestureRecognizerDelegate, Ma
 
     private lazy var removeAllWaypointsButton: UIButton = {
         let button = UIButton(configuration: .filled())
-        button.setTitle("Clear", for: .normal)
+        button.setTitle("removeAllWaypointsButtonMapViewController".localized, for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
 
@@ -182,25 +182,25 @@ fileprivate extension MKMapType {
     var name: String {
         switch self {
             case .standard:
-                return "Standard"
+                return "standardMKMapType".localized
 
             case .satellite:
-                return "Satellite"
+                return "satelliteMKMapType".localized
 
             case .hybrid:
-                return "Hybrid"
+                return "hybridMKMapType".localized
 
             case .satelliteFlyover:
-                return "Satellite Flyover"
+                return "satelliteFlyoverMKMapType".localized
 
             case .hybridFlyover:
-                return "Hybrid Flyover"
+                return "hybridFlyoverMKMapType".localized
 
             case .mutedStandard:
-                return "Muted Standard"
+                return "mutedStandardMKMapType".localized
 
             @unknown default:
-                return "Unknown"
+                return "unknownMKMapType".localized
         }
     }
 }

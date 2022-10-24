@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  Navigation
+
+  Created by Павел Барташов on 23.10.2022.
+  
+*/
+
+NSLocationWhenInUseUsageDescription = "Nous avons besoin de connaître votre emplacement pour construire des itinéraires";
+NSMicrophoneUsageDescription = "Nous avons besoin de votre microphone pour faire des enregistrements pour vous";

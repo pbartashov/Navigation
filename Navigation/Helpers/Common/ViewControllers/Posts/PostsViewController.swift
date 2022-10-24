@@ -83,17 +83,26 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
     }()
 
     private lazy var colorFilterSelecor: UISegmentedControl = {
-        let off = UIAction(title: "Выкл") { _ in self.currentColorFilter = nil }
-        let chrome = UIAction(title: "Нуар") { _ in self.currentColorFilter = .noir }
-        let motionBlur = UIAction(title: "Размытие") { _ in
+        let off = UIAction(title: "offColorFilterPostsViewController".localized) { _ in
+            self.currentColorFilter = nil
+        }
+
+        let noir = UIAction(title: "noirColorFilterPostsViewController".localized) { _ in
+            self.currentColorFilter = .noir
+        }
+
+        let motionBlur = UIAction(title: "motionBlurColorFilterPostsViewController".localized) { _ in
             self.currentColorFilter = .motionBlur(radius: 10)
         }
-        let fade = UIAction(title: "Инверсия") { _ in self.currentColorFilter = .colorInvert }
+        
+        let invert = UIAction(title: "invertColorFilterPostsViewController".localized) { _ in
+            self.currentColorFilter = .colorInvert
+        }
 
         let control = UISegmentedControl(items: [off,
-                                                 chrome,
+                                                 noir,
                                                  motionBlur,
-                                                 fade])
+                                                 invert])
         control.selectedSegmentIndex = 0
 
         return control

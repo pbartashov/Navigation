@@ -64,7 +64,7 @@ final class ProfileHeaderView: UIView {
         textField.font = .systemFont(ofSize: 15, weight: .regular)
         textField.textColor = .black
         textField.backgroundColor = .white
-        textField.placeholder = "Set your status.."
+        textField.placeholder = "statusTextFieldPlaceholderProfileHeaderView".localized
 
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
         textField.leftView = paddingView
@@ -81,7 +81,7 @@ final class ProfileHeaderView: UIView {
     }()
 
     private lazy var setStatusButton: ClosureBasedButton = {
-        let button = ViewFactory.create.button(withTitle: "Set status")
+        let button = ViewFactory.create.button(withTitle: "setStatusButtonProfileHeaderView".localized)
         button.tapAction =  { [weak self] in self?.setStatusButtonTapped() }
         
         return button

@@ -123,8 +123,12 @@ final class PostTableViewCell: UITableViewCell {
     func setup(with post: Post, filter: ColorFilter?) {
         authorLabel.text = post.author
         descriptionLabel.text = post.description
-        likesLabel.text = "Likes: \(post.likes)"
-        viewsLabel.text = "Views: \(post.views)"
+
+        let likesString = "postLikesCount".localized
+        likesLabel.text = String.localizedStringWithFormat(likesString, post.likes)
+
+        let viewsString = "postViewsCount".localized
+        viewsLabel.text = String.localizedStringWithFormat(viewsString, post.views)
 
         guard let image = post.image else {
             postImageView.image = .placeholder

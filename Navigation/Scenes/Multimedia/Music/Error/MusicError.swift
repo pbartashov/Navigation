@@ -15,7 +15,7 @@ extension MusicError: LocalizedError {
     public var errorDescription: String? {
         switch self {
             case .trackNotFound:
-                return NSLocalizedString("Музыкальный трек не найден.", comment: "")
+                return "trackNotFoundMusicError".localized
         }
     }
 }

@@ -26,13 +26,13 @@ final class PostsCoordinator: NavigationCoordinator {
             if let text = text {
                 textField.text = text
             } else {
-                textField.placeholder = "Имя автора"
+                textField.placeholder = "searchTextFieldPlaceholderPostsCoordinator".localized
             }
             
             searchTextField = textField
         }
 
-        let search = UIAlertAction(title: "Искать", style: .default) { _ in
+        let search = UIAlertAction(title: "searchActionTitlePostsCoordinator".localized, style: .default) { _ in
             if let searchText = searchTextField?.text,
                !searchText.isEmpty {
                 searchComletion?(searchText)
@@ -41,7 +41,7 @@ final class PostsCoordinator: NavigationCoordinator {
         alert.addAction(search)
 
         if cancelComletion != nil {
-            let cancel = UIAlertAction(title: "Отменить поиск", style: .default) { _ in
+            let cancel = UIAlertAction(title: "cancelActionTitlePostsCoordinator".localized, style: .default) { _ in
                 cancelComletion?()
             }
             alert.addAction(cancel)
