@@ -134,11 +134,11 @@ where T: ProfileViewModelProtocol,
 
     private func createCover() {
         let cover = UIView()
-        cover.backgroundColor = .white
+        cover.backgroundColor = .lightBackgroundColor
         cover.alpha = 0.0
 
         let button = ClosureBasedButton()
-        button.tintColor = .black
+        button.tintColor = .textColor
         button.alpha = 0.0
         button.tapAction =  { [weak self] in self?.closeAvatarPresentation() }
 

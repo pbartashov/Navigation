@@ -19,9 +19,8 @@ class PhotosTableViewCell: UITableViewCell {
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-
         label.text = "titleLabelPhotosTableViewCell".localized
-        label.textColor = .black
+        label.textColor = .textColor
         label.font = .systemFont(ofSize: 24, weight: .bold)
 
         return label
@@ -29,8 +28,8 @@ class PhotosTableViewCell: UITableViewCell {
 
     private lazy  var arrowLabel: UILabel = {
         let label = UILabel()
-
         label.text = "→"
+        label.textColor = .textColor
         label.font = .systemFont(ofSize: 24)
         label.textAlignment = .right
 
@@ -39,7 +38,6 @@ class PhotosTableViewCell: UITableViewCell {
 
     private lazy var photoStack: UIStackView = {
         let stack = UIStackView()
-
         stack.axis = .horizontal
         stack.distribution = .fillEqually
         stack.alignment = .fill

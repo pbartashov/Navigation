@@ -45,7 +45,7 @@ final class ProfileHeaderView: UIView {
         let label = UILabel()
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 18, weight: .bold)
-        label.textColor = .black
+        label.textColor = .textColor
 
         return label
     }()
@@ -54,7 +54,7 @@ final class ProfileHeaderView: UIView {
         let label = UILabel()
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .gray
+        label.textColor = .secondaryTextColor
 
         return label
     }()
@@ -62,9 +62,12 @@ final class ProfileHeaderView: UIView {
     private let statusTextField: UITextField = {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 15, weight: .regular)
-        textField.textColor = .black
-        textField.backgroundColor = .white
-        textField.placeholder = "statusTextFieldPlaceholderProfileHeaderView".localized
+        textField.textColor = .textColor
+        textField.backgroundColor = .lightBackgroundColor
+
+        let redPlaceholderText = NSAttributedString(string: "statusTextFieldPlaceholderProfileHeaderView".localized,
+                                                    attributes: [.foregroundColor: UIColor.placeholderTextColor])
+        textField.attributedPlaceholder = redPlaceholderText
 
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
         textField.leftView = paddingView
@@ -73,7 +76,7 @@ final class ProfileHeaderView: UIView {
         textField.rightViewMode = .always
 
         textField.layer.borderWidth = 1
-        textField.layer.borderColor = UIColor.black.cgColor
+        textField.layer.borderColor = UIColor.borderColor.cgColor
         textField.layer.cornerRadius = 12
         textField.layer.masksToBounds = true
 
@@ -103,7 +106,7 @@ final class ProfileHeaderView: UIView {
     //MARK: - Metods
 
     private func initialize() {
-        backgroundColor = .systemGray6
+        backgroundColor = .backgroundColor
 
         [avatarImageView,
         fullNameLabel,

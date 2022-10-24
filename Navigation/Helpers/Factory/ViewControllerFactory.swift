@@ -17,7 +17,7 @@ struct ViewControllerFactory {
     
     func tabBarController(with viewControllers: [UIViewController]) -> UITabBarController {
         let tabBarController = UITabBarController()
-        tabBarController.tabBar.backgroundColor = .systemGray6
+        tabBarController.tabBar.backgroundColor = .backgroundColor
         
         tabBarController.setViewControllers(viewControllers, animated: true)
         

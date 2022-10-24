@@ -67,6 +67,7 @@
 "setStatusButtonProfileHeaderView" = "Set status";
 
 // PostsViewController
+"foundedResultsPostsViewController" = "Founded for";
 "offColorFilterPostsViewController" = "Off";
 "noirColorFilterPostsViewController" = "Noir";
 "motionBlurColorFilterPostsViewController" = "Blur";

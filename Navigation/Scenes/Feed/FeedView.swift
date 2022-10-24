@@ -105,9 +105,10 @@ final class FeedView: UIStackView {
 
     private lazy var passwordTextField: UITextField = {
         let textField = ViewFactory.create.textField()
-
-        textField.placeholder = "passwordPlaceholderFeedView".localized
-
+        let redPlaceholderText = NSAttributedString(string: "passwordPlaceholderFeedView".localized,
+                                                    attributes: [.foregroundColor: UIColor.placeholderTextColor])
+        textField.attributedPlaceholder = redPlaceholderText
+        
         return textField
     }()
 
