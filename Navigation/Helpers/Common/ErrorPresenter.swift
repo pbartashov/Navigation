@@ -8,7 +8,11 @@
 import Foundation
 import UIKit
 
-final class ErrorPresenter {
+protocol ErrorPresenterProtocol {
+    func show(error: Error)
+}
+
+final class ErrorPresenter: ErrorPresenterProtocol {
 
     //MARK: - Properties
 

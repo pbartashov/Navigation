@@ -7,7 +7,14 @@
 
 import UIKit
 
-final class LoginCoordinator: NavigationCoordinator {
+protocol LoginCoordinatorProtocol: AnyObject {
+    func showMainScene(for userName: String)
+    func startHintTimer()
+    func showCreateAccount(for login: String,
+                           completion: (()-> Void)?)
+}
+
+final class LoginCoordinator: NavigationCoordinator, LoginCoordinatorProtocol {
 
     //MARK: - Properties
 
