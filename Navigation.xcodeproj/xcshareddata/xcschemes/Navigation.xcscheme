@@ -20,6 +20,20 @@
                ReferencedContainer = "container:Navigation.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6EDA425A290BF98D005500DC"
+               BuildableName = "NavigationUITests.xctest"
+               BlueprintName = "NavigationUITests"
+               ReferencedContainer = "container:Navigation.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -36,6 +50,17 @@
                BlueprintIdentifier = "6E5E265F290AB58E006A03CB"
                BuildableName = "NavigationTests.xctest"
                BlueprintName = "NavigationTests"
+               ReferencedContainer = "container:Navigation.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6EDA425A290BF98D005500DC"
+               BuildableName = "NavigationUITests.xctest"
+               BlueprintName = "NavigationUITests"
                ReferencedContainer = "container:Navigation.xcodeproj">
             </BuildableReference>
          </TestableReference>

@@ -12,7 +12,7 @@ protocol ProfileHeaderViewDelegate: AnyObject {
     func avatarTapped(sender: UIView)
 }
 
-final class ProfileHeaderView: UIView {
+final class ProfileHeaderViewCell: UITableViewCell {
 
     //MARK: - Properties
 
@@ -92,9 +92,8 @@ final class ProfileHeaderView: UIView {
 
     //MARK: - LifeCicle
 
-    init(delegate: ProfileHeaderViewDelegate) {
-        self.delegate = delegate
-        super.init(frame: .zero)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         initialize()
     }
@@ -112,8 +111,9 @@ final class ProfileHeaderView: UIView {
         fullNameLabel,
         statusLabel,
         statusTextField,
-        setStatusButton].forEach {
-            self.addSubview($0)
+        setStatusButton
+        ].forEach {
+            contentView.addSubview($0)
         }
 
         setupLayouts()
@@ -140,7 +140,7 @@ final class ProfileHeaderView: UIView {
         statusLabel.snp.makeConstraints { make in
             make.leading.equalTo(avatarImageView.snp.trailing).offset(Constants.padding)
             make.trailing.equalToSuperview().offset(-Constants.padding)
-            make.bottom.equalTo(avatarImageView.snp.bottom).offset(-18)
+            make.top.equalToSuperview().offset(82)
         }
 
         statusTextField.snp.makeConstraints { make in
@@ -155,7 +155,7 @@ final class ProfileHeaderView: UIView {
             make.leading.equalToSuperview().offset(Constants.padding)
             make.trailing.equalToSuperview().offset(-Constants.padding)
             make.height.equalTo(50)
-            make.bottom.equalToSuperview().offset(-Constants.padding).priority(999)
+            make.bottom.equalToSuperview().offset(-Constants.padding)
         }
     }
 

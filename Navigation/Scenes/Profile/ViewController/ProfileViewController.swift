@@ -10,6 +10,7 @@ import StorageService
 
 extension PostSectionType {
     static let profile = PostSectionType(rawValue: "profile")
+    static let photos = PostSectionType(rawValue: "photos")
 }
 
 final class ProfileViewController<T, U>: PostsViewController<U>,
@@ -21,7 +22,8 @@ where T: ProfileViewModelProtocol,
     typealias SectionType = PostsViewController<U>.SectionType
 
     private enum Cell: Hashable {
-        case profile(PhotosTableViewCell)
+        case profile(ProfileHeaderViewCell)
+        case photos(PhotosTableViewCell)
         case post(Post)
     }
 
@@ -45,6 +47,9 @@ where T: ProfileViewModelProtocol,
                     case .profile(let profileCell):
                         return profileCell
 
+                    case .photos(let photosCell):
+                        return photosCell
+
                     case .post(let post):
                         return self.getPostCell(indexPath: indexPath, post: post)
                 }
@@ -55,13 +60,14 @@ where T: ProfileViewModelProtocol,
 
     private var cellsSnapshot: NSDiffableDataSourceSnapshot<SectionType, Cell> {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, Cell>()
-        snapshot.appendSections([.profile])
-        snapshot.appendItems([.profile(photosTableViewCell)], toSection: .profile)
+        snapshot.appendSections([.profile, .photos])
+        snapshot.appendItems([.profile(profileHeaderView)], toSection: .profile)
+        snapshot.appendItems([.photos(photosTableViewCell)], toSection: .photos)
 
         let cells = postItems.map { Cell.post($0) }
         snapshot.appendSections(postSections)
         snapshot.appendItems(cells, toSection: .posts)
-        postsSectionNumber = 1
+        postsSectionNumber = 2
 
         return snapshot
     }
@@ -72,9 +78,9 @@ where T: ProfileViewModelProtocol,
     private weak var coverView: UIView?
     private weak var closeAvatarPresentationButton: UIButton?
 
-    private lazy var profileHeaderView: ProfileHeaderView = {
-
-        let profileHeaderView = ProfileHeaderView(delegate: self)
+    private lazy var profileHeaderView: ProfileHeaderViewCell = {
+        let profileHeaderView = ProfileHeaderViewCell()
+        profileHeaderView.delegate = self
         profileHeaderView.setup(with: profileViewModel.user)
 
         return profileHeaderView
@@ -191,14 +197,10 @@ where T: ProfileViewModelProtocol,
     }
 
     // MARK: - UITableViewDelegate methods
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        section > 0 ? nil : profileHeaderView
-    }
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        if indexPath == IndexPath(row: 0, section: 0) {
+        if indexPath == IndexPath(row: 0, section: 1) {
             profileViewModel.perfomAction(.showPhotos)
         }
     }
