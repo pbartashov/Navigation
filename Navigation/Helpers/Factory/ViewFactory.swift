@@ -52,6 +52,31 @@ struct ViewFactory {
         return button
     }
 
+    func button(title: String,
+                tag: Int,
+                tapAction: ((UIButton) -> Void)?
+    ) -> ClosureBasedButton {
+        let button = ClosureBasedButton(title: title,
+                                        titleColor: .white,
+                                        tapAction: tapAction)
+        button.setTitleColor(.lightTextColor, for: .normal)
+
+        let backgroundImage = UIImage(named: "blue_pixel")
+        button.setBackgroundImage(backgroundImage, for: .normal)
+
+        let transparentBackgroundImage = UIImage(named: "blue_pixel")?.withAlpha(0.8)
+        button.setBackgroundImage(transparentBackgroundImage, for: .selected)
+        button.setBackgroundImage(transparentBackgroundImage, for: .highlighted)
+        button.setBackgroundImage(transparentBackgroundImage, for: .disabled)
+
+        button.layer.cornerRadius = 10
+        button.layer.masksToBounds = true
+
+        button.tag = tag
+
+        return button
+    }
+
     func textField() -> UITextField {
         let textField = UITextField()
 

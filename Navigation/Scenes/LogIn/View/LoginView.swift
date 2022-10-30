@@ -13,6 +13,7 @@ final class LoginView: UIView {
         case login
         case brutePassword
         case cancelBrutePassword
+        case localAuth
 
         var title: String {
             switch self {
@@ -24,6 +25,9 @@ final class LoginView: UIView {
 
                 case .cancelBrutePassword:
                     return "cancelBrutePasswordButtonLoginView".localized
+
+                case .localAuth:
+                    return "Face ID / Touch ID"
             }
         }
     }
@@ -86,25 +90,27 @@ final class LoginView: UIView {
     }()
 
     private lazy var loginButton: ClosureBasedButton = {
-        let button = ClosureBasedButton(title: Buttons.login.title,
-                                        titleColor: .white,
-                                        tapAction: { [weak self] in self?.buttonTapped(sender: $0) })
-        button.setTitleColor(.lightTextColor, for: .normal)
+        ViewFactory.create.button(title: Buttons.login.title,
+                                  tag: Buttons.login.hashValue) { [weak self] in
+            self?.buttonTapped(sender: $0)
+        }
+    }()
 
-        let backgroundImage = UIImage(named: "blue_pixel")
-        button.setBackgroundImage(backgroundImage, for: .normal)
+    private lazy var localAuthButton: ClosureBasedButton = {
+        ViewFactory.create.button(title: Buttons.localAuth.title,
+                                  tag: Buttons.localAuth.hashValue) { [weak self] in
+            self?.buttonTapped(sender: $0)
+        }
+    }()
 
-        let transparentBackgroundImage = UIImage(named: "blue_pixel")?.withAlpha(0.8)
-        button.setBackgroundImage(transparentBackgroundImage, for: .selected)
-        button.setBackgroundImage(transparentBackgroundImage, for: .highlighted)
-        button.setBackgroundImage(transparentBackgroundImage, for: .disabled)
+    private let orLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .secondaryTextColor
+        label.textAlignment = .center
+        label.text = "orLabelText".localized
 
-        button.layer.cornerRadius = 10
-        button.layer.masksToBounds = true
-
-        button.tag = Buttons.login.hashValue
-
-        return button
+        return label
     }()
 
     private lazy var brutePasswordButton: ClosureBasedButton = {
@@ -183,6 +189,8 @@ final class LoginView: UIView {
          passwordTextField,
          //         brutePasswordButton,
          loginButton,
+         orLabel,
+         localAuthButton,
          loginActivity
         ].forEach {
             self.addSubview($0)
@@ -218,12 +226,22 @@ final class LoginView: UIView {
         loginButton.snp.makeConstraints { make in
             make.top.equalTo(passwordTextField.snp.bottom).offset(Constants.padding)
             make.leading.trailing.height.equalTo(loginTextField)
-            make.bottom.equalToSuperview().offset(-Constants.padding)
         }
 
         loginActivity.snp.makeConstraints { make in
             make.centerY.equalTo(loginTextField.snp.bottom)
             make.centerX.equalToSuperview()
+        }
+
+        orLabel.snp.makeConstraints { make in
+            make.top.equalTo(loginButton.snp.bottom).offset(Constants.padding / 2)
+            make.leading.trailing.equalTo(loginTextField)
+        }
+
+        localAuthButton.snp.makeConstraints { make in
+            make.top.equalTo(orLabel.snp.bottom).offset(Constants.padding / 2)
+            make.leading.trailing.height.equalTo(loginTextField)
+            make.bottom.equalToSuperview().offset(-Constants.padding)
         }
     }
 
@@ -293,5 +311,9 @@ final class LoginView: UIView {
 
         passwordTextField.text = password
         passwordTextField.isSecureTextEntry = false
+    }
+
+    func setupLocalAuthButton(with title: String) {
+        localAuthButton.setTitle(title, for: .normal)
     }
 }

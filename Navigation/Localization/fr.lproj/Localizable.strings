@@ -6,6 +6,9 @@
   
 */
 
+// ErrorPresenter
+"okErrorPresenter" = "D'accord";
+
 // RecorderError
 "permissionDeniedRecorderError" = "Autorisation du micro requise.";
 "fileCreationErrorRecorderError" = "Erreur lors de la création du fichier d'enregistrement.";
@@ -45,19 +48,30 @@
 "userNotFoundLoginError" = "L'utilisateur est introuvable.";
 "networkErrorLoginError" = "Pas de connexion réseau.";
 "unknownLoginError" = "Erreur d'autorisation. Réessayer.";
+"biometricUnknownLoginError" = "L'authentification biométrique échoue";
+"biometryNotEnrolledLoginError" = "Biométrie non inscrite";
+"biometryNotAvailableLoginError" = "Biométrie non disponible";
 
 // LoginView
 "loginButtonLoginView" = "Connexion";
 "brutePasswordButtonLoginView" = "Choisissez un mot de passe";
 "cancelBrutePasswordButtonLoginView" = "Annuler";
+"localAuthFaceIDButtonLoginView" = "Utiliser Face ID";
+"localAuthTouchIDButtonLoginView" = "Utiliser Touch ID";
+"localAuthPasscodeButtonLoginView" = "Utiliser le mot de passe";
 "loginTextFieldPlaceHolder" = "Phone ou courrier";
 "passwordTextFieldPlaceHolder" = "Mot de passe";
+"orLabelText" = "ou";
 
 // LoginCoordinator
 "createAccountPromptTitleLoginCoordinator" = "Créer un compte?";
 "createAccountPromptMessageLoginCoordinator" = "Vous souhaitez créer un compte pour un utilisateur";
 "yesAnswerLoginCoordinator" = "Oui";
 "noAnswerLoginCoordinator" = "Pas";
+"needBiometricAccessLoginCoordinator" = "Veuillez accéder aux paramètres pour accorder l'accès à la biométrie";
+"settingsLoginCoordinator" = "Réglages";
+"cancelLoginCoordinator" = "Annuler";
+"enrollBiometricsLoginCoordinator" = "Veuillez accéder aux paramètres pour enregistrer la biométrie";
 
 // PhotosViewController
 "titlePhotosViewController" = "Photos";

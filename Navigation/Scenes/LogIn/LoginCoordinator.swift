@@ -12,6 +12,8 @@ protocol LoginCoordinatorProtocol: AnyObject {
     func startHintTimer()
     func showCreateAccount(for login: String,
                            completion: (()-> Void)?)
+    func showNeedBiometricAccess()
+    func showEnrollBiometric()
 }
 
 final class LoginCoordinator: NavigationCoordinator, LoginCoordinatorProtocol {
@@ -63,6 +65,39 @@ final class LoginCoordinator: NavigationCoordinator, LoginCoordinatorProtocol {
                                style: .cancel)
         alert.addAction(yes)
         alert.addAction(no)
+
+        navigationController?.present(alert, animated: true)
+    }
+
+    func showNeedBiometricAccess() {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            showGoTo(url: url, title: "needBiometricAccessLoginCoordinator".localized)
+        }
+    }
+
+    func showEnrollBiometric() {
+        if let url = URL(string: "App-Prefs:root=TOUCHID_PASSCODE") {
+            showGoTo(url: url, title: "enrollBiometricsLoginCoordinator".localized)
+        }
+    }
+
+    private func showGoTo(url: URL, title: String) {
+        let alert = UIAlertController(title: title,
+                                      message: nil,
+                                      preferredStyle: .alert)
+
+        let setting = UIAlertAction(title: "settingsLoginCoordinator".localized,
+                                    style: .default) { _ in
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            }
+        }
+
+        let ok = UIAlertAction(title: "cancelLoginCoordinator".localized,
+                               style: .default)
+        [setting, ok].forEach {
+            alert.addAction($0)
+        }
 
         navigationController?.present(alert, animated: true)
     }

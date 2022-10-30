@@ -16,6 +16,9 @@ enum LoginError: Error {
     case userNotFound
     case networkError
     case unknown
+    case biometricUnknown
+    case biometryNotEnrolled
+    case biometryNotAvailable
 }
 
 extension LoginError : LocalizedError {
@@ -44,6 +47,15 @@ extension LoginError : LocalizedError {
 
             case .unknown:
                 return "unknownLoginError".localized
+                
+            case .biometricUnknown:
+                return "biometricUnknownLoginError".localized
+
+            case .biometryNotEnrolled:
+                return "biometryNotEnrolledLoginError".localized
+                
+            case .biometryNotAvailable:
+                return "biometryNotAvailableLoginError".localized
         }
     }
 }

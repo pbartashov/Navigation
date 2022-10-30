@@ -13,6 +13,7 @@ enum LoginAction {
     case cancelBruteForce
     case startHintTimer
     case autoLogin
+    case authLocally
 }
 
 enum LoginState {
@@ -24,11 +25,14 @@ enum LoginState {
     case bruteForceFinishedWith(password: String)
     case bruteForceCancelled
     case bruteForceProgress(password: String)
+    //    case biometricsDisabled
 }
 
 protocol LoginViewModelProtocol: ViewModelProtocol
 where State == LoginState,
       Action == LoginAction {
+
+    var localAuthButtonTitle: String { get }
 }
 
 final class LoginViewModel: ViewModel<LoginState, LoginAction>,
@@ -40,7 +44,20 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
     private var bruteForceService: BruteForceServiceProtocol?
     private var credentialStorage: CredentialStorageProtocol?
     private let errorPresenter: ErrorPresenterProtocol
-    
+
+    var localAuthButtonTitle: String {
+        switch loginDelegate?.biometryType {
+            case .faceID:
+                return "localAuthFaceIDButtonLoginView".localized
+
+            case .touchID:
+                return "localAuthTouchIDButtonLoginView".localized
+
+            default:
+                return "localAuthPasscodeButtonLoginView".localized
+        }
+    }
+
     //MARK: - LifeCicle
     
     init(loginDelegate: LoginDelegate,
@@ -97,6 +114,9 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
 
             case .autoLogin:
                 perfomAutoLogin()
+
+            case .authLocally:
+                perfomLocalAuth()
         }
     }
 
@@ -114,6 +134,36 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
                 self?.handle(result: result, login: login, password: password)
             }
         }
+    }
+
+    private func perfomAutoLogin() {
+        if let (login, password) = try? credentialStorage?.retrieve() {
+            checkAuth(forLogin: login, password: password)
+        }
+    }
+
+    private func perfomLocalAuth() {
+        loginDelegate?.authorizeLocalIfPossible({ [weak self] success, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    switch error {
+                        case .biometryNotAvailable:
+                            self?.coordinator?.showNeedBiometricAccess()
+
+                        case .biometryNotEnrolled:
+                            self?.coordinator?.showEnrollBiometric()
+
+                        default:
+                            self?.errorPresenter.show(error: LoginError.biometricUnknown)
+                    }
+                    return
+                }
+
+                if success {
+                    self?.coordinator?.showMainScene(for: "userName")
+                }
+            }
+        })
     }
 
     private func handle(result: Result<String, Error>,
@@ -145,11 +195,5 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
     private func handle(error: Error, state: LoginState) {
         self.state = state
         errorPresenter.show(error: error)
-    }
-
-    private func perfomAutoLogin() {
-        if let (login, password) = try? credentialStorage?.retrieve() {
-            checkAuth(forLogin: login, password: password)
-        }
     }
 }
