@@ -6,6 +6,7 @@
 //
 
 import XCTest
+//import Navigation
 
 final class NavigationUITests: XCTestCase {
 
@@ -21,7 +22,7 @@ final class NavigationUITests: XCTestCase {
 
     func testPhotoGallery() {
         // Переходим в Фото галерею
-        let photoCell = app.tables.staticTexts["Фото"]
+        let photoCell = app.tables.staticTexts["titleLabelPhotosTableViewCell".localized]
         XCTAssertTrue(photoCell.waitForExistence(timeout: 1))
         photoCell.tap()
 
@@ -29,14 +30,14 @@ final class NavigationUITests: XCTestCase {
         XCTAssertTrue(collectionViews.waitForExistence(timeout: 1))
 
         // Возвращаемся назад
-        app.navigationBars["Фото галлерея"].buttons["Назад"].tap()
+        app.navigationBars.buttons.element(boundBy: 0).tap()
     }
 
     func testStatusSet() {
         // Устанавливаем статус
         let statusString = "Test status"
         let statusTextField = app.textFields.firstMatch
-        let statusButton = app.tables/*@START_MENU_TOKEN@*/.staticTexts["Установить статус"]/*[[".buttons.matching(identifier: \"Установить статус\").staticTexts[\"Установить статус\"]",".staticTexts[\"Установить статус\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        let statusButton = app.tables.staticTexts["setStatusButtonProfileHeaderView".localized]
 
         XCTAssertTrue(statusTextField.waitForExistence(timeout: 1))
         XCTAssertTrue(statusButton.waitForExistence(timeout: 1))
