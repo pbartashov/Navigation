@@ -6,6 +6,9 @@
   
 */
 
+// ErrorPresenter
+"okErrorPresenter" = "Ok";
+
 // RecorderError
 "permissionDeniedRecorderError" = "Microphone access denied.";
 "fileCreationErrorRecorderError" = "Record file creation error.";
@@ -45,19 +48,30 @@
 "userNotFoundLoginError" = "User not found.";
 "networkErrorLoginError" = "Network error.";
 "unknownLoginError" = "Login error. Please try again.";
+"biometricUnknownLoginError" = "Biometric authentication fails";
+"biometryNotEnrolledLoginError" = "Biometry not enrolled";
+"biometryNotAvailableLoginError" = "Biometry not available";
 
 // LoginView
 "loginButtonLoginView" = "Log in";
 "brutePasswordButtonLoginView" = "Brute force";
 "cancelBrutePasswordButtonLoginView" = "Cancel";
+"localAuthFaceIDButtonLoginView" = "Use Face ID";
+"localAuthTouchIDButtonLoginView" = "Use Touch ID";
+"localAuthPasscodeButtonLoginView" = "Use passcode";
 "loginTextFieldPlaceHolder" = "Telephone or email";
 "passwordTextFieldPlaceHolder" = "Password";
+"orLabelText" = "or";
 
 // LoginCoordinator
 "createAccountPromptTitleLoginCoordinator" = "Create account?";
 "createAccountPromptMessageLoginCoordinator" = "Do you want to create user account for";
 "yesAnswerLoginCoordinator" = "Yes";
 "noAnswerLoginCoordinator" = "No";
+"needBiometricAccessLoginCoordinator" = "Please go to settings to grant accsess to biometrics";
+"settingsLoginCoordinator" = "Settings";
+"cancelLoginCoordinator" = "Cancel";
+"enrollBiometricsLoginCoordinator" = "Please go to settings to enroll biometrics";
 
 // PhotosViewController
 "titlePhotosViewController" = "Photos";

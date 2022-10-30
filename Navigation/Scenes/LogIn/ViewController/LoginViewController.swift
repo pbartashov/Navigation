@@ -51,7 +51,8 @@ final class LoginViewController<ViewModelType: LoginViewModelProtocol>: UIViewCo
         setupViewModel()
 
         //        viewModel.perfomAction(.startHintTimer)
-        viewModel.perfomAction(.autoLogin)
+        //        viewModel.perfomAction(.autoLogin)
+        loginView.setupLocalAuthButton(with: viewModel.localAuthButtonTitle)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -174,6 +175,9 @@ extension LoginViewController: ViewWithButtonDelegate {
                 
             case LoginView.Buttons.cancelBrutePassword.hashValue:
                 viewModel.perfomAction(.cancelBruteForce)
+
+            case LoginView.Buttons.localAuth.hashValue:
+                viewModel.perfomAction(.authLocally)
                 
             default:
                 break

@@ -28,7 +28,5 @@
 	<array>
 		<string>audio</string>
 	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need to know your location to build routes</string>
 </dict>
 </plist>

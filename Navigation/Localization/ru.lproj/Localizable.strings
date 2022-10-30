@@ -6,6 +6,9 @@
   
 */
 
+// ErrorPresenter
+"okErrorPresenter" = "Ясно";
+
 // RecorderError
 "permissionDeniedRecorderError" = "Требуется разрешение на доступ к микрофону.";
 "fileCreationErrorRecorderError" = "Ошибка при создании файла с записью.";
@@ -45,19 +48,30 @@
 "userNotFoundLoginError" = "Пользователь не найден.";
 "networkErrorLoginError" = "Нет подключения к сети.";
 "unknownLoginError" = "Ошибка при авторизации. Попробуйте еще раз.";
+"biometricUnknownLoginError" = "Биометрическая аутентификация не удалась";
+"biometryNotEnrolledLoginError" = "Биометрия не зарегистрирована";
+"biometryNotAvailableLoginError" = "Биометрия недоступна";
 
 // LoginView
 "loginButtonLoginView" = "Войти";
 "brutePasswordButtonLoginView" = "Подобрать пароль";
 "cancelBrutePasswordButtonLoginView" = "Отменить";
+"localAuthFaceIDButtonLoginView" = "Войти с Face ID";
+"localAuthTouchIDButtonLoginView" = "Войти с Touch ID";
+"localAuthPasscodeButtonLoginView" = "Войти с код-паролем";
 "loginTextFieldPlaceHolder" = "Телефон или почта";
 "passwordTextFieldPlaceHolder" = "Пароль";
+"orLabelText" = "или";
 
 // LoginCoordinator
 "createAccountPromptTitleLoginCoordinator" = "Создать аккаунт?";
 "createAccountPromptMessageLoginCoordinator" = "Вы хотите создать аккаунт для пользователя";
 "yesAnswerLoginCoordinator" = "Да";
 "noAnswerLoginCoordinator" = "Нет";
+"needBiometricAccessLoginCoordinator" = "Пожалуйста, перейдите в настройки, чтобы предоставить доступ к биометрии";
+"settingsLoginCoordinator" = "Настройки";
+"cancelLoginCoordinator" = "Отмена";
+"enrollBiometricsLoginCoordinator" = "Пожалуйста, перейдите в настройки, чтобы включить биометрию";
 
 // PhotosViewController
 "titlePhotosViewController" = "Фото галлерея";

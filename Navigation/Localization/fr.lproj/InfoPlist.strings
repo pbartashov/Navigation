@@ -8,3 +8,4 @@
 
 NSLocationWhenInUseUsageDescription = "Nous avons besoin de connaître votre emplacement pour construire des itinéraires";
 NSMicrophoneUsageDescription = "Nous avons besoin de votre microphone pour faire des enregistrements pour vous";
+NSFaceIDUsageDescription = "Accès à la biométrie nécessaire pour faciliter l'entrée";

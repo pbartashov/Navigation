@@ -8,3 +8,4 @@
 
 NSLocationWhenInUseUsageDescription = "Доступ к локации нужен для построения маршрута";
 NSMicrophoneUsageDescription = "Для записи требуется доступ к микрофону";
+NSFaceIDUsageDescription = "Доступ к биометрии требуется для облегчения входа";
