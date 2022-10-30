@@ -71,22 +71,26 @@ final class LoginCoordinator: NavigationCoordinator, LoginCoordinatorProtocol {
 
     func showNeedBiometricAccess() {
         if let url = URL(string: UIApplication.openSettingsURLString) {
-            showGoTo(url: url, title: "needBiometricAccessLoginCoordinator".localized)
+            showGoTo(url: url,
+                     dialogTitle: "needBiometricAccessLoginCoordinator".localized,
+                     buttonTitle: "settingsLoginCoordinator".localized)
         }
     }
 
     func showEnrollBiometric() {
         if let url = URL(string: "App-Prefs:root=TOUCHID_PASSCODE") {
-            showGoTo(url: url, title: "enrollBiometricsLoginCoordinator".localized)
+            showGoTo(url: url,
+                     dialogTitle: "enrollBiometricsLoginCoordinator".localized,
+                     buttonTitle: "settingsLoginCoordinator".localized)
         }
     }
 
-    private func showGoTo(url: URL, title: String) {
-        let alert = UIAlertController(title: title,
+    private func showGoTo(url: URL, dialogTitle: String, buttonTitle: String) {
+        let alert = UIAlertController(title: dialogTitle,
                                       message: nil,
                                       preferredStyle: .alert)
 
-        let setting = UIAlertAction(title: "settingsLoginCoordinator".localized,
+        let setting = UIAlertAction(title: buttonTitle,
                                     style: .default) { _ in
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url)
