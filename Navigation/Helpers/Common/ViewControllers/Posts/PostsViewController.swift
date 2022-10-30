@@ -66,7 +66,7 @@ class PostsViewController<ViewModelType: PostsViewModelProtocol>: UIViewControll
     //MARK: - Views
 
     private(set) lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
+        let tableView = UITableView(frame: .zero, style: .plain)
 
         tableView.register(PostTableViewCell.self,
                            forCellReuseIdentifier: PostTableViewCell.identifier)

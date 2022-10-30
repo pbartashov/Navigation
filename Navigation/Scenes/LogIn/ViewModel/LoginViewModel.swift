@@ -36,21 +36,25 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
     //MARK: - Properties
     
     private weak var loginDelegate: LoginDelegate?
-    private weak var coordinator: LoginCoordinator?
+    private weak var coordinator: LoginCoordinatorProtocol?
     private var bruteForceService: BruteForceServiceProtocol?
-    private var credentialStorage: CredentialStorageService?
+    private var credentialStorage: CredentialStorageProtocol?
+    private let errorPresenter: ErrorPresenterProtocol
     
     //MARK: - LifeCicle
     
     init(loginDelegate: LoginDelegate,
-         coordinator: LoginCoordinator,
-         bruteForceService: BruteForceServiceProtocol,
-         credentialStorage: CredentialStorageService) {
+         coordinator: LoginCoordinatorProtocol,
+         bruteForceService: BruteForceServiceProtocol? = nil,
+         credentialStorage: CredentialStorageProtocol,
+         errorPresenter: ErrorPresenterProtocol = ErrorPresenter.shared
+    ) {
         
         self.loginDelegate = loginDelegate
         self.coordinator = coordinator
         self.bruteForceService = bruteForceService
         self.credentialStorage = credentialStorage
+        self.errorPresenter = errorPresenter
         super.init(state: .initial)
         
         setupBruteForceService()
@@ -140,7 +144,7 @@ final class LoginViewModel: ViewModel<LoginState, LoginAction>,
 
     private func handle(error: Error, state: LoginState) {
         self.state = state
-        ErrorPresenter.shared.show(error: error)
+        errorPresenter.show(error: error)
     }
 
     private func perfomAutoLogin() {

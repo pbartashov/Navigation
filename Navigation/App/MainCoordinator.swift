@@ -109,3 +109,9 @@ final class MainCoordinator: MainCoordinatorProtocol {
         switchTo(viewController: viewController)
     }
  }
+
+extension MainCoordinator {
+    func startMain() -> UIViewController {
+        createMainViewController(for: "Test")
+    }
+}

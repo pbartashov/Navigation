@@ -7,7 +7,6 @@
 
 import RealmSwift
 
-
 struct CredentialStorageService: CredentialStorageProtocol {
 
     // MARK: - Properties
