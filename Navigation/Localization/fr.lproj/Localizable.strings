@@ -123,3 +123,9 @@
 "searchPromptTitlePostsViewModel" = "Recherche par auteur";
 "retryPromptTitlePostsViewModel" = "Rien n'a été trouvé...🤷";
 "retryPromptMessagePostsViewModel" = "Réessayer";
+
+// LocalNotificationsService
+"checkoutUpdatesLocalNotificationsService" = "Découvrez les dernières mises à jour";
+"showProfileLocalNotificationsService" = "Afficher les messages";
+"showFavoritesLocalNotificationsService" = "Afficher les favoris";
+"showMapLocalNotificationsService" = "Afficher la carte";

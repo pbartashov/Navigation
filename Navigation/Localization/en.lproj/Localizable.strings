@@ -123,3 +123,9 @@
 "searchPromptTitlePostsViewModel" = "Search by autor";
 "retryPromptTitlePostsViewModel" = "Nothing found...🤷";
 "retryPromptMessagePostsViewModel" = "Try again, please";
+
+// LocalNotificationsService
+"checkoutUpdatesLocalNotificationsService" = "Check out the latest updates";
+"showProfileLocalNotificationsService" = "Show posts";
+"showFavoritesLocalNotificationsService" = "Show favorites";
+"showMapLocalNotificationsService" = "Show map";
