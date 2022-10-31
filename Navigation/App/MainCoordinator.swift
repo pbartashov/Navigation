@@ -11,6 +11,10 @@ protocol MainCoordinatorProtocol {
     func start() -> UIViewController
 }
 
+protocol TabNavigatorProtocol: AnyObject {
+    func switchTo(tab: Tab)
+}
+
 final class MainCoordinator: MainCoordinatorProtocol {
 
     //MARK: - Properties
@@ -24,6 +28,9 @@ final class MainCoordinator: MainCoordinatorProtocol {
     private var profileCoordinator: ProfileCoordinator?
     private var profilePostsCoordinator: PostsCoordinator?
     private var favoritesCoordinator: PostsCoordinator?
+
+    private weak var mainTabController: UITabBarController?
+    private var localNotificationsService: LocalNotificationsService?
 
     // MARK: - LifeCicle
 
@@ -56,7 +63,7 @@ final class MainCoordinator: MainCoordinatorProtocol {
         let feedNavigationController = UINavigationController()
         feedCoordinator = FeedCoordinator(navigationController: feedNavigationController)
 
-        let feedViewController = ViewControllerFactory.create.feedViewController(tag: 0)
+        let feedViewController = ViewControllerFactory.create.feedViewController(tag: Tab.feed.index)
         feedViewController.coordinator = feedCoordinator
         feedNavigationController.setViewControllers([feedViewController], animated: false)
 
@@ -68,17 +75,17 @@ final class MainCoordinator: MainCoordinatorProtocol {
             .create.profileViewController(userName: userName,
                                           profileCoordinator: profileCoordinator,
                                           profilePostsCoordinator: profilePostsCoordinator,
-                                          tag: 1)
+                                          tag: Tab.profile.index)
         profileNavigationController.setViewControllers([profileViewController], animated: false)
 
         let favoritesNavigationController = UINavigationController()
         favoritesCoordinator = PostsCoordinator(navigationController: favoritesNavigationController)
         let favoritesViewController = ViewControllerFactory
             .create.favoritesViewController(coordinator: favoritesCoordinator,
-                                            tag: 2)
+                                            tag: Tab.favorites.index)
         favoritesNavigationController.setViewControllers([favoritesViewController], animated: false)
 
-        let mapViewController = ViewControllerFactory.create.mapViewController(tag: 3)
+        let mapViewController = ViewControllerFactory.create.mapViewController(tag: Tab.map.index)
 
         let tabBarController = ViewControllerFactory.create.tabBarController(with: [
             feedNavigationController,
@@ -88,6 +95,12 @@ final class MainCoordinator: MainCoordinatorProtocol {
         ])
 
         ErrorPresenter.shared.initialize(with: tabBarController)
+
+        localNotificationsService = LocalNotificationsService()
+        localNotificationsService?.tabNavigator = self
+        localNotificationsService?.registerForLatestUpdatesIfPossible()
+
+        mainTabController = tabBarController
 
         return tabBarController
     }
@@ -108,10 +121,16 @@ final class MainCoordinator: MainCoordinatorProtocol {
         let viewController = createMainViewController(for: userName)
         switchTo(viewController: viewController)
     }
- }
+}
 
 extension MainCoordinator {
     func startMain() -> UIViewController {
         createMainViewController(for: "Test")
+    }
+}
+
+extension MainCoordinator: TabNavigatorProtocol {
+    func switchTo(tab: Tab) {
+        mainTabController?.selectedIndex = tab.index
     }
 }

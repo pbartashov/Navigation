@@ -123,3 +123,9 @@
 "searchPromptTitlePostsViewModel" = "Поиск по автору";
 "retryPromptTitlePostsViewModel" = "Ничего не нашли...🤷";
 "retryPromptMessagePostsViewModel" = "Попробуйте еще";
+
+// LocalNotificationsService
+"checkoutUpdatesLocalNotificationsService" = "Посмотрите последние обновления";
+"showProfileLocalNotificationsService" = "Показать посты";
+"showFavoritesLocalNotificationsService" = "Показать избранное";
+"showMapLocalNotificationsService" = "Показать карту";
