@@ -14,8 +14,10 @@ extension PostSectionType {
 }
 
 final class ProfileViewController<T, U>: PostsViewController<U>,
-                                         UITableViewDelegate
-where T: ProfileViewModelProtocol,
+                                         UITableViewDelegate,
+                                         UITableViewDragDelegate,
+                                         UITableViewDropDelegate
+where T: ProfileViewModelProtocol&DragDropProtocol,
       U == T.PostsViewModelType {
 
     typealias ViewModelType = T
@@ -102,6 +104,9 @@ where T: ProfileViewModelProtocol,
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
+        tableView.dragDelegate = self
+        tableView.dropDelegate = self
+        tableView.dragInteractionEnabled = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -202,6 +207,29 @@ where T: ProfileViewModelProtocol,
 
         if indexPath == IndexPath(row: 0, section: 1) {
             profileViewModel.perfomAction(.showPhotos)
+        }
+    }
+
+    // MARK: - UITableViewDragDelegate methods
+    func tableView(_ tableView: UITableView,
+                   itemsForBeginning session: UIDragSession,
+                   at indexPath: IndexPath
+    ) -> [UIDragItem] {
+        profileViewModel.dragItems(for: indexPath)
+    }
+
+    // MARK: - UITableViewDropDelegate methods
+    func tableView(_ tableView: UITableView, canHandle session: UIDropSession) -> Bool {
+         profileViewModel.canHandle(session)
+    }
+
+    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+        profileViewModel.handle(dropSessionDidUpdate: session, withDestinationIndexPath: destinationIndexPath)
+    }
+
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+        profileViewModel.handle(performDropWith: coordinator) { [weak self] in
+            self?.applySnapshot()
         }
     }
 }
